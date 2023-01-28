@@ -8,10 +8,47 @@
     <script src="../static/assets/js/graph.js"></script>
 
     <title>Filters </title>
+    <style>
+    .importFilter 
+    {
+        background: rgb(35, 73, 73);
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        height: 40px;
+        width: 130px;
+    }
+    .button
+    {
+        background: rgb(35, 73, 73);
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        height: 40px;
+        width: 130px;
+    }
+    </style>
 
 </head>
 
 <body>
+
+    <!-- <form action="/import" method="get" >
+        <input type="file"  name="uploaded_file">
+        <input type="submit" >
+    </form> -->
+    <form action = "http://localhost:5000/import" method = "POST" 
+    enctype = "multipart/form-data">
+    <input type = "file" name = "uploaded_file" />
+    <input type = "submit"/>
+     </form>
+    <button >
+        <a style="text-decoration:none" href="static/assets/data/Zeros_poles.csv" download> Export Filter</a>
+    </button>
     <div id="plot1"></div>
     <div id="plot2"></div>
 </body>
