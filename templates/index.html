@@ -31,34 +31,64 @@
         height: 40px;
         width: 130px;
     }
+    /*Lines(Axes) styling*/
+    #horizontal{
+            width: 200px;
+            height: 100px;
+            border-bottom: 3px solid rgb(11, 11, 11);
+            position: absolute;
+        }
+    #vertical{
+            border-left: 3px solid rgb(3, 3, 3);
+            height: 200px;
+            margin-left: 100px;
+            position: absolute;
+            /* margin-top: 212px;
+            left: 105px; */
+            /* margin-left: -3px; */
+            /* top: 0; */
+        }
     </style>
 
 </head>
 
 <body>
-    
+    <!--Unit circle with zero, pole, remove and conjugate features-->
+    <div class="column">
+        <input type="radio" id="zero" name="add" checked="true" />Add Zeros
+        <input type="radio" id="pole" name="add" />Add Poles
+        <input type="checkbox" id="remove" name="Remove" />Remove
+        </label>
+        <input type="checkbox" id="conj">
+        Draw Conjugate
+        <div id="circle" style="background-color: rgb(93, 91, 91); width: 200px; 
+        height: 200px; border-radius: 50%;">
+        <div class = 'line' id="vertical"></div>
+        <div class="line" id="horizontal"></div>
+    </div>
     <!-- <label>Upload Signal</label> -->
-
-    <form action = "http://localhost:5000/importFilter" method = "POST" 
-    enctype = "multipart/form-data">
-    <input type = "file" name = "uploaded_filter" />
-    <input type = "submit"/>
-     </form>
-    <button >
-
-    <button >
-        <a style="text-decoration:none" href="static/assets/data/Zeros_poles.csv" download> Export Filter</a>
-    </button>
-
-    <!-- <label>Upload Signal</label> -->
-    <form action = "http://localhost:5000/importSignal" method = "POST" 
-    enctype = "multipart/form-data">
-    <input type = "file" name = "uploaded_signal" />
-    <input type = "submit"/>
+    <div class="column">
+        <form action = "http://localhost:5000/importFilter" method = "POST" 
+        enctype = "multipart/form-data">
+        <input type = "file" name = "uploaded_filter" />
+        <input type = "submit"/>
         </form>
+        <button >
 
-    <div id="plot1"></div>
-    <div id="plot2"></div>
+        <button >
+            <a style="text-decoration:none" href="static/assets/data/Zeros_poles.csv" download> Export Filter</a>
+        </button>
+
+        <!-- <label>Upload Signal</label> -->
+        <form action = "http://localhost:5000/importSignal" method = "POST" 
+        enctype = "multipart/form-data">
+        <input type = "file" name = "uploaded_signal" />
+        <input type = "submit"/>
+            </form>
+
+        <div id="plot1"></div>
+        <div id="plot2"></div>
+    </div>
 </body>
-
+<script src="../static/assets/js/TEST.js"></script>
 </html>
