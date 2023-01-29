@@ -11,6 +11,7 @@ class Filters:
     frequencies=[]
     magnitud_response=[]
     phase_response=[]
+    uploaded_signal=[[],[],[]]
     input_signal=[]
     output_signal=[]
 
@@ -21,34 +22,25 @@ class Filters:
 
 
 
-    def import_filter(self,filename):
-        
+    def upload_filter(self,filename): 
         data = pd.read_csv(filename, delimiter= ',')
 
         zeros=data['zeros'].tolist()
-
         for index in np.arange(0,len(zeros)):
                 zeros[index]=complex(zeros[index])
-        print (zeros)
-        
         poles=data['poles'].tolist()
-
         for index in np.arange(0,len(poles)):
                 poles[index]=complex(poles[index])
-        print (poles)
-       
-      
-
-        # poles=data['poles']
-        # for index in range(0,len(poles)):
-        #     poles[index]=complex(poles[index])
-        # # print (poles)
 
         self.zeros=self.zeros+zeros
         self.poles=self.zeros+poles
-        # print(self.zeros)
         self.update_zerosandpoles()
 
+    def upload_signal(self,filename):
+        data = pd.read_csv(filename, delimiter= ',')
+        self.uploaded_signal[0]=data['time'].tolist()
+        self.uploaded_signal[1]=data['amp'].tolist()
+        print(self.uploaded_signal)
 
     def input_output_signals():
         pass

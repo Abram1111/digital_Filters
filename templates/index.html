@@ -36,19 +36,27 @@
 </head>
 
 <body>
+    
+    <!-- <label>Upload Signal</label> -->
 
-    <!-- <form action="/import" method="get" >
-        <input type="file"  name="uploaded_file">
-        <input type="submit" >
-    </form> -->
-    <form action = "http://localhost:5000/import" method = "POST" 
+    <form action = "http://localhost:5000/importFilter" method = "POST" 
     enctype = "multipart/form-data">
-    <input type = "file" name = "uploaded_file" />
+    <input type = "file" name = "uploaded_filter" />
     <input type = "submit"/>
      </form>
     <button >
+
+    <button >
         <a style="text-decoration:none" href="static/assets/data/Zeros_poles.csv" download> Export Filter</a>
     </button>
+
+    <!-- <label>Upload Signal</label> -->
+    <form action = "http://localhost:5000/importSignal" method = "POST" 
+    enctype = "multipart/form-data">
+    <input type = "file" name = "uploaded_signal" />
+    <input type = "submit"/>
+        </form>
+
     <div id="plot1"></div>
     <div id="plot2"></div>
 </body>

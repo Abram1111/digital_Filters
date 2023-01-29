@@ -17,16 +17,25 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/import", methods=["GET", "POST"])
+@app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
     if request.method == 'POST':
 
-          f = request.files['uploaded_file']
-          f.save(secure_filename('uploaded_file.csv'))
-          obj1.import_filter('uploaded_file.csv')
+          filter_file1 = request.files['uploaded_filter']
+          filter_file1.save(secure_filename('uploaded_filter.csv'))
+          obj1.upload_filter('uploaded_filter.csv')
 
     return render_template('index.html')
 
+@app.route("/importSignal", methods=["GET", "POST"])
+def import_Signal():
+    if request.method == 'POST':
+
+          signal_file2 = request.files['uploaded_signal']
+          signal_file2.save(secure_filename('uploaded_signal.csv'))
+          obj1.upload_signal('uploaded_signal.csv')
+
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
