@@ -24,11 +24,15 @@ def unitcircle():
 
     # if request.method == 'POST':
     zerosAndPoles   = json.loads(request.data)
-    zeros= [[int(float(j)) for j in i] for i in zerosAndPoles['zeros']]
-    poles= [[int(float(j)) for j in i] for i in zerosAndPoles['poles']]
-    zeros           = obj1.change_to_complex(number=zeros)
-    poles           = obj1.change_to_complex(number=poles)
+    zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
+    poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
     obj1.update_zerosAndPoles(zeros,poles)
+    # response_data = {
+    # 'frequency' : obj1.frequencies,
+    # 'mag'       : obj1.magnitud_response,
+    # 'phase'     : obj1.phase_response
+    #     }
+    # return jsonify(response_data)
 
     return render_template('index.html')
 

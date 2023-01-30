@@ -175,8 +175,8 @@ function NormalizeAndSend(poles, zeros){
         poles[i].x = (poles[i].x - rect.left-(250/2))/250;
         poles[i].y = (poles[i].y - rect.top -(250/2))/250;
     }
-    zeros=[[5],[3]]
-    poles=[[2],[2]]
+    // zeros=[[5],[3]]
+    // poles=[[2],[2]]
     var zerospoles = { 'zeros': zeros, 'poles': poles };
     console.log(JSON.stringify(zerospoles));
     $.ajax({ 

@@ -19,13 +19,25 @@ class Filters:
 
     def __init__(self, zeros , poles):
             self.update_zerosAndPoles(zeros,poles)
+# {"zeros":[],"poles":[{"X":173,"Y":206,"id":"pole0","conjugate":false,"x":null,"y":null}]}
 
     def change_to_complex(self,number):
-        complexNumbers = [0]*len(number[0])
+        # number=data['zeros']
+        counter=0
+        print('[0]*len(number)',)
+        print(len(number))
+        
+        complexNumbers   = [0]*len(number)
+        conjugateNumbers = [0]*len(number)
         for i in np.arange(0,len(number)-1):
-            x = number[0][i]
-            y = number[1][i]
+            x = float(number[i]["X"])/250
+            y = float(number[i]["Y"])/250
             complexNumbers[i] = x+ y*1j
+            if number[i]['conjugate'] == True :
+                conjugateNumbers[counter]= complexNumbers[i]
+                counter+=1
+        conjugateNumbers = [i for i in conjugateNumbers if i != 0]
+        complexNumbers=complexNumbers+conjugateNumbers
         return complexNumbers
 
 # Signal functions
