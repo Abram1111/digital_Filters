@@ -57,6 +57,21 @@ function delet_element(div) {
         div_zero.style = "display:none"
         // remove = 0;
     }
+    let ID = div.id;
+    for(var i = 0 ;i<Math.max(zeros.length, poles.length);i++){
+        if(i<zeros.length){
+            if(zeros[i].id == ID){
+                zeros.splice(i, 1);
+                z = {};
+            }
+        }
+        if(i<poles.length){
+                if(poles[i].id == ID){
+                    poles.splice(i, 1);
+                    p = {};
+                }
+            }
+    }
 }
 unit_circle.addEventListener('click', function (e) {
     if (document.getElementById('remove').checked) {
@@ -125,7 +140,7 @@ unit_circle.addEventListener('click', function (e) {
         }
     }
     // console.log("Left"+unit_circle.getBoundingClientRect.left+"Right"+unit_circle.getBoundingClientRect.right)
-    if(id_conter == 1 && !(JSON.stringify(z) === '{}')){zeros.push(z);}
+    if(zeros.length == 0 && !(JSON.stringify(z) === '{}')){zeros.push(z);}
     else if(!(JSON.stringify(z) === '{}'))
     {
         if((z.X != zeros[zeros.length-1].X && z.Y != zeros[zeros.length-1].Y))
@@ -134,7 +149,7 @@ unit_circle.addEventListener('click', function (e) {
         }
     }
 
-    if(polecounter == 1 && !(JSON.stringify(p) === '{}')){poles.push(p);}
+    if(poles.length == 0 && !(JSON.stringify(p) === '{}')){poles.push(p);}
     if(!(JSON.stringify(p) === '{}'))
     {
         if((p.X != poles[poles.length-1].X && p.Y != poles[poles.length-1].Y))
