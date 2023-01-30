@@ -9,12 +9,11 @@ def create_app():
     _app = Flask(__name__)
     return _app
 
-obj1 =Filters([(1+1j)],[(-1-1j)])
+obj1 =Filters([(0+0j)],[(0+0j)])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     print('hello')
-
     return render_template('index.html')
 
 @app.route("/unitcircle", methods=["GET", "POST"])
@@ -27,10 +26,14 @@ def unitcircle():
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
     obj1.update_zerosAndPoles(zeros,poles)
+    # obj1.input_output_signals(zerosAndPoles['input'])
+    # print('output_signal')
+    # print(list(obj1.output_signal))
     response_data = json.dumps({
         'frequency' : list(obj1.frequencies),
         'mag'       : list(obj1.magnitud_response),
-        'phase'     : list(obj1.phase_response)
+        'phase'     : list(obj1.phase_response),
+        # 'output_signal':list(obj1.output_signal)
     })
     return jsonify(response_data)
 
@@ -70,19 +73,6 @@ def import_Signal():
         # return jsonify(response_data)
 
     return render_template('index.html')
-
-# @app.route("/allpass", methods=["GET", "POST"])
-# def allpass():
-#     if request.method == 'POST':
-
-#         # response_data = {
-#         # 'frequency' : obj1.frequencies,
-#         # 'mag'       : obj1.magnitud_response,
-#         # 'phase'     : obj1.phase_response
-#         #     }
-#         # return jsonify(response_data)
-        
-#     return render_template('index.html')
 
 if __name__ == "__main__":
     

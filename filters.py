@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy import signal
+import scipy
 
 
 class Filters:
@@ -19,14 +20,10 @@ class Filters:
 
     def __init__(self, zeros , poles):
             self.update_zerosAndPoles(zeros,poles)
-# {"zeros":[],"poles":[{"X":173,"Y":206,"id":"pole0","conjugate":false,"x":null,"y":null}]}
 
     def change_to_complex(self,number):
         # number=data['zeros']
-        counter=0
-        print('[0]*len(number)',)
-        print(len(number))
-        
+        counter=0      
         complexNumbers   = [0]*len(number)
         conjugateNumbers = [0]*len(number)
         for i in np.arange(0,len(number)-1):
@@ -41,25 +38,32 @@ class Filters:
         return complexNumbers
 
 # Signal functions
-    def input_output_signals():
-        pass
+
+    def applying_filter(self):
+        num_coefficients,deno_coefficients=scipy.signal.zpk2tf(self.zeros, self.poles, 1)
+        self.output_signal=scipy.signal.filtfilt(num_coefficients, deno_coefficients, self.input_signal)
 
     def upload_signal(self,filename):
         data = pd.read_csv(filename, delimiter= ',')
         self.uploaded_signal[0]=data['time'].tolist()
         self.uploaded_signal[1]=data['amp'].tolist()
+
+    def input_output_signals(self,input):
+        self.input_signal=list(np.float_(input))
+        self.applying_filter()
+
 # Filter Functions
     def update_zerosAndPoles(self,zeros,poles):
-        print('update_zerosAndPoles')
         self.zeros=zeros
         self.poles=poles
         self.update_graph()
 
     def update_graph (self):
-        print('update_graph')
+        print(self.zeros)
+        print(self.poles)
 
-        w, h = signal.freqz_zpk(self.zeros,self.poles, 1, fs=100)
-        self.frequencies =w/max(w)
+        w, h = signal.freqz_zpk(self.zeros,self.poles, 1)
+        self.frequencies =w
         self.magnitud_response=20 * np.log10(abs(h))
         self.phase_response=np.unwrap(np.angle(h))
         self.save_phaseAndMag()
@@ -81,9 +85,7 @@ class Filters:
                 }
         df = pd.DataFrame(ploting_data)
         df.to_csv("static/assets/data/magAndPhase.csv")
-        print('save_phaseAndMag',self.zeros,self.poles)
-
-   
+  
     def upload_filter(self,filename): 
         data = pd.read_csv(filename, delimiter= ',')
 

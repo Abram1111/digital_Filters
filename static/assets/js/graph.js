@@ -84,8 +84,8 @@ function processData(allRows) {
         i += 1;
     }
 
-    makePlotly_trackpad(x, y1, null, null, "plot1", "Magnitude response");
-    makePlotly_trackpad(x, y2, null, null, "plot2", "Phase response");
+    makePlotly_trackpad(x, y1, [0,1], null, "plot1", "Magnitude response");
+    makePlotly_trackpad(x, y2, [0,1], null, "plot2", "Phase response");
 
 }
 

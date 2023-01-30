@@ -177,7 +177,7 @@ function NormalizeAndSend(poles, zeros){
     }
     // zeros=[[5],[3]]
     // poles=[[2],[2]]
-    var zerospoles = { 'zeros': zeros, 'poles': poles };
+    var zerospoles = { 'zeros': zeros, 'poles': poles ,'input':y_value};
     console.log(JSON.stringify(zerospoles));
     $.ajax({
       url: "/unitcircle",
@@ -192,8 +192,11 @@ function NormalizeAndSend(poles, zeros){
         mag = dic_data.mag;
         phase = dic_data.phase;
         console.log("new");
-        makePlotly_trackpad(frequency, mag, null, null, "plot1", "Magntuide");
-        makePlotly_trackpad(frequency, phase, null, null, "plot2", "Phase");
+        makePlotly_trackpad(frequency,   mag, [0,1], null, "plot1", "Magntuide");
+        makePlotly_trackpad(frequency, phase, [0,1], null, "plot2", "Phase");
+        // makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], [0, 200], "out_plot", "output");
+
+
       },
     });
 }
