@@ -63,7 +63,7 @@ unit_circle.addEventListener('click', function (e) {
     }
     else {
         if (document.getElementById('zero').checked) {
-            z = {X:e.x, y:e.y, id:'zero' + id_conter, conjugate:false};
+            z = {X:e.clientX, Y:e.clientY, id:'zero' + id_conter, conjugate:false};
             let zero = document.createElement('div');
             // console.log(e.x);
             // console.log(e.y);
@@ -77,7 +77,7 @@ unit_circle.addEventListener('click', function (e) {
             id_conter++;
         }
         else if (document.getElementById('pole').checked) {
-            p = {X:e.x, y:e.y, id:'pole' + polecounter, conjugate:false};
+            p = {X:e.x, Y:e.y, id:'pole' + polecounter, conjugate:false};
             let pole = document.createElement('div');
             pole.setAttribute('class', 'pole');
             pole.setAttribute('id', 'pole' + polecounter);
@@ -124,8 +124,26 @@ unit_circle.addEventListener('click', function (e) {
         }
     }
     // console.log("Left"+unit_circle.getBoundingClientRect.left+"Right"+unit_circle.getBoundingClientRect.right)
-    if(zeros.x != null){zeros.push(z);}
-    if(poles.x != null){poles.push(p);}
+    if(id_conter == 1 && !(JSON.stringify(z) === '{}')){zeros.push(z);}
+    else if(!(JSON.stringify(z) === '{}'))
+    {
+        if((z.X != zeros[zeros.length-1].X && z.Y != zeros[zeros.length-1].Y))
+        {
+            zeros.push(z);
+        }
+    }
+
+    if(polecounter == 1 && !(JSON.stringify(p) === '{}')){poles.push(p);}
+    if(!(JSON.stringify(p) === '{}'))
+    {
+        if((p.X != poles[poles.length-1].X && p.Y != poles[poles.length-1].Y))
+        {
+            poles.push(p);
+        }
+    }
+
+    console.log(zeros);
+    console.log(poles);
     NormalizeAndSend(poles, zeros);
 });
 
