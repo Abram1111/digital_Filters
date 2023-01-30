@@ -15,10 +15,7 @@
     <!--Unit circle with zero, pole, remove and conjugate features-->
     <div class="contaner">
         <div class="first_col">
-
-            <div style="background-color: #d3d3d3; width: 260px;
-    border-radius: 1.5rem;
-            padding: 10px; ">
+            <div style="background-color: #d3d3d3; width: 260px;border-radius: 1.5rem;padding: 10px; height: 350px; ">
                 <div class="smile-rating-container">
                     <div class="smile-rating-toggle-container">
                         <form class="submit-rating">
@@ -35,12 +32,35 @@
                     <div class='line' id="vertical"></div>
                     <div class="line" id="horizontal"></div>
                 </div>
-                <input type="checkbox" id="remove" name="Remove" />Remove
-                </label>
-                <input type="checkbox" id="conj">
-                Draw Conjugate
-            </div>
+                <div
+                    style="display: flex;flex-wrap: nowrap; justify-content: center; align-items: center; margin-top: 10px;">
+                    <div class="checkbox-wrapper-55" style="display: inline;">
+                        <label class="rocker rocker-small">
+                            <input type="checkbox" id="remove">
+                            <span class="switch-left">Yes</span>
+                            <span class="switch-right">No</span>
+                        </label>
+                    </div>
+                    <div class="remove_label">
+                        <p style="display:inline ;">Remove</p>
+                    </div>
+                    <div style="display: flex;flex-wrap: nowrap; justify-content: center; align-items: center;">
+                        <div class="checkbox-wrapper-55" style="display: inline;">
+                            <label class="rocker rocker-small">
+                                <input type="checkbox" id="conj">
+                                <span class="switch-left">Yes</span>
+                                <span class="switch-right">No</span>
+                            </label>
+                        </div>
+                        <div class="remove_label">
+                            <p style="display:inline ;">Conjugate</p>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+            <div id="plot1"></div>
+            <div id="plot2"></div>
 
         </div>
         <div class="second_col">
@@ -71,8 +91,7 @@
                     <input type="submit" />
                 </form>
 
-                <div id="plot1"></div>
-                <div id="plot2"></div>
+
 
         </div>
         <script src="../static/assets/js/graph.js"></script>
