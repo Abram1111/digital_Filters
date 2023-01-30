@@ -1,5 +1,70 @@
-const CSV = "../static/assets/data/magAndPhase.csv";
 
+function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
+    let traces = [
+        {
+            x: x,
+            y: y1,
+            name: " input",
+            xaxis: 'time ',
+            yaxis: 'magintude',
+            line: {
+                color: "#080a49f1",
+                width: 3
+            }
+        }
+    ];
+    let layout = {
+        title: title,
+        yaxis: {
+            range: yrange
+        },
+        margin: {
+            // autoexpand: false,
+            b: 15,
+            r: 0,
+            // l: 0,
+            t: 28
+
+        },
+
+        xaxis: {
+          
+            range: xrange
+        },
+        plot_bgcolor: 'wight',
+        paper_bgcolor: 'transparent'
+    };
+
+    let config = {
+        responsive: true,
+    };
+
+    Plotly.newPlot(place, traces, layout, config);
+    
+}
+
+let pad = document.getElementById("track_pad");
+// let id_conter = 0;
+const x_value = [];
+const y_value = [];
+let i = 0;
+let x_length = 0;
+makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "plot", "input");
+makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "out_plot", "output");
+pad.addEventListener('mousemove', function (e) {
+    i++;
+    x_value.push(i);
+    y_value.push(100 - (e.y - 40) + 100);
+    if (i > 300) {
+        x_length = i - 300;
+    }
+    makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "plot", "input");
+    makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "out_plot", "output");
+
+
+});
+
+const CSV = "../static/assets/data/magAndPhase.csv";
 function plotFromCSV() {
     Plotly.d3.csv(CSV, function (err, rows) {
         processData(rows);
@@ -21,7 +86,10 @@ function processData(allRows) {
         i += 1;
     }
 
-    makePlotly(x, y1, y2);
+    makePlotly_trackpad(x, y1, null,  null, 'plot1', "Magnitude response")
+    makePlotly_trackpad(x, y2, null, null, 'plot2', "Phase response")
+
+
 }
 
 function makePlotly(x, y1, y2) {
@@ -30,7 +98,7 @@ function makePlotly(x, y1, y2) {
     {
         x: x,
         y: y1,
-        name: "magnitude response",
+        name : "magnitude response",
         xaxis: 'frequency ',
         yaxis: 'magintude in db',
         line: {
@@ -65,66 +133,6 @@ function makePlotly(x, y1, y2) {
     };
     Plotly.newPlot("plot1", [trace1], layout1, config);
     Plotly.newPlot("plot2", [trace2], layout2, config);
+
 }
 plotFromCSV();
-function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
-    let traces = [
-        {
-            x: x,
-            y: y1,
-            name: " input",
-            xaxis: 'time ',
-            yaxis: 'magintude',
-            line: {
-                color: "#080a49f1",
-                width: 3
-            }
-        }
-    ];
-    let layout = {
-        title: title,
-        yaxis: {
-            range: yrange
-        },
-        margin: {
-            // autoexpand: false,
-            b: 15,
-            r: 0,
-            // l: 0,
-            t: 28
-
-        },
-
-        xaxis: {
-            range: xrange
-        },
-        plot_bgcolor: 'wight',
-        paper_bgcolor: 'transparent'
-    };
-
-    let config = {
-        responsive: true,
-    };
-
-    Plotly.newPlot(place, traces, layout, config);
-}
-let pad = document.getElementById("track_pad");
-// let id_conter = 0;
-const x_value = [];
-const y_value = [];
-let i = 0;
-let x_length = 0;
-makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "plot", "input");
-makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "out_plot", "output");
-pad.addEventListener('mousemove', function (e) {
-    i++;
-    x_value.push(i);
-    y_value.push(100 - (e.y - 40) + 100);
-    if (i > 300) {
-        x_length = i - 300;
-    }
-    makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "plot", "input");
-    makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "out_plot", "output");
-
-
-});
