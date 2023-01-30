@@ -1,7 +1,7 @@
 let ids = [];
 let selectedid = 0;
 let filters = [];
-let inputval='jn';
+let inputval='';
 /******************************************************* */
 /**********************LIST***************************** */
 /******************************************************* */
@@ -20,7 +20,7 @@ $(document).ready(function () {
     borderRightColor: "#999",
   });
   function addValue() {
-    console.log(inputval);
+    // console.log(inputval);
     if (iCnt <= 4) {
       iCnt = iCnt + 1;
 
@@ -30,7 +30,7 @@ $(document).ready(function () {
           '<input type=text class="input" id=tb' +
             iCnt +
             " " +
-            'value="0+0j" onfocus="myFunction()" />'
+            'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" />'
         );
       }
       else{
@@ -40,31 +40,31 @@ $(document).ready(function () {
             " " +
             "value=" +
             inputval +
-            ' onfocus="myFunction()" />'
+            ' onfocus="myFunction()" onchange="GetTextValue()" />'
         );
       }
-      //   $("container").is(":focus");
       ids.push("tb" + iCnt);
-      // console.log(ids);
-      //   $("input").prop("required", true);
-      // SHOW SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
+      // ADD SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
       if (iCnt == 1) {
         var divSubmit = $(document.createElement("div"));
         $(divSubmit).append(
           '<input type=button class="bt" ' +
             'onclick="GetTextValue()"' +
-            "id=btSubmit value=Submit  />"
+            "id=btSubmit value=Submit style='display:none;' />"
         );
+        // $("#btSubmit").remove();
         // return id;
       }
 
       // ADD BOTH THE DIV ELEMENTS TO THE "main" CONTAINER.
       $("#main").after(container, divSubmit);
+      GetTextValue();
     }
     // AFTER REACHING THE SPECIFIED LIMIT, DISABLE THE "ADD" BUTTON.
     // (20 IS THE LIMIT WE HAVE SET)
     else {
-      $(container).append("<label>Reached the limit</label>");
+      // $(container).append("<label>Reached the limit</label>");
+      alert('Max number of filters is 5.')
       $("#btAdd").attr("class", "bt-disable");
       $("#btAdd").attr("disabled", "disabled");
     }
@@ -85,8 +85,9 @@ $(document).ready(function () {
     if (iCnt == 0) {
       $(container).empty().remove();
 
-      $("#btSubmit").remove();
+      // $("#btSubmit").remove();
       $("#btAdd").removeAttr("disabled").attr("class", "bt");
+      GetTextValue();
     }
   });
 
@@ -100,6 +101,7 @@ $(document).ready(function () {
     $("#btAdd").removeAttr("disabled").attr("class", "bt");
 
     filters = [];
+    GetTextValue();
     // console.log(filters);
   });
 });
@@ -179,7 +181,10 @@ function myFunction() {
   selectedid = document.activeElement.id;
 }
 
-
+function change() {
+  console.log("change");
+  
+}
 /******************************************************* */
 /**********************Graph**************************** */
 /******************************************************* */
