@@ -179,12 +179,22 @@ function NormalizeAndSend(poles, zeros){
     // poles=[[2],[2]]
     var zerospoles = { 'zeros': zeros, 'poles': poles };
     console.log(JSON.stringify(zerospoles));
-    $.ajax({ 
-        url: '/unitcircle', 
-        type: 'POST',
-        contentType: "application/json",
-        data: JSON.stringify(zerospoles)
-        // success: function (response) {alert(response);}
+    $.ajax({
+      url: "/unitcircle",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(zerospoles),
+      success: function (response) {
+        // alert('response');
+        dic_data = JSON.parse(response);
+        // console.log(JSON.parse(response).frequency);
+        frequency = dic_data.frequency;
+        mag = dic_data.mag;
+        phase = dic_data.phase;
+        console.log("new");
+        makePlotly_trackpad(frequency, mag, null, null, "plot1", "Magntuide");
+        makePlotly_trackpad(frequency, phase, null, null, "plot2", "Phase");
+      },
     });
 }
 

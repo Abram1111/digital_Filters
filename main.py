@@ -27,14 +27,14 @@ def unitcircle():
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
     obj1.update_zerosAndPoles(zeros,poles)
-    # response_data = {
-    # 'frequency' : obj1.frequencies,
-    # 'mag'       : obj1.magnitud_response,
-    # 'phase'     : obj1.phase_response
-    #     }
-    # return jsonify(response_data)
+    response_data = json.dumps({
+        'frequency' : list(obj1.frequencies),
+        'mag'       : list(obj1.magnitud_response),
+        'phase'     : list(obj1.phase_response)
+    })
+    return jsonify(response_data)
 
-    return render_template('index.html')
+    # return render_template('index.html')
 
 
 
