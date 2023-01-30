@@ -78,7 +78,7 @@ unit_circle.addEventListener('click', function (e) {
             id_conter++;
         }
         else if (document.getElementById('pole').checked) {
-            p = {X:e.x, Y:e.y, id:'pole' + polecounter, conjugate:false};
+            p = {X:e.clientX, Y:e.clientY, id:'pole' + polecounter, conjugate:false};
             let pole = document.createElement('div');
             pole.setAttribute('class', 'pole');
             pole.setAttribute('id', 'pole' + polecounter);
