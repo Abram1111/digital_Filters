@@ -41,7 +41,10 @@
 // });
 var remove = 0;
 var polecounter = 0;
-let coordinates = [];
+let zeros = [];
+let z = {};
+let p = {};
+let poles = [];
 let unit_circle = document.getElementById('circle');
 let id_conter = 0;
 var button = document.getElementById('remove').checked;
@@ -60,7 +63,7 @@ unit_circle.addEventListener('click', function (e) {
     }
     else {
         if (document.getElementById('zero').checked) {
-            coordinates.push(e);
+            z = {X:e.x, y:e.y, id:'zero' + id_conter, conjugate:false};
             let zero = document.createElement('div');
             // console.log(e.x);
             // console.log(e.y);
@@ -69,11 +72,12 @@ unit_circle.addEventListener('click', function (e) {
             zero.setAttribute('onclick', 'delet_element(this)');
             zero.setAttribute("id", 'zero' + id_conter);
             zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100`
-            dragElement(zero, unit_circle);
+            // dragElement(zero, unit_circle);
             unit_circle.appendChild(zero);
             id_conter++;
         }
         else if (document.getElementById('pole').checked) {
+            p = {X:e.x, y:e.y, id:'pole' + polecounter, conjugate:false};
             let pole = document.createElement('div');
             pole.setAttribute('class', 'pole');
             pole.setAttribute('id', 'pole' + polecounter);
@@ -87,7 +91,7 @@ unit_circle.addEventListener('click', function (e) {
             pole.setAttribute('onclick', 'delet_element(this)');
             pole.innerHTML = '✖';
             pole.style = `color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY}px;left:${e.clientX}px;`
-            dragElement(pole, unit_circle);
+            // dragElement(pole, unit_circle);
             unit_circle.appendChild(pole);
             polecounter++;
         }
@@ -95,78 +99,106 @@ unit_circle.addEventListener('click', function (e) {
     if (document.getElementById('conj').checked && !(document.getElementById('remove').checked)) {
         if (document.getElementById('zero').checked) {
             id_conter--;
-            coordinates.push(e);
+            z.conjugate = true;
             let zero = document.createElement('div');
             zero.setAttribute("class", "zero");
             zero.setAttribute('onclick', 'delet_element(this)');
             zero.setAttribute("id", 'zero' + id_conter + 'Conj');
-            zero.style = `background-color: black; width: 15px; height: 15px;position: absolute;bottom:${(e.clientY + 473)}px;left:${e.clientX}px; border-radius: 50%;z-index:100`
-            dragElement(zero, unit_circle);
+            zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px; border-radius: 50%;z-index:100`
+            // dragElement(zero, unit_circle);
             unit_circle.appendChild(zero);
             id_conter++;
         }
         else if (document.getElementById('pole').checked) {
             polecounter--;
+            p.conjugate = true;
             let pole = document.createElement('div');
             pole.setAttribute('class', 'pole');
             pole.setAttribute('id', 'pole' + polecounter + 'Conj');
             pole.setAttribute('onclick', 'delet_element(this)');
             pole.innerHTML = '✖';
-            pole.style = `color:black; width: 20px; height: 20px;position: absolute;bottom:${(e.clientY + 473)}px;left:${e.clientX}px;`
-            dragElement(pole, unit_circle);
+            pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px;`
+            // dragElement(pole, unit_circle);
             unit_circle.appendChild(pole);
             polecounter++;
         }
     }
+    // console.log("Left"+unit_circle.getBoundingClientRect.left+"Right"+unit_circle.getBoundingClientRect.right)
+    if(zeros.x != null){zeros.push(z);}
+    if(poles.x != null){poles.push(p);}
+    NormalizeAndSend(poles, zeros);
 });
-function mouseDown(e) {
-    e = e || window.event;
-    switch (e.which) {
-        case 1: alert('left'); break;
-        case 2: alert('middle'); break;
-        case 3: alert('right'); break;
+
+
+
+function NormalizeAndSend(poles, zeros){
+    let rect = unit_circle.getBoundingClientRect
+    for (var i = 0; i<zeros.length;i++){
+        zeros[i].x = (zeros[i].x - rect.left-(250/2))/250;
+        zeros[i].y = (zeros[i].y - rect.top -(250/2))/250;
     }
+    for (var i = 0; i<poles.length;i++){
+        poles[i].x = (poles[i].x - rect.left-(250/2))/250;
+        poles[i].y = (poles[i].y - rect.top -(250/2))/250;
+    }
+    $.ajax({ 
+        url: '/importFilter', 
+        type: 'POST', 
+        Zerosdata: JSON.stringify(zeros),
+        Polesdata: JSON.stringify(poles)
+    });
 }
 
-const dragElement = (element, dragzone) => {
-    let pos1 = 0,
-        pos2 = 0,
-        pos3 = 0,
-        pos4 = 0;
-    //MouseUp occurs when the user releases the mouse button
-    const dragMouseUp = () => {
-        document.onmouseup = null;
-        //onmousemove attribute fires when the pointer is moving while it is over an element.
-        document.onmousemove = null;
 
-        element.classList.remove("drag");
-    };
 
-    const dragMouseMove = (event) => {
+// function mouseDown(e) {
+//     e = e || window.event;
+//     switch (e.which) {
+//         case 1: alert('left'); break;
+//         case 2: alert('middle'); break;
+//         case 3: alert('right'); break;
+//     }
+// }
 
-        event.preventDefault();
-        //clientX property returns the horizontal coordinate of the mouse pointer
-        pos1 = pos3 - event.clientX;
-        //clientY property returns the vertical coordinate of the mouse pointer
-        pos2 = pos4 - event.clientY;
-        pos3 = event.clientX;
-        pos4 = event.clientY;
-        //offsetTop property returns the top position relative to the parent
-        element.style.top = `${element.offsetTop - pos2}px`;
-        element.style.left = `${element.offsetLeft - pos1}px`;
-    };
+// const dragElement = (element, dragzone) => {
+//     let pos1 = 0,
+//         pos2 = 0,
+//         pos3 = 0,
+//         pos4 = 0;
+//     //MouseUp occurs when the user releases the mouse button
+//     const dragMouseUp = () => {
+//         document.onmouseup = null;
+//         //onmousemove attribute fires when the pointer is moving while it is over an element.
+//         document.onmousemove = null;
 
-    const dragMouseDown = (event) => {
-        event.preventDefault();
+//         element.classList.remove("drag");
+//     };
 
-        pos3 = event.clientX;
-        pos4 = event.clientY;
+//     const dragMouseMove = (event) => {
 
-        element.classList.add("drag");
+//         event.preventDefault();
+//         //clientX property returns the horizontal coordinate of the mouse pointer
+//         pos1 = pos3 - event.clientX;
+//         //clientY property returns the vertical coordinate of the mouse pointer
+//         pos2 = pos4 - event.clientY;
+//         pos3 = event.clientX;
+//         pos4 = event.clientY;
+//         //offsetTop property returns the top position relative to the parent
+//         element.style.top = `${element.offsetTop - pos2}px`;
+//         element.style.left = `${element.offsetLeft - pos1}px`;
+//     };
 
-        document.onmouseup = dragMouseUp;
-        document.onmousemove = dragMouseMove;
-    };
+//     const dragMouseDown = (event) => {
+//         event.preventDefault();
 
-    dragzone.onmousedown = dragMouseDown;
-};
+//         pos3 = event.clientX;
+//         pos4 = event.clientY;
+
+//         element.classList.add("drag");
+
+//         document.onmouseup = dragMouseUp;
+//         document.onmousemove = dragMouseMove;
+//     };
+
+//     dragzone.onmousedown = dragMouseDown;
+// };
