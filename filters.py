@@ -20,6 +20,13 @@ class Filters:
     def __init__(self, zeros , poles):
             self.update_zerosAndPoles(zeros,poles)
 
+    def change_to_complex(self,number):
+        complexNumbers = [0]*len(number[0])
+        for i in np.arange(0,len(number)-1):
+            x = number[0][i]
+            y = number[1][i]
+            complexNumbers[i] = x+ y*1j
+        return complexNumbers
 
 # Signal functions
     def input_output_signals():
@@ -31,19 +38,22 @@ class Filters:
         self.uploaded_signal[1]=data['amp'].tolist()
 # Filter Functions
     def update_zerosAndPoles(self,zeros,poles):
+        print('update_zerosAndPoles')
         self.zeros=zeros
         self.poles=poles
         self.update_graph()
 
     def update_graph (self):
+        print('update_graph')
 
         w, h = signal.freqz_zpk(self.zeros,self.poles, 1, fs=100)
-        self.frequencies =w*np.pi/max(w)
+        self.frequencies =w/max(w)
         self.magnitud_response=20 * np.log10(abs(h))
         self.phase_response=np.unwrap(np.angle(h))
         self.save_phaseAndMag()
 
     def save_phaseAndMag(self):
+
         export_data1 = pd.DataFrame( {
                             'zeros':self.zeros,})
         export_data2 =  pd.DataFrame({
@@ -59,6 +69,8 @@ class Filters:
                 }
         df = pd.DataFrame(ploting_data)
         df.to_csv("static/assets/data/magAndPhase.csv")
+        print('save_phaseAndMag',self.zeros,self.poles)
+
    
     def upload_filter(self,filename): 
         data = pd.read_csv(filename, delimiter= ',')
@@ -87,13 +99,7 @@ class Filters:
 #     angels = np.zeros(512) if a==1 else np.unwrap(np.angle(h))
 #     return w/max(w), np.around(angels, decimals=3)
 
-# def parseToComplex(pairs):
-#     complexNumbers = [0]*len(pairs)
-#     for i in range(len(pairs)):
-#         x = round(pairs[i][0], 2)
-#         y = round(pairs[i][1], 2)
-#         complexNumbers[i] = x+ y*1j
-#     return complexNumbers
+
 
 # @app.route('/getFinalFilter', methods=['POST', 'GET'])
 # @cross_origin()

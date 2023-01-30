@@ -1,30 +1,53 @@
-from flask import Flask, render_template, send_file, request, redirect,jsonify
+from flask import Flask, render_template, send_file, request, redirect,jsonify,json
 
 from werkzeug.utils import secure_filename
+from filters import Filters
 
-import filters as FI
 app = Flask(__name__)
 
 def create_app():
     _app = Flask(__name__)
     return _app
 
-obj1 =FI.Filters([(1+1j),(2+1j),(1+3j)],[(-1-1j),(1-1j),(1+5j)])
+obj1 =Filters([(1+1j)],[(-1-1j)])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-# 
-    # obj1.update_zerosandpoles([(-0.0+1j)],[(-0.0-1j)])
+    print('hello')
+
     return render_template('index.html')
+
+@app.route("/unitcircle", methods=["GET", "POST"])
+def unitcircle():
+
+    zerosAndPoles= None   
+
+    # if request.method == 'POST':
+    zerosAndPoles   = json.loads(request.data)
+    zeros= [[int(float(j)) for j in i] for i in zerosAndPoles['zeros']]
+    poles= [[int(float(j)) for j in i] for i in zerosAndPoles['poles']]
+    zeros           = obj1.change_to_complex(number=zeros)
+    poles           = obj1.change_to_complex(number=poles)
+    obj1.update_zerosAndPoles(zeros,poles)
+
+    return render_template('index.html')
+
 
 
 @app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
     if request.method == 'POST':
 
-          filter_file1 = request.files['uploaded_filter']
-          filter_file1.save(secure_filename('uploaded_filter.csv'))
-          obj1.upload_filter('uploaded_filter.csv')
+        filter_file1 = request.files['uploaded_filter']
+        filter_file1.save(secure_filename('uploaded_filter.csv'))
+        obj1.upload_filter('uploaded_filter.csv')
+
+        # response_data = {
+        # 'frequency' : obj1.frequencies,
+        # 'mag'       : obj1.magnitud_response,
+        # 'phase'     : obj1.phase_response
+        #     }
+        # return jsonify(response_data)
 
     return render_template('index.html')
 
@@ -35,9 +58,27 @@ def import_Signal():
           signal_file2 = request.files['uploaded_signal']
           signal_file2.save(secure_filename('uploaded_signal.csv'))
           obj1.upload_signal('uploaded_signal.csv')
+        # response_data = {
+        # 'frequency' : obj1.frequencies,
+        # 'mag'       : obj1.magnitud_response,
+        # 'phase'     : obj1.phase_response
+        #     }
+        # return jsonify(response_data)
 
     return render_template('index.html')
 
+# @app.route("/allpass", methods=["GET", "POST"])
+# def allpass():
+#     if request.method == 'POST':
+
+#         # response_data = {
+#         # 'frequency' : obj1.frequencies,
+#         # 'mag'       : obj1.magnitud_response,
+#         # 'phase'     : obj1.phase_response
+#         #     }
+#         # return jsonify(response_data)
+        
+#     return render_template('index.html')
 
 if __name__ == "__main__":
     

@@ -1,3 +1,4 @@
+console.log("hello")
 // var radius = 100;
 // var canvas = document.getElementById("UnitCircle");
 // var centerX = canvas.width / 2;
@@ -159,11 +160,16 @@ function NormalizeAndSend(poles, zeros){
         poles[i].x = (poles[i].x - rect.left-(250/2))/250;
         poles[i].y = (poles[i].y - rect.top -(250/2))/250;
     }
+    zeros=[[5],[3]]
+    poles=[[2],[2]]
+    var zerospoles = { 'zeros': zeros, 'poles': poles };
+    console.log(JSON.stringify(zerospoles));
     $.ajax({ 
-        url: '/importFilter', 
-        type: 'POST', 
-        Zerosdata: JSON.stringify(zeros),
-        Polesdata: JSON.stringify(poles)
+        url: '/unitcircle', 
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify(zerospoles)
+        // success: function (response) {alert(response);}
     });
 }
 
