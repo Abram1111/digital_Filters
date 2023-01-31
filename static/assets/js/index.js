@@ -551,3 +551,5 @@ function signal_choice()
     drawUploaded();
   }
 }
+
+function upload_signal(){}
