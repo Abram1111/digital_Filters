@@ -2,6 +2,48 @@ let ids = [];
 let selectedid = 0;
 let filters = [];
 let inputval='';
+
+function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
+  let traces = [
+    {
+      x: x,
+      y: y1,
+      name: " input",
+      xaxis: "time ",
+      yaxis: "magintude",
+      line: {
+        color: "#080a49f1",
+        width: 3,
+      },
+    },
+  ];
+  let layout = {
+    title: title,
+    yaxis: {
+      range: yrange,
+    },
+    margin: {
+      // autoexpand: false,
+      b: 15,
+      r: 0,
+      // l: 0,
+      t: 28,
+    },
+
+    xaxis: {
+      range: xrange,
+    },
+    plot_bgcolor: "wight",
+    paper_bgcolor: "transparent",
+  };
+
+  let config = {
+    responsive: true,
+  };
+
+  Plotly.newPlot(place, traces, layout, config);
+}
+
 /******************************************************* */
 /**********************LIST***************************** */
 /******************************************************* */
@@ -134,12 +176,11 @@ function GetTextValue() {
     contentType: "application/json",
     data: JSON.stringify(filters),
     success: function (response) {
-      // window.location.href = "/home";
-      // location.href = "http://127.0.0.1:5000//index.html";
-      // console.log(response)
-      // window.location.replace("http://127.0.0.1:5000//index.html");
+      dict_data = JSON.parse(response);
+      console.log(dict_data["phase"]);
+      makePlotly_trackpad(dict_data["frequency"], dict_data["phase"], null, null, "allpass", "Allpass");
     },
-  });  
+  }); 
 }
 
 //IMAGE SLIDESHOW
@@ -205,46 +246,7 @@ function change() {
 
 // makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "allpass", "input");
 // makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "total-phase", "output");
-function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
-  let traces = [
-    {
-      x: x,
-      y: y1,
-      name: " input",
-      xaxis: "time ",
-      yaxis: "magintude",
-      line: {
-        color: "#080a49f1",
-        width: 3,
-      },
-    },
-  ];
-  let layout = {
-    title: title,
-    yaxis: {
-      range: yrange,
-    },
-    margin: {
-      // autoexpand: false,
-      b: 15,
-      r: 0,
-      // l: 0,
-      t: 28,
-    },
 
-    xaxis: {
-      range: xrange,
-    },
-    plot_bgcolor: "wight",
-    paper_bgcolor: "transparent",
-  };
-
-  let config = {
-    responsive: true,
-  };
-
-  Plotly.newPlot(place, traces, layout, config);
-}
 makePlotly_trackpad([0,1,2,3,4,4], [0,1,2,3,4,4], null, null, "allpass", "input");
 makePlotly_trackpad([0,1,2,3,4,4], [0,1,2,3,4,4], null, null, "total-phase", "output");
 // console.log(CSV)

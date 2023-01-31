@@ -37,9 +37,23 @@ def unitcircle():
     })
     return jsonify(response_data)
 
+
+@app.route("/allpass", methods=["GET", "POST"])
 def allpass():
+    # zerosAndPoles= None   
     filters   = json.loads(request.data)
-    obj1.allpass(filters)
+    coefficents=[]
+    for filter in filters:
+        coefficents.append(complex(filter))
+    # print(coefficents)
+    obj1.allpass(coefficents)
+    # print(w,h)
+    response_data = json.dumps({
+        'frequency' : list(obj1.frequencies),
+        'phase'     : list(obj1.allpass)
+    })
+    return jsonify(response_data)
+    # obj1.allpass(filters)
     
 
 @app.route("/importFilter", methods=["GET", "POST"])
