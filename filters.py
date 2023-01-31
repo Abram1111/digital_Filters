@@ -1,3 +1,4 @@
+import abc
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -37,11 +38,27 @@ class Filters:
         complexNumbers=complexNumbers+conjugateNumbers
         return complexNumbers
 
-# Signal functions
-
     def applying_filter(self):
-        num_coefficients,deno_coefficients=scipy.signal.zpk2tf(self.zeros, self.poles, 1)
-        self.output_signal=scipy.signal.filtfilt(num_coefficients, deno_coefficients, self.input_signal)
+        num_coeff,deno_coeff=scipy.signal.zpk2tf(self.zeros, self.poles, 1)
+        y_n=[]
+        if(len(self.input_signal)>max(len(num_coeff),len(deno_coeff))):
+            y_n=[0]*(len(self.input_signal)-max(len(num_coeff),len(deno_coeff)))
+            for j in  np.arange(0,len(self.input_signal)-max(len(num_coeff),len(deno_coeff))):
+                y_n[j] = num_coeff[0]*self.input_signal[j]
+                for m in np.arange(1,len(num_coeff)-1):
+                    y_n[j] += num_coeff[m]*self.input_signal[j-m] 
+                for k in np.arange(1,len(deno_coeff)-1):
+                    y_n[j] += - deno_coeff[k]* self.input_signal[j-k]
+                y_n[j]=abs(y_n[j])
+        self.output_signal=   y_n   
+        export_data1 = pd.DataFrame( {
+                            'in':self.input_signal,})
+        export_data2 =  pd.DataFrame({
+                            'out':self.output_signal,})
+        temp=pd.concat([export_data1, export_data2], axis=1)
+        df = pd.DataFrame(temp)
+        df.to_csv("static/assets/data/inputOutput.csv")               
+            
 
     def upload_signal(self,filename):
         data = pd.read_csv(filename, delimiter= ',')

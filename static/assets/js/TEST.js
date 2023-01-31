@@ -185,16 +185,20 @@ function NormalizeAndSend(poles, zeros){
       contentType: "application/json",
       data: JSON.stringify(zerospoles),
       success: function (response) {
-        // alert('response');
+
         dic_data = JSON.parse(response);
-        // console.log(JSON.parse(response).frequency);
+        
         frequency = dic_data.frequency;
         mag = dic_data.mag;
         phase = dic_data.phase;
+        output_signal= dic_data.output_signal;
+
         console.log("new");
         makePlotly_trackpad(frequency,   mag, [0,1], null, "plot1", "Magntuide");
         makePlotly_trackpad(frequency, phase, [0,1], null, "plot2", "Phase");
-        // makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], [0, 200], "out_plot", "output");
+
+        makePlotly_trackpad(x_value,       y_value, [x_length, x_length + 300], [0, 200], "plot", "input");
+        makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], [0, 200], "out_plot", "output");
 
 
       },

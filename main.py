@@ -22,23 +22,23 @@ def unitcircle():
     zerosAndPoles= None   
 
     # if request.method == 'POST':
+
     zerosAndPoles   = json.loads(request.data)
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
     obj1.update_zerosAndPoles(zeros,poles)
-    # obj1.input_output_signals(zerosAndPoles['input'])
-    # print('output_signal')
-    # print(list(obj1.output_signal))
+    obj1.input_output_signals(zerosAndPoles['input'])
+
+    print('zerosAndPoles[input]')
+    print(zerosAndPoles['input'])
+
     response_data = json.dumps({
         'frequency' : list(obj1.frequencies),
         'mag'       : list(obj1.magnitud_response),
         'phase'     : list(obj1.phase_response),
-        # 'output_signal':list(obj1.output_signal)
+        'output_signal':list(obj1.output_signal)
     })
     return jsonify(response_data)
-
-    # return render_template('index.html')
-
 
 
 @app.route("/importFilter", methods=["GET", "POST"])
