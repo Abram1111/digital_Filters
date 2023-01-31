@@ -41,11 +41,23 @@ def unitcircle():
     })
     return jsonify(response_data)
 
-def allpass():
 
+@app.route("/allpass", methods=["GET", "POST"])
+def allpass():
     # zerosAndPoles= None   
     filters   = json.loads(request.data)
-    obj1.allpass(filters)
+    coefficents=[]
+    for filter in filters:
+        coefficents.append(complex(filter))
+    # print(coefficents)
+    obj1.allpass(coefficents)
+    # print(w,h)
+    response_data = json.dumps({
+        'frequency' : list(obj1.frequencies),
+        'phase'     : list(obj1.allpass)
+    })
+    return jsonify(response_data)
+    # obj1.allpass(filters)
     
 
 @app.route("/importFilter", methods=["GET", "POST"])
@@ -67,11 +79,12 @@ def import_filter():
 
 @app.route("/importSignal", methods=["GET", "POST"])
 def import_Signal():
-    if request.method == 'POST':
-
-          signal_file2 = request.files['uploaded_signal']
-          signal_file2.save(secure_filename('uploaded_signal.csv'))
-          obj1.upload_signal('uploaded_signal.csv')
+    # if request.method == 'POST':
+    zerosAndPoles   = json.loads(request.data)
+    print(zerosAndPoles)
+        # signal_file2 = request.files['uploaded_signal']
+        # signal_file2.save(secure_filename('uploaded_signal.csv'))
+        # obj1.upload_signal('uploaded_signal.csv')
         # response_data = {
         # 'frequency' : obj1.frequencies,
         # 'mag'       : obj1.magnitud_response,
