@@ -14,7 +14,6 @@ obj1 =Filters([(0+0j)],[(0+0j)])
 @app.route("/", methods=["GET", "POST"])
 def index():
     print('hello')
-    # return render_template('allpass.html')
     return render_template('index.html')
 
 @app.route("/unitcircle", methods=["GET", "POST"])
@@ -30,9 +29,6 @@ def unitcircle():
     obj1.update_zerosAndPoles(zeros,poles)
     obj1.input_output_signals(zerosAndPoles['input'])
 
-    print('zerosAndPoles[input]')
-    print(zerosAndPoles['input'])
-
     response_data = json.dumps({
         'frequency' : list(obj1.frequencies),
         'mag'       : list(obj1.magnitud_response),
@@ -42,8 +38,6 @@ def unitcircle():
     return jsonify(response_data)
 
 def allpass():
-
-    # zerosAndPoles= None   
     filters   = json.loads(request.data)
     obj1.allpass(filters)
     
@@ -56,30 +50,40 @@ def import_filter():
         filter_file1.save(secure_filename('uploaded_filter.csv'))
         obj1.upload_filter('uploaded_filter.csv')
 
-        # response_data = {
-        # 'frequency' : obj1.frequencies,
-        # 'mag'       : obj1.magnitud_response,
-        # 'phase'     : obj1.phase_response
-        #     }
-        # return jsonify(response_data)
+        obj1.input_output_signals(obj1.input_signal)
 
-    return render_template('index.html')
+        response_data = {
+        'uploaded_zeros'       : str(obj1.uploaded_zeros),
+        'uploaded_poles'       : str(obj1.uploaded_poles),
+            }
+        return jsonify(response_data)
+
+    # return render_template('index.html')
 
 @app.route("/importSignal", methods=["GET", "POST"])
 def import_Signal():
+
     if request.method == 'POST':
 
-          signal_file2 = request.files['uploaded_signal']
-          signal_file2.save(secure_filename('uploaded_signal.csv'))
-          obj1.upload_signal('uploaded_signal.csv')
-        # response_data = {
-        # 'frequency' : obj1.frequencies,
-        # 'mag'       : obj1.magnitud_response,
-        # 'phase'     : obj1.phase_response
-        #     }
-        # return jsonify(response_data)
+        zerosAndPoles   = json.loads(request.data)
+        zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
+        poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
 
-    return render_template('index.html')
+        obj1.update_zerosAndPoles(zeros,poles)
+
+        signal_file2 = request.files['uploaded_signal']
+        signal_file2.save(secure_filename('uploaded_signal.csv'))
+        obj1.upload_signal('uploaded_signal.csv')
+
+        obj1.input_output_signals(obj1.input_signal)
+
+        response_data = json.dumps({
+            'frequency' : list(obj1.frequencies),
+            'mag'       : list(obj1.magnitud_response),
+            'phase'     : list(obj1.phase_response),
+            'output_signal':list(obj1.output_signal)
+        })
+        return jsonify(response_data)
 
 if __name__ == "__main__":
     

@@ -10,6 +10,8 @@ class Filters:
     # filter
     zeros=[]
     poles=[]
+    uploaded_zeros=[]
+    uploaded_poles=[]
     # signal
     uploaded_signal=[[],[],[]]
     input_signal=[[],[],[]]
@@ -59,7 +61,6 @@ class Filters:
         df = pd.DataFrame(temp)
         df.to_csv("static/assets/data/inputOutput.csv")               
             
-
     def upload_signal(self,filename):
         data = pd.read_csv(filename, delimiter= ',')
         self.uploaded_signal[0]=data['time'].tolist()
@@ -112,6 +113,8 @@ class Filters:
         poles=data['poles'].tolist()
         for index in np.arange(0,len(poles)):
                 poles[index]=complex(poles[index])
+        self.uploaded_zeros=zeros
+        self.uploaded_poles=poles
 
         self.zeros=self.zeros+zeros
         self.poles=self.zeros+poles

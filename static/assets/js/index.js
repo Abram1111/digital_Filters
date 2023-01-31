@@ -15,9 +15,6 @@ let unit_circle = document.getElementById("circle");
 let id_conter = 0;
 var button = document.getElementById("remove").checked;
 
-
-
-
 let pad = document.getElementById("track_pad");
 // let id_conter = 0;
 const x_value = [];
@@ -28,7 +25,7 @@ const CSV = "../static/assets/data/magAndPhase.csv";
 
 
 function drawTrackPad() {
-  var zerospoles = { zeros: zeros, poles: poles, input: y_value };
+  var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': y_value };
   console.log(JSON.stringify(zerospoles));
   $.ajax({
     url: "/unitcircle",
@@ -67,7 +64,64 @@ function drawTrackPad() {
   });
 }
 
+function drawUploaded() {
+  var zerosandpoles = { 'zeros': zeros , 'poles': poles };
+  console.log(JSON.stringify(zerosandpoles));
+  $.ajax({
+    url: "/importSignal",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(zerosandpoles),
+    success: function (response) {
+      dict_data = JSON.parse(response);
 
+      frequency = dict_data.frequency;
+      mag       = dict_data.mag;
+      phase     = dict_data.phase;
+      output_signal = dict_data.output_signal;
+
+      console.log("new");
+      makePlotly_trackpad(frequency, mag, [0, 1], null, "plot1", "Magntuide");
+      makePlotly_trackpad(frequency, phase, [0, 1], null, "plot2", "Phase");
+
+      makePlotly_trackpad(
+        x_value,
+        y_value,
+        [x_length, x_length + 300],
+        [0, 200],
+        "plot",
+        "input"
+      );
+      makePlotly_trackpad(
+        x_value,
+        output_signal,
+        [x_length, x_length + 300],
+        [0, 200],
+        "out_plot",
+        "output"
+      );
+    },
+  });
+}
+function uploadedFilter()
+{  console.log(JSON.stringify(zerosandpoles));
+  $.ajax({
+    url: "/importFilter",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(null),
+    success: function (response) {
+      dict_data = JSON.parse(response);
+
+      zeros       = dict_data.zeros;
+      poles       = dict_data.poles;
+
+      // console.log("new_filter");
+      // console.log(zeros,poles);
+
+    },
+  }); 
+}
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
     {
@@ -344,5 +398,6 @@ function signal_choice()
   }
   else{
     //IMPORTED SIGNAL
+    drawUploaded();
   }
 }
