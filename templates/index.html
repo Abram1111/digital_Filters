@@ -129,7 +129,7 @@
         <!-- <label>Upload Signal</label> -->
         <div class="column">
             <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="uploaded_filter" onchange="upload_signal()" />
+                <input type="file" name="uploaded_filter" onchange="upload_filter()" />
                 <!-- <input type="submit" /> -->
             </form>
 
@@ -139,8 +139,8 @@
             </button>
 
             <!-- <label>Upload Signal</label> -->
-            <form action="http://localhost:5000/importSignal" method="POST" enctype="multipart/form-data">
-                <input type="file" name="uploaded_signal" />
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="uploaded_signal" onchange="upload_signal()" />
                 <input type="submit" />
             </form>
         </div>

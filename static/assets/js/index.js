@@ -552,4 +552,10 @@ function signal_choice()
   }
 }
 
-function upload_signal(){}
+function upload_filter() {
+}
+
+function upload_signal() {
+  const curFiles2 = upload_btn2.files;
+  console.log(curFiles2);
+}
