@@ -117,7 +117,13 @@ class Filters:
         self.poles=self.zeros+poles
         self.update_graph()
 
-        
+    def allpass(self,coefficents):
+        for coeffient in coefficents:
+            w, h =signal.freqz([-np.conj(coeffient), 1.0], [1.0, -coeffient])
+            # w, h = signal.freqz([-a, 1.0], [1.0, -a])
+            angles = np.zeros(512) if coeffient==1 else np.unwrap(np.angle(h))
+            # w, angles = phaseResponse(coeffient)
+            filter_angles = np.add(filter_angles, angles)
 
 # def frequencyResponse(zeros, poles, gain):
 #     w, h = scipy.signal.freqz_zpk(zeros, poles, gain)

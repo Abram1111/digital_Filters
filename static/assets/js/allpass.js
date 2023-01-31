@@ -80,6 +80,7 @@ $(document).ready(function () {
       // console.log(selectedid);
       iCnt = iCnt - 1;
       $("#btAdd").removeAttr("disabled").attr("class", "bt");
+      GetTextValue();
     }
 
     if (iCnt == 0) {
@@ -127,6 +128,18 @@ function GetTextValue() {
   console.log(filters);
   //   $(divValue).append("<p><b>Your selected values</b></p>" + values);
   //   $("body").append(divValue);
+  $.ajax({
+    url: "/allpass",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(filters),
+    success: function (response) {
+      // window.location.href = "/home";
+      // location.href = "http://127.0.0.1:5000//index.html";
+      // console.log(response)
+      // window.location.replace("http://127.0.0.1:5000//index.html");
+    },
+  });  
 }
 
 //IMAGE SLIDESHOW
