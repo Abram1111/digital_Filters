@@ -49,7 +49,7 @@ class Filters:
                     y_n[j] += num_coeff[m]*self.input_signal[j-m] 
                 for k in np.arange(1,len(deno_coeff)-1):
                     y_n[j] += - deno_coeff[k]* self.input_signal[j-k]
-                y_n[j]=abs(y_n[j])
+                y_n[j]=np.real(y_n[j])
         self.output_signal=   y_n   
         export_data1 = pd.DataFrame( {
                             'in':self.input_signal,})

@@ -14,8 +14,8 @@ obj1 =Filters([(0+0j)],[(0+0j)])
 @app.route("/", methods=["GET", "POST"])
 def index():
     print('hello')
-    return render_template('allpass.html')
-    # return render_template('index.html')
+    # return render_template('allpass.html')
+    return render_template('index.html')
 
 @app.route("/unitcircle", methods=["GET", "POST"])
 def unitcircle():

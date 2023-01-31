@@ -1,106 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../static/assets/css/style.css">
-    <meta charset="UTF-8">
-    <title>Filters </title>
-    <style>
+    <link rel="stylesheet" href="../static/assets/css/style.css" />
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Filters</title>
+    <style></style>
+  </head>
 
-    </style>
-
-</head>
-
-<body>
+  <body>
     <!--Unit circle with zero, pole, remove and conjugate features-->
     <div class="contaner">
-        <div class="first_col">
-            <div style="background-color: #d3d3d3; width: 260px;border-radius: 1.5rem;padding: 10px; height: 350px; ">
-                <div class="smile-rating-container">
-                    <div class="smile-rating-toggle-container">
-                        <form class="submit-rating">
-                            <input id="zero" name="satisfaction" type="radio" checked />
-                            <input id="pole" name="satisfaction" type="radio" />
-                            <label for="zero" class="rating-label rating-label-meh">zero</label>
-                            <div class="smile-rating-toggle"></div>
-                            <div class="toggle-rating-pill"></div>
-                            <label for="pole" class="rating-label rating-label-fun">pole</label>
-                        </form>
-                    </div>
-                </div>
-                <div id="circle">
-                    <div class='line' id="vertical"></div>
-                    <div class="line" id="horizontal"></div>
-                </div>
-                <div
-                    style="display: flex;flex-wrap: nowrap; justify-content: center; align-items: center; margin-top: 10px;">
-                    <div class="checkbox-wrapper-55" style="display: inline;">
-                        <label class="rocker rocker-small">
-                            <input type="checkbox" id="remove">
-                            <span class="switch-left">Yes</span>
-                            <span class="switch-right">No</span>
-                        </label>
-                    </div>
-                    <div class="remove_label">
-                        <p style="display:inline ;">Remove</p>
-                    </div>
-                    <div style="display: flex;flex-wrap: nowrap; justify-content: center; align-items: center;">
-                        <div class="checkbox-wrapper-55" style="display: inline;">
-                            <label class="rocker rocker-small">
-                                <input type="checkbox" id="conj">
-                                <span class="switch-left">Yes</span>
-                                <span class="switch-right">No</span>
-                            </label>
-                        </div>
-                        <div class="remove_label">
-                            <p style="display:inline ;">Conjugate</p>
-                        </div>
-                    </div>
-                </div>
-
+      <div class="first_col">
+        <div
+          style="
+            background-color: #d3d3d3;
+            width: 260px;
+            border-radius: 1.5rem;
+            padding: 10px;
+            height: 350px;
+          "
+        >
+          <div class="smile-rating-container">
+            <div class="smile-rating-toggle-container">
+              <form class="submit-rating">
+                <input id="zero" name="satisfaction" type="radio" checked />
+                <input id="pole" name="satisfaction" type="radio" />
+                <label for="zero" class="rating-label rating-label-meh"
+                  >zero</label
+                >
+                <div class="smile-rating-toggle"></div>
+                <div class="toggle-rating-pill"></div>
+                <label for="pole" class="rating-label rating-label-fun"
+                  >pole</label
+                >
+              </form>
             </div>
-
-            
-            <div id="plot1"></div>
-            <div id="plot2"></div>
-
+          </div>
+          <div id="circle">
+            <div class="line" id="vertical"></div>
+            <div class="line" id="horizontal"></div>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-wrap: nowrap;
+              justify-content: center;
+              align-items: center;
+              margin-top: 10px;
+            "
+          >
+            <div class="checkbox-wrapper-55" style="display: inline">
+              <label class="rocker rocker-small">
+                <input type="checkbox" id="remove" />
+                <span class="switch-left">Yes</span>
+                <span class="switch-right">No</span>
+              </label>
+            </div>
+            <div class="remove_label">
+              <p style="display: inline">Remove</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div class="checkbox-wrapper-55" style="display: inline">
+                <label class="rocker rocker-small">
+                  <input type="checkbox" id="conj" />
+                  <span class="switch-left">Yes</span>
+                  <span class="switch-right">No</span>
+                </label>
+              </div>
+              <div class="remove_label">
+                <p style="display: inline">Conjugate</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="second_col">
-            <div id="track_pad"></div>
-            <div id="plot"></div>
-            <div id="out_plot"></div>
-            <div class="back"></div>
-            <div class="back2"></div>
+
+        <div id="plot1"></div>
+        <div id="plot2"></div>
+      </div>
+
+      <!-- <div class="selector_signal" id="Signal">
+        <div>
+          <input type="radio" name="ip-signal" value="0" id="ip_signal" />
+          <label for="ip_signal">Track Pad</label>
         </div>
+        <div>
+          <input
+            type="radio"
+            name="import-signal"
+            id="import_signal"
+            value="1"
+          />
+          <label for="img2_phase">Imported Signal</label>
+        </div>
+      </div> -->
+
+      <form>
+        <label class="radio-inline" id="Signal">
+          <input type="radio" name="Signal-choice" value="0"  id="ip_signal" onclick="signal_choice();"  />Track Pad
+        </label>
+        <label class="radio-inline">
+          <input type="radio"name="Signal-choice" value="1"  id="import_signal" onclick="signal_choice();" />Imported Signal
+        </label>
+      </form>
+
+      <div class="second_col">
+        <div id="track_pad"></div>
+        <div id="plot"></div>
+        <div id="out_plot"></div>
+        <div class="back"></div>
+        <div class="back2"></div>
+      </div>
     </div>
+
     <div class="column">
+      <!-- <label>Upload Signal</label> -->
+      <div class="column">
+        <form
+          action="http://localhost:5000/importFilter"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input type="file" name="uploaded_filter" />
+          <input type="submit" />
+        </form>
+
+        <button>
+          <a
+            style="text-decoration: none"
+            href="static/assets/data/Zeros_poles.csv"
+            download
+          >
+            Export Filter</a
+          >
+        </button>
+
         <!-- <label>Upload Signal</label> -->
-        <div class="column">
-            <form action="http://localhost:5000/importFilter" method="POST" enctype="multipart/form-data">
-                <input type="file" name="uploaded_filter" />
-                <input type="submit" />
-            </form>
-            <button>
+        <form
+          action="http://localhost:5000/importSignal"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input type="file" name="uploaded_signal" />
+          <input type="submit" />
+        </form>
+      </div>
+    </div>
 
-                <button>
-                    <a style="text-decoration:none" href="static/assets/data/Zeros_poles.csv" download> Export
-                        Filter</a>
-                </button>
+    <!-- <script src="../static/assets/js/graph.js"></script> -->
+        <script src="../static/assets/js/index.js"></script>
 
-                <!-- <label>Upload Signal</label> -->
-                <form action="http://localhost:5000/importSignal" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="uploaded_signal" />
-                    <input type="submit" />
-                </form>
-
-
-
-        </div>
-        <script src="../static/assets/js/graph.js"></script>
-</body>
-<script src="../static/assets/js/TEST.js"></script>
-
-
+  </body>
+  <!-- <script src="../static/assets/js/TEST.js"></script> -->
 </html>
