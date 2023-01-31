@@ -66,8 +66,31 @@
 
 #plot1,
 #plot2 {
-    width: 600px;
-    height: 300px;
+    width: 620px;
+    height: 270px;
+    margin-left: -40px;
+
+}
+
+#plot2 {
+    /* margin-top: -10px; */
+    margin-left: -50px;
+}
+
+#plot1 {
+    margin-top: 30px;
+    height: 320px;
+}
+
+.controls {
+    /* position: relative; */
+    margin-top: -15px;
+    margin-left: 15px;
+    background-color: #d3d3d3;
+    width: 250px;
+    border-radius: 1.5rem;
+    padding: 20px;
+    height: 270px;
 
 }
 
@@ -76,11 +99,13 @@
     background-color: #d3d3d3;
     border-radius: 1.5rem;
     padding: 10px;
+    width: 98%;
+    margin: auto;
     /* padding-top: 10px; */
 }
 
 .first_col {
-    width: 900px;
+    width: 65%;
     height: 700px;
     display: flex;
     flex-wrap: wrap;
@@ -94,7 +119,7 @@
 
 .second_col {
     display: inline;
-    width: 500px;
+    width: 35%;
     height: 700px;
     /* overflow: hidden; */
     background-color: #9b9b9b76;
@@ -112,11 +137,46 @@
     border-radius: 1.5rem;
     left: 1000px;
     top: 250px;
-    border: 10px solid #9b9b9b76;
+    border: 10px solid #d3d3d3;
 }
 
 .back2 {
     top: 500px;
+}
+
+
+.back3 {
+    width: 570px;
+    height: 350px;
+    z-index: 3;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 1.5rem;
+    left: 350px;
+    top: 40px;
+    border: 10px solid #d3d3d3;
+
+
+}
+
+.back4 {
+    width: 570px;
+    height: 290px;
+    z-index: 3;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 1.5rem;
+    left: 40px;
+    top: 420px;
+    border: 10px solid #d3d3d3;
+}
+
+.radio-inline {
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    width: 150px;
 }
 
 #circle {
@@ -126,6 +186,10 @@
     border-radius: 50%;
     border: 3px black solid;
     z-index: 10;
+}
+
+#ip_signal:checked {
+    background-color: red;
 }
 
 .smile-rating-container {
@@ -225,17 +289,7 @@ Toggle Changes
     left: 105px;
 }
 
-/* 
-.back3 {
-    width: 200px;
-    height: 500px;
-    z-index: 1;
-    background-color: white;
-    position: absolute;
-    border-radius: 1.5rem;
-    left: 100px;
-    top: 5px;
-} */
+
 .checkbox-wrapper-55 input[type="checkbox"] {
     visibility: hidden;
     display: none;
