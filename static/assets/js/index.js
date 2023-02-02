@@ -570,15 +570,14 @@ function upload_filter()
     url: "/importFilter",
     type: "POST",
     method: "POST",
-    data: sig_data,
+    data: filter_data,
     enctype: "multipart/form-data",
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data)
-     {
+    success: function (data) {
       signal_choice();
-     },
+    },
   });
 
 }
