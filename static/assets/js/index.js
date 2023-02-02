@@ -575,7 +575,10 @@ function upload_filter()
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data) {},
+    success: function (data)
+     {
+      signal_choice();
+     },
   });
 
 }
@@ -598,7 +601,10 @@ function upload_signal() {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data) {},
+    success: function (data) 
+    {
+      signal_choice();
+    },
   });
   // ev.preventDefault();
   // const upload_btn = document.getElementById("uploaded_filter");
