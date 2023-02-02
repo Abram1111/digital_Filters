@@ -108,18 +108,31 @@ class Filters:
     def upload_filter(self,filename): 
         data = pd.read_csv(filename, delimiter= ',')
 
-        zeros=data['zeros'].tolist()
+        zeros     =data['zeros'].tolist()
+        zeros_real=data['zeros'].tolist()
+        zeros_img =data['zeros'].tolist()
         for index in np.arange(0,len(zeros)):
                 zeros[index]=complex(zeros[index])
-        poles=data['poles'].tolist()
+                zeros_real[index]=np.real(zeros[index])
+                zeros_img[index]=np.imag(zeros[index])
+
+        poles     =data['poles'].tolist()
+        poles_real=data['poles'].tolist()
+        poles_img =data['poles'].tolist()
+
         for index in np.arange(0,len(poles)):
                 poles[index]=complex(poles[index])
+                poles_real[index]=np.real(zeros[index])
+                poles_img[index]=np.imag(zeros[index])
+
         self.uploaded_zeros=zeros
         self.uploaded_poles=poles
 
         self.zeros=self.zeros+zeros
         self.poles=self.zeros+poles
         self.update_graph()
+
+        return zeros_real,zeros_img,poles_real,poles_img
 
     def allpass(self,coefficents):
         filter_angles = np.zeros(512)

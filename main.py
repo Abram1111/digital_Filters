@@ -59,18 +59,24 @@ def allpass():
 @app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
     if request.method == 'POST':
+        print('*********************')
 
-        filter_file1 = request.files['uploaded_filter']
-        filter_file1.save(secure_filename('uploaded_filter.csv'))
-        obj1.upload_filter('uploaded_filter.csv')
+        isthisFile = request.files.get('filter')
+        isthisFile.save(isthisFile.filename)
 
-        obj1.input_output_signals(obj1.input_signal)
+        zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
 
         response_data = {
-        'uploaded_zeros'       : str(obj1.uploaded_zeros),
-        'uploaded_poles'       : str(obj1.uploaded_poles),
+        'zeros_real'       : zeros_real,
+        'zeros_img'        : zeros_img,
+        'poles_real'       : poles_real,
+        'poles_img'        : poles_img
+
             }
         return jsonify(response_data)
+ 
+
+
 
     # return render_template('index.html')
 
@@ -78,23 +84,14 @@ def import_filter():
 def import_Signal():
     print('*********************')
     isthisFile = request.files.get('signal')
-    print(isthisFile)
-    print(isthisFile.filename)
     isthisFile.save(isthisFile.filename)
-    # return '  '
-
-    # if request.method == 'POST':
 
     zerosAndPoles   = json.loads(request.data)
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
-
     obj1.update_zerosAndPoles(zeros,poles)
 
-    signal_file2 = request.files['uploaded_signal']
-    signal_file2.save(secure_filename('uploaded_signal.csv'))
-    obj1.upload_signal('uploaded_signal.csv')
-
+    obj1.upload_signal(isthisFile.filename)
     obj1.input_output_signals(obj1.input_signal)
 
     response_data = json.dumps({

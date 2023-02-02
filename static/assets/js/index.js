@@ -238,7 +238,7 @@ makePlotly_trackpad(
   "out_plot",
   "output"
 );
-plotFromCSV();
+// plotFromCSV();
 
 
 // button.onclick = function() {remove = 1;}
@@ -557,7 +557,27 @@ function signal_choice()
   }
 }
 
-function upload_filter() {
+function upload_filter()
+ {
+  var fiter_form = document.forms.namedItem("filter_upload");
+  var filter_data = new FormData(fiter_form);
+  filter_data.append("filter", $("#uploaded_filter")[0].files[0]);
+  for (var p of filter_data) {
+    console.log(1)
+    console.log(p); // <- logs image in oData correctly
+  }
+  $.ajax({
+    url: "/importFilter",
+    type: "POST",
+    method: "POST",
+    data: sig_data,
+    enctype: "multipart/form-data",
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data) {},
+  });
+
 }
 
 function upload_signal() {
