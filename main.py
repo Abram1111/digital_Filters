@@ -76,28 +76,34 @@ def import_filter():
 
 @app.route("/importSignal", methods=["GET", "POST"])
 def import_Signal():
+    print('*********************')
+    isthisFile = request.files.get('signal')
+    print(isthisFile)
+    print(isthisFile.filename)
+    isthisFile.save(isthisFile.filename)
+    # return '  '
 
-    if request.method == 'POST':
+    # if request.method == 'POST':
 
-        zerosAndPoles   = json.loads(request.data)
-        zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
-        poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
+    zerosAndPoles   = json.loads(request.data)
+    zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
+    poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
 
-        obj1.update_zerosAndPoles(zeros,poles)
+    obj1.update_zerosAndPoles(zeros,poles)
 
-        signal_file2 = request.files['uploaded_signal']
-        signal_file2.save(secure_filename('uploaded_signal.csv'))
-        obj1.upload_signal('uploaded_signal.csv')
+    signal_file2 = request.files['uploaded_signal']
+    signal_file2.save(secure_filename('uploaded_signal.csv'))
+    obj1.upload_signal('uploaded_signal.csv')
 
-        obj1.input_output_signals(obj1.input_signal)
+    obj1.input_output_signals(obj1.input_signal)
 
-        response_data = json.dumps({
-            'frequency' : list(obj1.frequencies),
-            'mag'       : list(obj1.magnitud_response),
-            'phase'     : list(obj1.phase_response),
-            'output_signal':list(obj1.output_signal)
-        })
-        return jsonify(response_data)
+    response_data = json.dumps({
+        'frequency' : list(obj1.frequencies),
+        'mag'       : list(obj1.magnitud_response),
+        'phase'     : list(obj1.phase_response),
+        'output_signal':list(obj1.output_signal)
+    })
+    return jsonify(response_data)
 
 if __name__ == "__main__":
     

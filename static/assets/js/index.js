@@ -556,6 +556,34 @@ function upload_filter() {
 }
 
 function upload_signal() {
-  const curFiles2 = upload_btn2.files;
-  console.log(curFiles2);
+
+  var sig_form = document.forms.namedItem("signal_upload");
+  var sig_data = new FormData(sig_form);
+  sig_data.append("signal", $("#uploaded_sig")[0].files[0]);
+  for (var p of sig_data) {
+    console.log(1)
+    console.log(p); // <- logs image in oData correctly
+  }
+  $.ajax({
+    url: "/importSignal",
+    type: "POST",
+    method: "POST",
+    data: sig_data,
+    enctype: "multipart/form-data",
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data) {},
+  });
+  // ev.preventDefault();
+  // const upload_btn = document.getElementById("uploaded_filter");
+  // const curFiles2 = upload_btn.files;
+  // // file_name2 = curFiles2[0].name;
+  // // console.log(curFiles2[0].name);
+  // $.ajax({
+  //   url: "/importFilter",
+  //   type: "POST",
+  //   contentType: "application/json",
+  //   data: JSON.stringify(curFiles2[0].name),
+  // }); 
 }
