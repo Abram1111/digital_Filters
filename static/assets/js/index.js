@@ -27,7 +27,8 @@ const CSV = "../static/assets/data/magAndPhase.csv";
 
 
 function drawTrackPad() {
-  var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': y_value };
+  // var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': y_value };
+  var zerospoles = { 'zeros': zerosUpdated , 'poles': polesUpdated , 'input': y_value };
   console.log(JSON.stringify(zerospoles));
   $.ajax({
     url: "/unitcircle",
@@ -67,7 +68,8 @@ function drawTrackPad() {
 }
 
 function drawUploaded() {
-  var zerosandpoles = { 'zeros': zeros , 'poles': poles };
+  // var zerosandpoles = { 'zeros': zeros , 'poles': poles };
+  var zerosandpoles = { 'zeros': zerosUpdated , 'poles': polesUpdated };
   console.log(JSON.stringify(zerosandpoles));
   $.ajax({
     url: "/importSignal",
@@ -394,12 +396,15 @@ function delet_element(div) {
         if(i<zeros.length){
             if(zeros[i].id == ID){
                 zeros.splice(i, 1);
+                zerosUpdated.splice(i, 1);
+                // id_conter = i;
                 z = {};
             }
         }
         if(i<poles.length){
                 if(poles[i].id == ID){
                     poles.splice(i, 1);
+                    polesUpdated.splice(i, 1);
                     p = {};
                 }
             }
