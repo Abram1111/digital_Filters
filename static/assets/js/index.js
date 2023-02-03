@@ -45,8 +45,8 @@ function drawTrackPad() {
       output_signal = dict_data.output_signal;
 
       console.log("new");
-      makePlotly_trackpad(frequency, mag, [0, 1], null, "plot1", "Magntuide");
-      makePlotly_trackpad(frequency, phase, [0, 1], null, "plot2", "Phase");
+      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+      makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
 
       makePlotly_trackpad(
         x_value,
@@ -86,8 +86,8 @@ function drawUploaded() {
       output_signal = dict_data.output_signal;
 
       console.log("new");
-      makePlotly_trackpad(frequency, mag, [0, 1], null, "plot1", "Magntuide");
-      makePlotly_trackpad(frequency, phase, [0, 1], null, "plot2", "Phase");
+      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+      makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
 
       makePlotly_trackpad(
         x_value,
@@ -221,8 +221,8 @@ function processData(allRows) {
     i += 1;
   }
 
-  makePlotly_trackpad(x, y1, [0, 1], null, "plot1", "Magnitude response");
-  makePlotly_trackpad(x, y2, [0, 1], null, "plot2", "Phase response");
+  makePlotly_trackpad(x, y1, [0, 3.15], null, "plot1", "Magnitude response");
+  makePlotly_trackpad(x, y2, [0, 3.15], null, "plot2", "Phase response");
 }
 
 

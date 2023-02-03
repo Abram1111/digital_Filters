@@ -26,6 +26,11 @@ def unitcircle():
     zerosAndPoles   = json.loads(request.data)
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
+    
+    print('zeros')
+    print(zeros)
+    print('poles')
+    print(poles)
     obj1.update_zerosAndPoles(zeros,poles)
     obj1.input_output_signals(zerosAndPoles['input'])
 

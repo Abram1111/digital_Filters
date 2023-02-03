@@ -30,15 +30,18 @@ class Filters:
         counter=0      
         complexNumbers   = [0]*len(number)
         conjugateNumbers = [0]*len(number)
-        for i in np.arange(0,len(number)-1):
-            x = float(number[i]["X"])/250
-            y = float(number[i]["Y"])/250
-            complexNumbers[i] = x+ y*1j
+
+        for i in np.arange(0,len(number)):
+            x = float(number[i]["X"])
+            y = float(number[i]["Y"])
+            complexNumbers[i] =complex( x+ y*1j)
             if number[i]['conjugate'] == True :
                 conjugateNumbers[counter]= complexNumbers[i]
                 counter+=1
         conjugateNumbers = [i for i in conjugateNumbers if i != 0]
         complexNumbers=complexNumbers+conjugateNumbers
+        print('complex numbers')
+        print(complexNumbers)
         return complexNumbers
 
     def applying_filter(self):
