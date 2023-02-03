@@ -26,11 +26,7 @@ def unitcircle():
     zerosAndPoles   = json.loads(request.data)
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
-    
-    print('zeros')
-    print(zeros)
-    print('poles')
-    print(poles)
+
     obj1.update_zerosAndPoles(zeros,poles)
     obj1.input_output_signals(zerosAndPoles['input'])
 
@@ -80,18 +76,15 @@ def import_filter():
             }
         return jsonify(response_data)
  
-
-
-
-    # return render_template('index.html')
-
 @app.route("/importSignal", methods=["GET", "POST"])
 def import_Signal():
+
     print('*********************')
-    isthisFile = request.files.get('signal')
+    isthisFile  = request.files.get('signal')
     isthisFile.save(isthisFile.filename)
 
     zerosAndPoles   = json.loads(request.data)
+
     zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
     poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
     obj1.update_zerosAndPoles(zeros,poles)
@@ -100,11 +93,15 @@ def import_Signal():
     obj1.input_output_signals(obj1.input_signal)
 
     response_data = json.dumps({
-        'frequency' : list(obj1.frequencies),
-        'mag'       : list(obj1.magnitud_response),
-        'phase'     : list(obj1.phase_response),
-        'output_signal':list(obj1.output_signal)
-    })
+        'frequency'    : list(obj1.frequencies),
+        'mag'          : list(obj1.magnitud_response),
+        'phase'        : list(obj1.phase_response),
+        'output_signal':list(obj1.output_signal),
+        'input_signal' :list(obj1.uploaded_signal_y) ,
+        'x_axis'       :list(obj1.uploaded_signal_x) 
+    
+        })
+
     return jsonify(response_data)
 
 if __name__ == "__main__":

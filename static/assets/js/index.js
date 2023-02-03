@@ -53,7 +53,7 @@ function drawTrackPad() {
         x_value,
         y_value,
         [x_length, x_length + 300],
-        [0, 200],
+        null,
         "plot",
         "input"
       );
@@ -61,7 +61,7 @@ function drawTrackPad() {
         x_value,
         output_signal,
         [x_length, x_length + 300],
-        [0, 200],
+        null,
         "out_plot",
         "output"
       );
@@ -94,7 +94,7 @@ function drawUploaded() {
         x_value,
         y_value,
         [x_length, x_length + 300],
-        [0, 200],
+        null,
         "plot",
         "input"
       );
@@ -102,7 +102,7 @@ function drawUploaded() {
         x_value,
         output_signal,
         [x_length, x_length + 300],
-        [0, 200],
+        null,
         "out_plot",
         "output"
       );

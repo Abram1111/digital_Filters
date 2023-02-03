@@ -13,9 +13,10 @@ class Filters:
     uploaded_zeros=[]
     uploaded_poles=[]
     # signal
-    uploaded_signal=[[],[],[]]
-    input_signal=[[],[],[]]
-    output_signal=[[],[],[]]
+    uploaded_signal_x=[]
+    uploaded_signal_y=[]
+    input_signal=[]
+    output_signal=[]
     # graph
     frequencies=[]
     magnitud_response=[]
@@ -40,39 +41,51 @@ class Filters:
                 counter+=1
         conjugateNumbers = [i for i in conjugateNumbers if i != 0]
         complexNumbers=complexNumbers+conjugateNumbers
-        print('complex numbers')
-        print(complexNumbers)
+
         return complexNumbers
 
     def applying_filter(self):
+        # transfet function coefficients
         num_coeff,deno_coeff=scipy.signal.zpk2tf(self.zeros, self.poles, 1)
+        # calc output signal
         y_n=[]
         if(len(self.input_signal)>max(len(num_coeff),len(deno_coeff))):
+
             y_n=[0]*(len(self.input_signal)-max(len(num_coeff),len(deno_coeff)))
+
             for j in  np.arange(0,len(self.input_signal)-max(len(num_coeff),len(deno_coeff))):
                 y_n[j] = num_coeff[0]*self.input_signal[j]
-                for m in np.arange(1,len(num_coeff)-1):
+                # past readings
+                for m in np.arange(1,len(num_coeff)):
                     y_n[j] += num_coeff[m]*self.input_signal[j-m] 
-                for k in np.arange(1,len(deno_coeff)-1):
-                    y_n[j] += - deno_coeff[k]* self.input_signal[j-k]
-                y_n[j]=np.real(y_n[j])
-        self.output_signal=   y_n   
+                # past outputs
+                
+                for k in np.arange(1,len(deno_coeff)):
+                    y_n[j] += - deno_coeff[k]*y_n[j-k]
+
+                y_n[j]=np.abs(y_n[j])
+
+        self.output_signal=   y_n  
+
         export_data1 = pd.DataFrame( {
                             'in':self.input_signal,})
         export_data2 =  pd.DataFrame({
                             'out':self.output_signal,})
         temp=pd.concat([export_data1, export_data2], axis=1)
         df = pd.DataFrame(temp)
-        df.to_csv("static/assets/data/inputOutput.csv")               
+        df.to_csv("static/assets/data/inputOutput.csv")   
+        print( self.output_signal)
             
     def upload_signal(self,filename):
         data = pd.read_csv(filename, delimiter= ',')
-        self.uploaded_signal[0]=data['time'].tolist()
-        self.uploaded_signal[1]=data['amp'].tolist()
+        self.uploaded_signal_x=data['time'].tolist()
+        self.uploaded_signal_y=data['amp'].tolist()
 
     def input_output_signals(self,input):
         self.input_signal=list(np.float_(input))
         self.applying_filter()
+        print( self.input_signal)
+
 
 # Filter Functions
     def update_zerosAndPoles(self,zeros,poles):
@@ -81,8 +94,6 @@ class Filters:
         self.update_graph()
 
     def update_graph (self):
-        print(self.zeros)
-        print(self.poles)
 
         w, h = signal.freqz_zpk(self.zeros,self.poles, 1)
         self.frequencies =w
