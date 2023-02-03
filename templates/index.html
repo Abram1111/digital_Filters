@@ -88,11 +88,11 @@
                             checked>
                         <input type="radio" name="Signal-choice" value="1" id="import_signal"
                             onclick="signal_choice();">
-                        <label for="ip_signal" class="option option-1">
+                        <label for="ip_signal" class="option option-1" id="track_pad_check">
                             <div class="dot"></div>
                             <span>TrackPad</span>
                         </label>
-                        <label for="import_signal" class="option option-2">
+                        <label for="import_signal" class="option option-2" id="import_sig_label">
                             <div class="dot"></div>
                             <span>Importe </span>
                         </label>
@@ -104,7 +104,6 @@
                 </div>
                 <button>phase correct</button>
                 <div class="filter">
-                    <!-- <p></p> -->
                     <form method="POST" enctype="multipart/form-data" id="filter_upload">
                         <input type="file" name="uploaded_filter" id="uploaded_filter" onchange="upload_filter()" />
                         <button id="custom_btn">upload filter</button>
