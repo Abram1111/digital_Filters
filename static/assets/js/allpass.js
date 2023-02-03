@@ -1,7 +1,7 @@
 let ids = [];
 let selectedid = 0;
 let filters = [];
-let inputval='';
+let inputval = '';
 
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
@@ -53,13 +53,13 @@ $(document).ready(function () {
   // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
   var container = $(document.createElement("div")).css({
     padding: "5px",
-    margin: "20px",
-    width: "170px",
-    border: "1px dashed",
-    borderTopColor: "#999",
-    borderBottomColor: "#999",
-    borderLeftColor: "#999",
-    borderRightColor: "#999",
+    width: "98%",
+    margin: "auto",
+    "background-color": "#080a49f1",
+    "margin-top": "-200px",
+    "border-radius": ".5rem"
+
+
   });
   function addValue() {
     // console.log(inputval);
@@ -67,22 +67,22 @@ $(document).ready(function () {
       iCnt = iCnt + 1;
 
       // ADD TEXTBOX.
-      if(inputval==""){
+      if (inputval == "") {
         $(container).append(
           '<input type=text class="input" id=tb' +
-            iCnt +
-            " " +
-            'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" />'
+          iCnt +
+          " " +
+          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" />'
         );
       }
-      else{
+      else {
         $(container).append(
           '<input type=text class="input" id=tb' +
-            iCnt +
-            " " +
-            "value=" +
-            inputval +
-            ' onfocus="myFunction()" onchange="GetTextValue()" />'
+          iCnt +
+          " " +
+          "value=" +
+          inputval +
+          ' onfocus="myFunction()" onchange="GetTextValue()" />'
         );
       }
       ids.push("tb" + iCnt);
@@ -91,8 +91,8 @@ $(document).ready(function () {
         var divSubmit = $(document.createElement("div"));
         $(divSubmit).append(
           '<input type=button class="bt" ' +
-            'onclick="GetTextValue()"' +
-            "id=btSubmit value=Submit style='display:none;' />"
+          'onclick="GetTextValue()"' +
+          "id=btSubmit value=Submit style='display:none;' />"
         );
         // $("#btSubmit").remove();
         // return id;
@@ -180,7 +180,7 @@ function GetTextValue() {
       console.log(dict_data["phase"]);
       makePlotly_trackpad(dict_data["frequency"], dict_data["phase"], null, null, "allpass", "Allpass");
     },
-  }); 
+  });
 }
 
 //IMAGE SLIDESHOW
@@ -190,7 +190,7 @@ function image_choice(x) {
   // console.log(val);
   // console.log(filters);
   // addValue()
-  inputval=x;
+  inputval = x;
   $("#btAdd").click();
   inputval = '';
 }
@@ -237,7 +237,7 @@ function myFunction() {
 
 function change() {
   console.log("change");
-  
+
 }
 /******************************************************* */
 /**********************Graph**************************** */
@@ -247,6 +247,6 @@ function change() {
 // makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "allpass", "input");
 // makePlotly_trackpad(x_value, y_value, [x_length, x_length + 300], [0, 200], "total-phase", "output");
 
-makePlotly_trackpad([0,1,2,3,4,4], [0,1,2,3,4,4], null, null, "allpass", "input");
-makePlotly_trackpad([0,1,2,3,4,4], [0,1,2,3,4,4], null, null, "total-phase", "output");
+makePlotly_trackpad([0, 1, 2, 3, 4, 4], [0, 1, 2, 3, 4, 4], null, null, "allpass", "input");
+makePlotly_trackpad([0, 1, 2, 3, 4, 4], [0, 1, 2, 3, 4, 4], null, null, "total-phase", "output");
 // console.log(CSV)

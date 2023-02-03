@@ -174,7 +174,7 @@ pad.addEventListener("mousemove", function (e) {
   if (track_pad_avilable) {
     i++;
     x_value.push(i);
-    y_value.push(100 - (e.y - 40) + 100);
+    y_value.push(100 - (e.y - 30) + 100);
     if (i > 300) {
       x_length = i - 300;
     }
@@ -389,111 +389,107 @@ makePlotly_trackpad(
 function delet_element(div) {
   // console.log(div.id)
   if (document.getElementById('remove').checked) {
-      let div_zero = document.getElementById(div.id);
-      div_zero.style = "display:none"
-      // remove = 0;
+    let div_zero = document.getElementById(div.id);
+    div_zero.style = "display:none"
+    // remove = 0;
   }
   let ID = div.id;
   // console.log(zeros.length);
-  for(var i = 0 ;i<Math.max(zeros.length, poles.length);i++){
-  // console.log(i);
-      if(i<zeros.length){
-          console.log("in");
-          console.log(div.id);
-          if(zeros[i].id == ID){
-              console.log("before");
-              zeros.splice(i, 1);
-              console.log(zerosUpdated);
-              zerosUpdated.splice(i, 1);
-              console.log(zerosUpdated);
-              z = {};
-          }
+  for (var i = 0; i < Math.max(zeros.length, poles.length); i++) {
+    // console.log(i);
+    if (i < zeros.length) {
+      console.log("in");
+      console.log(div.id);
+      if (zeros[i].id == ID) {
+        console.log("before");
+        zeros.splice(i, 1);
+        console.log(zerosUpdated);
+        zerosUpdated.splice(i, 1);
+        console.log(zerosUpdated);
+        z = {};
       }
-      if(i<poles.length){
-              if(poles[i].id == ID){
-                  poles.splice(i, 1);
-                  polesUpdated.splice(i, 1);
-                  p = {};
-              }
-          }
+    }
+    if (i < poles.length) {
+      if (poles[i].id == ID) {
+        poles.splice(i, 1);
+        polesUpdated.splice(i, 1);
+        p = {};
+      }
+    }
   }
 }
 unit_circle.addEventListener('click', function (e) {
   if (document.getElementById('remove').checked) {
-      // delet_element
+    // delet_element
   }
   else {
-      if (document.getElementById('zero').checked) {
-          z = {X:e.clientX, Y:e.clientY, id:'zero' + id_conter, conjugate:false};
-          let zero = document.createElement('div');
-          zero.setAttribute("class", "zero");
-          zero.setAttribute('onclick', 'delet_element(this)');
-          zero.setAttribute("id", 'zero' + id_conter);
-          // zero.setAttribute("ondrag", 'dragElement(this)');
-          let zid = 'zero'+id_conter;
-          zero.style = ` overflow:hidden;background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100;`
-          dragElement(zero);
-          unit_circle.appendChild(zero);
-          id_conter++;
-          zflag = true;
-      }
-      else if (document.getElementById('pole').checked) {
-          p = {X:e.clientX, Y:e.clientY, id:'pole' + polecounter, conjugate:false};
-          let pole = document.createElement('div');
-          pole.setAttribute('class', 'pole');
-          pole.setAttribute('id', 'pole' + polecounter);
-          pole.setAttribute('onclick', 'delet_element(this)');
-          pole.innerHTML = '✖';
-          pole.style = `color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY}px;left:${e.clientX}px;`
-          dragElement(pole);
-          unit_circle.appendChild(pole);
-          polecounter++;
-          pflag = true;
-      }
+    if (document.getElementById('zero').checked) {
+      z = { X: e.clientX, Y: e.clientY, id: 'zero' + id_conter, conjugate: false };
+      let zero = document.createElement('div');
+      zero.setAttribute("class", "zero");
+      zero.setAttribute('onclick', 'delet_element(this)');
+      zero.setAttribute("id", 'zero' + id_conter);
+      // zero.setAttribute("ondrag", 'dragElement(this)');
+      let zid = 'zero' + id_conter;
+      zero.style = ` overflow:hidden;background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100;`
+      dragElement(zero);
+      unit_circle.appendChild(zero);
+      id_conter++;
+      zflag = true;
+    }
+    else if (document.getElementById('pole').checked) {
+      p = { X: e.clientX, Y: e.clientY, id: 'pole' + polecounter, conjugate: false };
+      let pole = document.createElement('div');
+      pole.setAttribute('class', 'pole');
+      pole.setAttribute('id', 'pole' + polecounter);
+      pole.setAttribute('onclick', 'delet_element(this)');
+      pole.innerHTML = '✖';
+      pole.style = `color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY}px;left:${e.clientX}px;`
+      dragElement(pole);
+      unit_circle.appendChild(pole);
+      polecounter++;
+      pflag = true;
+    }
   }
   if (document.getElementById('conj').checked && !(document.getElementById('remove').checked)) {
-      if (document.getElementById('zero').checked) {
-          id_conter--;
-          z.conjugate = true;
-          let zero = document.createElement('div');
-          zero.setAttribute("class", "zero");
-          zero.setAttribute('onclick', 'delet_element(this)');
-          zero.setAttribute("id", 'zero' + id_conter + 'Conj');
-          zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px; border-radius: 50%;z-index:100`
-          dragElement(zero);
-          unit_circle.appendChild(zero);
-          id_conter++;
-      }
-      else if (document.getElementById('pole').checked) {
-          polecounter--;
-          p.conjugate = true;
-          let pole = document.createElement('div');
-          pole.setAttribute('class', 'pole');
-          pole.setAttribute('id', 'pole' + polecounter + 'Conj');
-          pole.setAttribute('onclick', 'delet_element(this)');
-          pole.innerHTML = '✖';
-          pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px;`
-          dragElement(pole);
-          unit_circle.appendChild(pole);
-          polecounter++;
-      }
+    if (document.getElementById('zero').checked) {
+      id_conter--;
+      z.conjugate = true;
+      let zero = document.createElement('div');
+      zero.setAttribute("class", "zero");
+      zero.setAttribute('onclick', 'delet_element(this)');
+      zero.setAttribute("id", 'zero' + id_conter + 'Conj');
+      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px; border-radius: 50%;z-index:100`
+      dragElement(zero);
+      unit_circle.appendChild(zero);
+      id_conter++;
+    }
+    else if (document.getElementById('pole').checked) {
+      polecounter--;
+      p.conjugate = true;
+      let pole = document.createElement('div');
+      pole.setAttribute('class', 'pole');
+      pole.setAttribute('id', 'pole' + polecounter + 'Conj');
+      pole.setAttribute('onclick', 'delet_element(this)');
+      pole.innerHTML = '✖';
+      pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px;`
+      dragElement(pole);
+      unit_circle.appendChild(pole);
+      polecounter++;
+    }
   }
-  if(zeros.length == 0 && !(JSON.stringify(z) === '{}')){zeros.push(z);}
-  else if(!(JSON.stringify(z) === '{}'))
-  {
-      if((z.X != zeros[zeros.length-1].X && z.Y != zeros[zeros.length-1].Y))
-      {
-          zeros.push(z);
-      }
+  if (zeros.length == 0 && !(JSON.stringify(z) === '{}')) { zeros.push(z); }
+  else if (!(JSON.stringify(z) === '{}')) {
+    if ((z.X != zeros[zeros.length - 1].X && z.Y != zeros[zeros.length - 1].Y)) {
+      zeros.push(z);
+    }
   }
 
-  if(poles.length == 0 && !(JSON.stringify(p) === '{}')){poles.push(p);}
-  if(!(JSON.stringify(p) === '{}'))
-  {
-      if((p.X != poles[poles.length-1].X && p.Y != poles[poles.length-1].Y))
-      {
-          poles.push(p);
-      }
+  if (poles.length == 0 && !(JSON.stringify(p) === '{}')) { poles.push(p); }
+  if (!(JSON.stringify(p) === '{}')) {
+    if ((p.X != poles[poles.length - 1].X && p.Y != poles[poles.length - 1].Y)) {
+      poles.push(p);
+    }
   }
 
   console.log(zeros);
@@ -503,36 +499,36 @@ unit_circle.addEventListener('click', function (e) {
 
 
 //{X:e.clientX, Y:e.clientY, id:'pole' + polecounter, conjugate:false};
-function NormalizeAndSend(poles, zeros){
+function NormalizeAndSend(poles, zeros) {
   let rect = unit_circle.getBoundingClientRect()
-  if(zflag){
-  zerosUpdated = [];
-  for (var i = 0; i<zeros.length;i++){
+  if (zflag) {
+    zerosUpdated = [];
+    for (var i = 0; i < zeros.length; i++) {
       // if (zeros[i].id != zerosUpdated[i].id){
-          let x = 2*(zeros[i].X - rect.left-(250.0/2.0))/250.0;
-          let y = 2*(rect.top +(250.0/2.0)-zeros[i].Y )/250.0;
-          // console.log("The edited");
-          // console.log(zeros);
-          zerosUpdated.push({X:x, Y:y, id:zeros[i].id, conjugate:zeros[i].conjugate});
+      let x = 2 * (zeros[i].X - rect.left - (250.0 / 2.0)) / 250.0;
+      let y = 2 * (rect.top + (250.0 / 2.0) - zeros[i].Y) / 250.0;
+      // console.log("The edited");
+      // console.log(zeros);
+      zerosUpdated.push({ X: x, Y: y, id: zeros[i].id, conjugate: zeros[i].conjugate });
       // }
       console.log(zerosUpdated)
+    }
+    zflag = false;
   }
-  zflag = false;
-}
-  if(pflag){
+  if (pflag) {
     polesUpdated = [];
-  for (var i = 0  ; i<poles.length;i++){
-      let x = 2*(poles[i].X - rect.left-(250.0/2.0))/250.0;
-      let y = 2*(rect.top +(250.0/2.0)-poles[i].Y)/250.0;
+    for (var i = 0; i < poles.length; i++) {
+      let x = 2 * (poles[i].X - rect.left - (250.0 / 2.0)) / 250.0;
+      let y = 2 * (rect.top + (250.0 / 2.0) - poles[i].Y) / 250.0;
       // console.log(poles)
-      polesUpdated.push({X:x, Y:y, id:poles[i].id, conjugate:poles[i].conjugate});
+      polesUpdated.push({ X: x, Y: y, id: poles[i].id, conjugate: poles[i].conjugate });
       console.log(polesUpdated);
+    }
+    pflag = false;
   }
-  pflag = false;
-}
-  zeros=[[5],[3]]
-  poles=[[2],[2]]
-drawTrackPad();
+  zeros = [[5], [3]]
+  poles = [[2], [2]]
+  drawTrackPad();
 }
 
 // console.log(id_conter+"Repeat");
@@ -543,7 +539,7 @@ function dragElement(elmnt) {
 
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    elmnt.onmousedown = dragMouseDown;
+  elmnt.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
     e = e || window.event;
@@ -569,17 +565,17 @@ function dragElement(elmnt) {
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
     let rec = unit_circle.getBoundingClientRect();
-    if(elmnt.style.top > rec.top || elmnt.style.left > rec.left){
+    if (elmnt.style.top > rec.top || elmnt.style.left > rec.left) {
       elmnt.hidden = true;
     }
   }
 
   function closeDragElement() {
     // stop moving when mouse button is released:
-    if(drag){
-          elmnt.style = "display:none";
-      }
-      drag = false;
+    if (drag) {
+      elmnt.style = "display:none";
+    }
+    drag = false;
     // }
     document.onmouseup = null;
     document.onmousemove = null;
