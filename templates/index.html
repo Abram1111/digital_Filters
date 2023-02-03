@@ -81,38 +81,47 @@
             <div id="plot2"></div>
             <div class="back4"></div>
             <div class="controls">
-                <div class="track_change" style="margin-left: 10px;">
-                    <form>
-                        <label class="radio-inline" id="Signal">
-                            <input type="radio" name="Signal-choice" value="0" id="ip_signal"
-                                onclick="signal_choice();" />TrackPad
+                <div class="signal_type">
+                    <p style="    font-size: 1.2rem;"> Signal type</p>
+                    <div class="wrapper" style="margin-left: 20px;">
+                        <input type="radio" name="Signal-choice" value="0" id="ip_signal" onclick="signal_choice();"
+                            checked>
+                        <input type="radio" name="Signal-choice" value="1" id="import_signal"
+                            onclick="signal_choice();">
+                        <label for="ip_signal" class="option option-1">
+                            <div class="dot"></div>
+                            <span>TrackPad</span>
                         </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="Signal-choice" value="1" id="import_signal"
-                                onclick="signal_choice();" />Imported Signal
+                        <label for="import_signal" class="option option-2">
+                            <div class="dot"></div>
+                            <span>Importe </span>
                         </label>
+                        <form method="POST" enctype="multipart/form-data" id="signal_upload">
+                            <input type="file" name="uploaded_signal" id="uploaded_sig" onchange="upload_signal()" />
+                            <!-- <input type="submit" /> -->
+                        </form>
+                    </div>
+                </div>
+                <button>phase correct</button>
+                <div class="filter">
+                    <!-- <p></p> -->
+                    <form method="POST" enctype="multipart/form-data" id="filter_upload">
+                        <input type="file" name="uploaded_filter" id="uploaded_filter" onchange="upload_filter()" />
+                        <button id="custom_btn">upload filter</button>
+                        <!-- <input type="submit" /> -->
                     </form>
+
+                    <button>
+                        <a style="text-decoration: none; color: white;" href="static/assets/data/Zeros_poles.csv"
+                            download>
+                            Export Filter</a>
+                    </button>
                 </div>
 
             </div>
 
         </div>
 
-        <!-- <div class="selector_signal" id="Signal">
-        <div>
-          <input type="radio" name="ip-signal" value="0" id="ip_signal" />
-          <label for="ip_signal">Track Pad</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="import-signal"
-            id="import_signal"
-            value="1"
-          />
-          <label for="img2_phase">Imported Signal</label>
-        </div>
-      </div> -->
 
 
 
@@ -124,28 +133,6 @@
             <div class="back2"></div>
         </div>
     </div>
-
-    <div class="column">
-        <!-- <label>Upload Signal</label> -->
-        <div class="column">
-            <form method="POST" enctype="multipart/form-data" id ="filter_upload">
-                <input type="file" name="uploaded_filter" id ="uploaded_filter" onchange="upload_filter()" />
-                <!-- <input type="submit" /> -->
-            </form>
-
-            <button>
-                <a style="text-decoration: none" href="static/assets/data/Zeros_poles.csv" download>
-                    Export Filter</a>
-            </button>
-
-            <!-- <label>Upload Signal</label> -->
-            <form method="POST" enctype="multipart/form-data" id ="signal_upload">
-                <input type="file" name="uploaded_signal" id="uploaded_sig" onchange="upload_signal()" />
-                <!-- <input type="submit" /> -->
-            </form>
-        </div>
-    </div>
-
     <!-- <script src="../static/assets/js/graph.js"></script> -->
     <script src="../static/assets/js/index.js"></script>
 

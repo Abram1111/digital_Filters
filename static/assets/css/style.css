@@ -135,7 +135,7 @@
     background-color: transparent;
     position: absolute;
     border-radius: 1.5rem;
-    left: 1000px;
+    left: 1018px;
     top: 250px;
     border: 10px solid #d3d3d3;
 }
@@ -188,9 +188,49 @@
     z-index: 10;
 }
 
-#ip_signal:checked {
-    background-color: red;
+.remove_label {
+    display: inline;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 5px;
 }
+
+.signal_type {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-top: -25px;
+    margin-left: -15px;
+}
+
+#signal_upload {
+    display: none;
+}
+
+button {
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 8px;
+    background-color: #080a49f1;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    width: 211px;
+    margin-left: 22px;
+}
+
+#uploaded_filter {
+    display: none;
+}
+
 
 .smile-rating-container {
     position: relative;
@@ -354,7 +394,7 @@ See .rocker-small below as example.
 .checkbox-wrapper-55 .switch-right {
     right: 0.5em;
     bottom: 0;
-    background-color: #bd5757;
+    background-color: #080a49f1;
     color: #fff;
 }
 
@@ -425,10 +465,94 @@ See .rocker-small below as example.
     color: #333;
 }
 
-.remove_label {
-    display: inline;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Roboto', sans-serif;
-    margin-top: 5px;
+@import url('https://fonts.googleapis.com/css?family=Lato:400,500,600,700&display=swap');
+
+html,
+body {
+
+    /*   background: #0069d9; */
+    font-family: 'Lato', sans-serif;
+}
+
+.wrapper {
+    display: inline-flex;
+    /*   background: #fff; */
+    height: 70px;
+    width: 200px;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    padding: 20px 15px;
+    /*   box-shadow: 5px 5px 30px rgba(0,0,0,0.2); */
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    margin-top: -25px;
+}
+
+.wrapper .option {
+    background: #fff;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 10px;
+    border: 2px solid #fff;
+    transition: all 0.3s ease;
+}
+
+.wrapper .option .dot {
+    height: 15px;
+    width: 15px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    position: relative;
+}
+
+.wrapper .option .dot::before {
+    position: absolute;
+    content: "";
+    top: 2.5px;
+    left: 2.5px;
+    width: 10px;
+    height: 10px;
+    background-color: #080a49f1;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1.5);
+    transition: all 0.3s ease;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+#ip_signal:checked:checked~.option-1,
+#import_signal:checked:checked~.option-2 {
+    border-color: #080a49f1;
+    background-color: #080a49f1;
+}
+
+#ip_signal:checked:checked~.option-1 .dot,
+#import_signal:checked:checked~.option-2 .dot {
+    background-color: #fff;
+}
+
+#ip_signal:checked:checked~.option-1 .dot::before,
+#import_signal:checked:checked~.option-2 .dot::before {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.wrapper .option span {
+    font-size: 15px;
+    color: #808080;
+}
+
+#ip_signal:checked:checked~.option-1 span,
+#import_signal:checked:checked~.option-2 span {
+    color: #fff;
 }
