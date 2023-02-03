@@ -394,11 +394,18 @@ function delet_element(div) {
       // remove = 0;
   }
   let ID = div.id;
+  // console.log(zeros.length);
   for(var i = 0 ;i<Math.max(zeros.length, poles.length);i++){
+  // console.log(i);
       if(i<zeros.length){
+          console.log("in");
+          console.log(div.id);
           if(zeros[i].id == ID){
+              console.log("before");
               zeros.splice(i, 1);
+              console.log(zerosUpdated);
               zerosUpdated.splice(i, 1);
+              console.log(zerosUpdated);
               z = {};
           }
       }
@@ -415,9 +422,6 @@ unit_circle.addEventListener('click', function (e) {
   if (document.getElementById('remove').checked) {
       // delet_element
   }
-  else if(drag){
-  drag = false;
-  }
   else {
       if (document.getElementById('zero').checked) {
           z = {X:e.clientX, Y:e.clientY, id:'zero' + id_conter, conjugate:false};
@@ -425,9 +429,10 @@ unit_circle.addEventListener('click', function (e) {
           zero.setAttribute("class", "zero");
           zero.setAttribute('onclick', 'delet_element(this)');
           zero.setAttribute("id", 'zero' + id_conter);
+          // zero.setAttribute("ondrag", 'dragElement(this)');
           let zid = 'zero'+id_conter;
           zero.style = ` overflow:hidden;background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100;`
-          dragElement(zero, unit_circle, zero.id);
+          dragElement(zero);
           unit_circle.appendChild(zero);
           id_conter++;
           zflag = true;
@@ -440,7 +445,7 @@ unit_circle.addEventListener('click', function (e) {
           pole.setAttribute('onclick', 'delet_element(this)');
           pole.innerHTML = '✖';
           pole.style = `color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY}px;left:${e.clientX}px;`
-          // dragElement(pole, unit_circle);
+          dragElement(pole);
           unit_circle.appendChild(pole);
           polecounter++;
           pflag = true;
@@ -455,7 +460,7 @@ unit_circle.addEventListener('click', function (e) {
           zero.setAttribute('onclick', 'delet_element(this)');
           zero.setAttribute("id", 'zero' + id_conter + 'Conj');
           zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px; border-radius: 50%;z-index:100`
-          // dragElement(zero, unit_circle);
+          dragElement(zero);
           unit_circle.appendChild(zero);
           id_conter++;
       }
@@ -468,7 +473,7 @@ unit_circle.addEventListener('click', function (e) {
           pole.setAttribute('onclick', 'delet_element(this)');
           pole.innerHTML = '✖';
           pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${(e.clientY + 302)}px;left:${e.clientX}px;`
-          // dragElement(pole, unit_circle);
+          dragElement(pole);
           unit_circle.appendChild(pole);
           polecounter++;
       }
@@ -492,7 +497,7 @@ unit_circle.addEventListener('click', function (e) {
   }
 
   console.log(zeros);
-  console.log(poles);
+  // console.log(poles);
   NormalizeAndSend(poles, zeros);
 });
 
@@ -500,9 +505,6 @@ unit_circle.addEventListener('click', function (e) {
 //{X:e.clientX, Y:e.clientY, id:'pole' + polecounter, conjugate:false};
 function NormalizeAndSend(poles, zeros){
   let rect = unit_circle.getBoundingClientRect()
-  // for(var i= 0 ; i<zeros.length;i++){
-  //   dragElement(document.getElementById(zeros[i].id), unit_circle, zeros[i].id);  //I need to check for dragging many divs in the same time
-  // }
   if(zflag){
   zerosUpdated = [];
   for (var i = 0; i<zeros.length;i++){
@@ -533,69 +535,56 @@ function NormalizeAndSend(poles, zeros){
 drawTrackPad();
 }
 
+// console.log(id_conter+"Repeat");
 
 
-const dragElement = (element, dragzone, id) => {
-  let pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
-  let rec = unit_circle.getBoundingClientRect();
-  // if(event.x<rec.left || event.x>rec.right || event.y<rec.top || eval.y>rec.bottom){
-  //   console.log(id)
-  //   let div_zero = document.getElementById(id);
-  //         div_zero.style = "display:none";
-  // }
-  //MouseUp occurs when the user releases the mouse button
-  const dragMouseUp = () => {
-      document.onmouseup = null;
-      //onmousemove attribute fires when the pointer is moving while it is over an element.
-      document.onmousemove = null;
 
-      element.classList.remove("drag");
-      if(drag){
-      for(var j = 0 ; j < Math.max(zeros.length, poles.length);j++){
-        if(zeros[j].id == id){
-          // delet_element(document.getElementById(id));
-          // zeros[j].id = 'zero'+zeros.length;
-          zeros.splice(j,1);
-          let div_zero = document.getElementById(id);
-          div_zero.style = "display:none";
-        }}
-      drag = false;
+function dragElement(elmnt) {
+
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+    elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+    drag = true;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    let rec = unit_circle.getBoundingClientRect();
+    if(elmnt.style.top > rec.top || elmnt.style.left > rec.left){
+      elmnt.hidden = true;
     }
-  };
+  }
 
-  const dragMouseMove = (event) => {
-
-      event.preventDefault();
-      //clientX property returns the horizontal coordinate of the mouse pointer
-      pos1 = pos3 - event.clientX;
-      //clientY property returns the vertical coordinate of the mouse pointer
-      pos2 = pos4 - event.clientY;
-      pos3 = event.clientX;
-      pos4 = event.clientY;
-      //offsetTop property returns the top position relative to the parent
-      element.style.top = `${element.offsetTop - pos2}px`;
-      element.style.left = `${element.offsetLeft - pos1}px`;
-      drag = true;
-  };
-
-  const dragMouseDown = (event) => {
-      event.preventDefault();
-
-      pos3 = event.clientX;
-      pos4 = event.clientY;
-
-      element.classList.add("drag");
-
-      document.onmouseup = dragMouseUp;
-      document.onmousemove = dragMouseMove;
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    if(drag){
+          elmnt.style = "display:none";
+      }
       drag = false;
-  };
-  dragzone.onmousedown = dragMouseDown;
-};
-
+    // }
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
 
 //  console.log(0);
 // document.getElementById("Signal").addEventListener("click", function () {
