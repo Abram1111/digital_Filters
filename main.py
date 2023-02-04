@@ -48,13 +48,16 @@ def allpass():
     coefficents=[]
     for filter in filters:
         coefficents.append(complex(filter))
-    # print(coefficents)
-    obj1.allpass(coefficents)
+    print(coefficents)
+    obj2 =Filters([(0+0j)],[(0+0j)])
+    obj2.allpass(list(coefficents))
     # print(w,h)
+    
     response_data = json.dumps({
-        'frequency' : list(obj1.frequencies),
-        'phase'     : list(obj1.allpass)
+        'frequency' : list(obj2.frequencies),
+        'phase'     : list(obj2.allpass)
     })
+        
     return jsonify(response_data)
     # obj1.allpass(filters)
     
