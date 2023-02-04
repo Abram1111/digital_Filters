@@ -46,7 +46,7 @@ let first_contaner = document.getElementById("first_contaner");
 let allpass_contaner = document.getElementById("allpass_contaner");
 phase_btn.addEventListener("click", function () {
   first_contaner.style.display = "none";
-  makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
+  // makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
   allpass_contaner.style.display = "block";
   allpass_contaner.style.top = 0;
 });
@@ -54,6 +54,7 @@ phase_btn.addEventListener("click", function () {
 
 let return_btn = document.getElementById("home");
 return_btn.addEventListener("click", function () {
+  makePlotly_trackpad(phase_frequency, phase, null, "plot2", "Phase");
   allpass_contaner.style.display = "none";
   first_contaner.style.display = "flex";
 });
@@ -775,7 +776,11 @@ function GetTextValue() {
       dict_data = JSON.parse(response);
       dict_data["frequency"];
       makePlotly_trackpad(dict_data["frequency"], dict_data["phase"], null, null, "allpass", "Allpass");
-      makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
+      phase = dict_data["phase"];;
+      phase_frequency = dict_data["frequency"];
+      makePlotly_trackpad(dict_data["frequency"], dict_data["total phase"], null, null, "total-phase", "Phase Responce");
+      makePlotly_trackpad(dict_data["frequency"], dict_data["total phase"], null, null, "plot2", "Phase");
+      
     },
   });
 }
@@ -816,4 +821,4 @@ function myFunction() {
 
 
 GetTextValue();
-makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "output");
+makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "phase_responce");

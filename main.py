@@ -35,32 +35,53 @@ def unitcircle():
     response_data = json.dumps({
         'frequency' : list(obj1.frequencies),
         'mag'       : list(obj1.magnitud_response),
-        'phase'     : list(obj1.phase_response),
+        'phase'     : list(obj1.total_phase_response),
         'output_signal':list(obj1.output_signal)
     })
     return jsonify(response_data)
 
 
+# @app.route("/allpass", methods=["GET", "POST"])
+# def allpass():
+#     # zerosAndPoles= None   
+#     filters   = json.loads(request.data)
+#     coefficents=[]
+#     for filter in filters:
+#         coefficents.append(complex(filter))
+#     print(coefficents)
+#     obj2 =Filters([(0+0j)],[(0+0j)])
+#     obj2.allpass(list(coefficents))
+#     # print(w,h)
+    
+#     response_data = json.dumps({
+#         'frequency' : list(obj2.frequencies),
+#         'phase'     : list(obj2.allpass)
+#     })
+        
+#     return jsonify(response_data)
+#     # obj1.allpass(filters)
+    
 @app.route("/allpass", methods=["GET", "POST"])
 def allpass():
     # zerosAndPoles= None   
     filters   = json.loads(request.data)
     coefficents=[]
     for filter in filters:
-        coefficents.append(complex(filter))
+        x=complex(filter)
+        coefficents.append(x)
     print(coefficents)
-    obj2 =Filters([(0+0j)],[(0+0j)])
-    obj2.allpass(list(coefficents))
+    # obj2 =Filters([(0+0j)],[(0+0j)])
+    obj1.allpass_filter(coefficents)
     # print(w,h)
     
     response_data = json.dumps({
-        'frequency' : list(obj2.frequencies),
-        'phase'     : list(obj2.allpass)
+        'frequency' : list(obj1.frequencies),
+        'phase'     : list(obj1.allpass_response),
+        'total phase':list(obj1.total_phase_response)
     })
         
     return jsonify(response_data)
     # obj1.allpass(filters)
-    
 
 @app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
@@ -106,7 +127,7 @@ def import_Signal():
     response_data = json.dumps({
         'frequency'    : list(obj1.frequencies),
         'mag'          : list(obj1.magnitud_response),
-        'phase'        : list(obj1.phase_response),
+        'phase'        : list(obj1.total_phase_response),
         'output_signal': list(obj1.output_signal),
         'input_signal' : list(obj1.input_signal) ,
         'x_axis'       : list(obj1.uploaded_signal_x) 

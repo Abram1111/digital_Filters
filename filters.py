@@ -20,8 +20,9 @@ class Filters:
     # graph
     frequencies=[]
     magnitud_response=[]
-    phase_response=[]
-    allpass_response=[]
+    phase_response=np.zeros(512)
+    allpass_response=np.zeros(512)
+    total_phase_response=[]
 
     def __init__(self, zeros , poles):
             self.update_zerosAndPoles(zeros,poles)
@@ -98,6 +99,7 @@ class Filters:
         self.frequencies =w
         self.magnitud_response=20 * np.log10(abs(h))
         self.phase_response=np.unwrap(np.angle(h))
+        self.get_total_phase()
         self.save_phaseAndMag()
 
     def save_phaseAndMag(self):
@@ -113,7 +115,7 @@ class Filters:
         ploting_data = {
             'frequency':self.frequencies,
             'mag':self.magnitud_response,
-            'phase' :self.phase_response
+            'phase' :self.total_phase_response
                 }
         df = pd.DataFrame(ploting_data)
         df.to_csv("static/assets/data/magAndPhase.csv")
@@ -147,7 +149,7 @@ class Filters:
 
         return zeros_real,zeros_img,poles_real,poles_img
 
-    def allpass(self,coefficents):
+    def allpass_filter(self,coefficents):
         # print('func')
         filter_angles = np.zeros(512)
         # print('fun')
@@ -161,7 +163,12 @@ class Filters:
             filter_angles = np.add(filter_angles, angles)
             # print('filter')
             self.frequencies=w/max(w)
-            self.allpass=filter_angles
+            self.allpass_response=filter_angles
+            self.get_total_phase()
+
+    def get_total_phase(self):
+        self.total_phase_response=np.add(self.allpass_response,self.phase_response)
+
         # print('return')
         
             # return w/max(w),filter_angles
