@@ -56,14 +56,19 @@ $(document).ready(function () {
     width: "98%",
     margin: "auto",
     "background-color": "#080a49f1",
-    "margin-top": "-200px",
-    "border-radius": ".5rem"
+    "margin-top": "-40px",
+    "border-radius": ".5rem",
+    "gap": "20px",
+    "row-gap": "10px",
+    "display": "flex",
+    "flex-wrap": "wrap",
+    "z-index": "10"
 
 
   });
   function addValue() {
     // console.log(inputval);
-    if (iCnt <= 4) {
+    if (iCnt <= 7) {
       iCnt = iCnt + 1;
 
       // ADD TEXTBOX.
@@ -72,7 +77,7 @@ $(document).ready(function () {
           '<input type=text class="input" id=tb' +
           iCnt +
           " " +
-          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" />'
+          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       }
       else {
@@ -82,7 +87,7 @@ $(document).ready(function () {
           " " +
           "value=" +
           inputval +
-          ' onfocus="myFunction()" onchange="GetTextValue()" />'
+          ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       }
       ids.push("tb" + iCnt);
@@ -106,8 +111,8 @@ $(document).ready(function () {
     // (20 IS THE LIMIT WE HAVE SET)
     else {
       // $(container).append("<label>Reached the limit</label>");
-      alert('Max number of filters is 5.')
-      $("#btAdd").attr("class", "bt-disable");
+      alert('Max number of filters is 8.')
+      // $("#btAdd").attr("class", "bt-disable");
       $("#btAdd").attr("disabled", "disabled");
     }
   }
@@ -160,11 +165,11 @@ function GetTextValue() {
   values = "";
 
   $(".input").each(function () {
-    divValue = $(document.createElement("div")).css({
-      padding: "5px",
-      width: "200px",
-    });
-    values += this.value + "<br />";
+    // divValue = $(document.createElement("div")).css({
+    //   padding: "5px",
+    //   width: "200px",
+    // });
+    // values += this.value + "<br />";
     filters.push(this.value);
   });
   console.log(filters);
@@ -202,31 +207,41 @@ document.addEventListener("DOMContentLoaded", function () {
   }).mount();
 });
 
-document
-  .querySelector("#new-all-pass-coef1")
-  .addEventListener("click", function () {
-    image_choice("3+5j");
-  });
-document
-  .querySelector("#new-all-pass-coef2")
-  .addEventListener("click", function () {
-    image_choice("2+0.2j");
-  });
-document
-  .querySelector("#new-all-pass-coef3")
-  .addEventListener("click", function () {
-    image_choice("0+3j");
-  });
-document
-  .querySelector("#new-all-pass-coef4")
-  .addEventListener("click", function () {
-    image_choice("7+1j");
-  });
-document
-  .querySelector("#new-all-pass-coef5")
-  .addEventListener("click", function () {
-    image_choice("6+0.5j");
-  });
+image_count=11;
+for (let i = 0; i < image_count; i++) {
+  console.log(i);
+  document
+    .querySelector("#new-all-pass-coef" + i)
+    .addEventListener("click", function () {
+      image_choice(document.querySelector("#new-all-pass-coef" + i).value);
+      console.log(document.querySelector("#new-all-pass-coef" + i).value);
+    });
+}
+//   document
+//     .querySelector("#new-all-pass-coef1")
+//     .addEventListener("click", function () {
+//       image_choice("3+5j");
+//     });
+// document
+//   .querySelector("#new-all-pass-coef"+2)
+//   .addEventListener("click", function () {
+//     image_choice("2+0.2j");
+//   });
+// document
+//   .querySelector("#new-all-pass-coef3")
+//   .addEventListener("click", function () {
+//     image_choice("0+3j");
+//   });
+// document
+//   .querySelector("#new-all-pass-coef4")
+//   .addEventListener("click", function () {
+//     image_choice("7+1j");
+//   });
+// document
+//   .querySelector("#new-all-pass-coef5")
+//   .addEventListener("click", function () {
+//     image_choice("6+0.5j");
+//   });
 
 
 function myFunction() {

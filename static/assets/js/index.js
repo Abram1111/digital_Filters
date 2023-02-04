@@ -31,6 +31,33 @@ let x_length = 0;
 const CSV = "../static/assets/data/magAndPhase.csv";
 
 
+/*********************************/
+image_count = 11;
+var divValue, values = "";
+let ids = [];
+let selectedid = 0;
+let filters = [];
+let inputval = "";
+var phase = 0;
+var phase_frequency = 0;
+
+let phase_btn = document.getElementById("phase");
+let first_contaner = document.getElementById("first_contaner");
+let allpass_contaner = document.getElementById("allpass_contaner");
+phase_btn.addEventListener("click", function () {
+  first_contaner.style.display = "none";
+  makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
+  allpass_contaner.style.display = "block";
+  allpass_contaner.style.top = 0;
+});
+
+
+let return_btn = document.getElementById("home");
+return_btn.addEventListener("click", function () {
+  allpass_contaner.style.display = "none";
+  first_contaner.style.display = "flex";
+});
+
 function drawTrackPad() {
   // var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': y_value };
   var zerospoles = { 'zeros': zerosUpdated, 'poles': polesUpdated, 'input': y_value };
@@ -121,13 +148,8 @@ function uploadedFilter() {
     data: JSON.stringify(null),
     success: function (response) {
       dict_data = JSON.parse(response);
-
       zeros = dict_data.zeros;
       poles = dict_data.poles;
-
-      // console.log("new_filter");
-      // console.log(zeros,poles);
-
     },
   });
 }
@@ -181,22 +203,6 @@ pad.addEventListener("mousemove", function (e) {
     if (i > 300) {
       x_length = i - 300;
     }
-    // makePlotly_trackpad(
-    //   x_value,
-    //   y_value,
-    //   [x_length, x_length + 300],
-    //   [0, 200],
-    //   "plot",
-    //   "input"
-    // );
-    // makePlotly_trackpad(
-    //   x_value,
-    //   y_value,
-    //   [x_length, x_length + 300],
-    //   [0, 200],
-    //   "out_plot",
-    //   "output"
-    // );
     drawTrackPad();
   }
 
@@ -246,148 +252,8 @@ makePlotly_trackpad(
   "out_plot",
   "output"
 );
-// plotFromCSV();
 
-
-// button.onclick = function() {remove = 1;}
-// function delet_element(div) {
-//   // console.log(div.id)
-//   if (document.getElementById("remove").checked) {
-//     let div_zero = document.getElementById(div.id);
-//     div_zero.style = "display:none";
-//     // remove = 0;
-//   }
-//   let ID = div.id;
-//   for (var i = 0; i < Math.max(zeros.length, poles.length); i++) {
-//     if (i < zeros.length) {
-//       if (zeros[i].id == ID) {
-//         zeros.splice(i, 1);
-//         z = {};
-//       }
-//     }
-//     if (i < poles.length) {
-//       if (poles[i].id == ID) {
-//         poles.splice(i, 1);
-//         p = {};
-//       }
-//     }
-//   }
-// }
-// unit_circle.addEventListener("click", function (e) {
-//   if (document.getElementById("remove").checked) {
-//     // delet_element
-//   } else {
-//     if (document.getElementById("zero").checked) {
-//       z = {
-//         X: e.clientX,
-//         Y: e.clientY,
-//         id: "zero" + id_conter,
-//         conjugate: false,
-//       };
-//       let zero = document.createElement("div");
-//       // console.log(e.x);
-//       // console.log(e.y);
-//       zero.setAttribute("class", "zero");
-//       // zero.setAttribute("onmousedown", "mouseDown(e)")
-//       zero.setAttribute("onclick", "delet_element(this)");
-//       zero.setAttribute("id", "zero" + id_conter);
-//       zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100`;
-//       // dragElement(zero, unit_circle);
-//       unit_circle.appendChild(zero);
-//       id_conter++;
-//     } else if (document.getElementById("pole").checked) {
-//       p = {
-//         X: e.clientX,
-//         Y: e.clientY,
-//         id: "pole" + polecounter,
-//         conjugate: false,
-//       };
-//       let pole = document.createElement("div");
-//       pole.setAttribute("class", "pole");
-//       pole.setAttribute("id", "pole" + polecounter);
-//       // var ctx = pole.getContext('2d');
-//       // ctx.beginPath();
-//       // ctx.moveTo(e.x-15, e.y+15);
-//       // ctx.lineTo(e.x+15, e.y-15);
-//       // ctx.fillStyle = "black";
-//       // ctx.fill();
-//       // ctx.stroke();
-//       pole.setAttribute("onclick", "delet_element(this)");
-//       pole.innerHTML = "✖";
-//       pole.style = `color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY}px;left:${e.clientX}px;`;
-//       // dragElement(pole, unit_circle);
-//       unit_circle.appendChild(pole);
-//       polecounter++;
-//     }
-//   }
-//   if (
-//     document.getElementById("conj").checked &&
-//     !document.getElementById("remove").checked
-//   ) {
-//     if (document.getElementById("zero").checked) {
-//       id_conter--;
-//       z.conjugate = true;
-//       let zero = document.createElement("div");
-//       zero.setAttribute("class", "zero");
-//       zero.setAttribute("onclick", "delet_element(this)");
-//       zero.setAttribute("id", "zero" + id_conter + "Conj");
-//       zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${
-//         e.clientY + 302
-//       }px;left:${e.clientX}px; border-radius: 50%;z-index:100`;
-//       // dragElement(zero, unit_circle);
-//       unit_circle.appendChild(zero);
-//       id_conter++;
-//     } else if (document.getElementById("pole").checked) {
-//       polecounter--;
-//       p.conjugate = true;
-//       let pole = document.createElement("div");
-//       pole.setAttribute("class", "pole");
-//       pole.setAttribute("id", "pole" + polecounter + "Conj");
-//       pole.setAttribute("onclick", "delet_element(this)");
-//       pole.innerHTML = "✖";
-//       pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${
-//         e.clientY + 302
-//       }px;left:${e.clientX}px;`;
-//       // dragElement(pole, unit_circle);
-//       unit_circle.appendChild(pole);
-//       polecounter++;
-//     }
-//   }
-//   // console.log("Left"+unit_circle.getBoundingClientRect.left+"Right"+unit_circle.getBoundingClientRect.right)
-//   if (zeros.length == 0 && !(JSON.stringify(z) === "{}")) {
-//     zeros.push(z);
-//   } else if (!(JSON.stringify(z) === "{}")) {
-//     if (z.X != zeros[zeros.length - 1].X && z.Y != zeros[zeros.length - 1].Y) {
-//       zeros.push(z);
-//     }
-//   }
-
-//   if (poles.length == 0 && !(JSON.stringify(p) === "{}")) {
-//     poles.push(p);
-//   }
-//   if (!(JSON.stringify(p) === "{}")) {
-//     if (p.X != poles[poles.length - 1].X && p.Y != poles[poles.length - 1].Y) {
-//       poles.push(p);
-//     }
-//   }
-
-//   console.log(zeros);
-//   console.log(poles);
-//   NormalizeAndSend(poles, zeros);
-// });
-
-// function NormalizeAndSend(poles, zeros) {
-//   let rect = unit_circle.getBoundingClientRect;
-//   for (var i = 0; i < zeros.length; i++) {
-//     zeros[i].x = (zeros[i].x - rect.left - 250 / 2) / 250;
-//     zeros[i].y = (zeros[i].y - rect.top - 250 / 2) / 250;
-//   }
-//   for (var i = 0; i < poles.length; i++) {
-//     poles[i].x = (poles[i].x - rect.left - 250 / 2) / 250;
-//     poles[i].y = (poles[i].y - rect.top - 250 / 2) / 250;
-//   }
-// zeros=[[5],[3]]
-// poles=[[2],[2]]
+let darg_flag = false;
 
 function delet_element(div) {
   // console.log(div.id)
@@ -420,47 +286,49 @@ function delet_element(div) {
       }
     }
   }
+  if (darg_flag) {
+    document.getElementById('remove').checked = false;
+    darg_flag = false
+  }
 }
-// zeros_real = 0.344;
-// zeros_img = 0.44;
 let rect = unit_circle.getBoundingClientRect();
-window.onload = function(){
+window.onload = function () {
   console.log("IM IN")
-  if(uploaded){
-    if(!(JSON.stringify(zeros_uploaded) === '{}')){
-      for(zeros_item in zeros_uploaded){
-      let x = zeros_item[0] * (250/2) + rect.left + (250/2);
-      let y = rect.top + (250/2) - zeros_item[1] * (250/2);
-      let zero = document.createElement('div');
-      zero.setAttribute("class", "zero");
-      zero.setAttribute('onclick', 'delet_element(this)');
-      zero.setAttribute("id", 'zero' + id_conter);
-      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
-      dragElement(zero);
-      unit_circle.appendChild(zero);
-      id_conter++;
-      zflag = true;
-      z = {X:x, Y:y, id:zero.id,  conjugate:false};
-      zeros.push(z);
+  if (uploaded) {
+    if (!(JSON.stringify(zeros_uploaded) === '{}')) {
+      for (zeros_item in zeros_uploaded) {
+        let x = zeros_item[0] * (250 / 2) + rect.left + (250 / 2);
+        let y = rect.top + (250 / 2) - zeros_item[1] * (250 / 2);
+        let zero = document.createElement('div');
+        zero.setAttribute("class", "zero");
+        zero.setAttribute('onclick', 'delet_element(this)');
+        zero.setAttribute("id", 'zero' + id_conter);
+        zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
+        dragElement(zero);
+        unit_circle.appendChild(zero);
+        id_conter++;
+        zflag = true;
+        z = { X: x, Y: y, id: zero.id, conjugate: false };
+        zeros.push(z);
       }
     }
-    else if(!(JSON.stringify(poles_uploaded) === '{}')){
-      for(poles_item in poles_uploaded){
-      let x = poles_item[0] * (250/2) + rect.left + (250/2);
-      let y = rect.top + (250/2) - poles_item[1] * (250/2);
-      let pole = document.createElement('div');
-      pole.setAttribute("class", "zero");
-      pole.setAttribute('onclick', 'delet_element(this)');
-      pole.setAttribute("id", 'zero' + polecounter);
-      pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
-      dragElement(pole);
-      unit_circle.appendChild(pole);
-      id_conter++;
-      pflag = true;
-      p = {X:x, Y:y, id:pole.id,  conjugate:false};
-      poles.push(p);
+    else if (!(JSON.stringify(poles_uploaded) === '{}')) {
+      for (poles_item in poles_uploaded) {
+        let x = poles_item[0] * (250 / 2) + rect.left + (250 / 2);
+        let y = rect.top + (250 / 2) - poles_item[1] * (250 / 2);
+        let pole = document.createElement('div');
+        pole.setAttribute("class", "zero");
+        pole.setAttribute('onclick', 'delet_element(this)');
+        pole.setAttribute("id", 'zero' + polecounter);
+        pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
+        dragElement(pole);
+        unit_circle.appendChild(pole);
+        id_conter++;
+        pflag = true;
+        p = { X: x, Y: y, id: pole.id, conjugate: false };
+        poles.push(p);
+      }
     }
-  }
     NormalizeAndSend(poles, zeros);
   }
 }
@@ -586,7 +454,6 @@ function NormalizeAndSend(poles, zeros) {
 function dragElement(elmnt) {
 
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
   elmnt.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
@@ -599,6 +466,7 @@ function dragElement(elmnt) {
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
     drag = true;
+    // elmnt.style.opacity = 0.1;
   }
 
   function elementDrag(e) {
@@ -612,27 +480,44 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.color = 'red';
+    let rec = unit_circle.getBoundingClientRect();
+    let elmntrec = elmnt.getBoundingClientRect();
+    let xx = 2 * (e.clientX - rec.left - (250.0 / 2.0)) / 250.0;
+    let yy = 2 * (rec.top + (250.0 / 2.0) - e.clientY) / 250.0;
+    let mag = Math.sqrt(Math.pow(xx, 2) + Math.pow(yy, 2))
+    if (mag > 1) {
+      elmnt.style.opacity = 0.01;
+    }
+    else {
+      elmnt.style.opacity = 1;
+    }
   }
 
   function closeDragElement() {
     // stop moving when mouse button is released:
+    let rec = unit_circle.getBoundingClientRect();
+    let xx = 2 * (window.event.clientX - rec.left - (250.0 / 2.0)) / 250.0;
+    let yy = 2 * (rec.top + (250.0 / 2.0) - window.event.clientY) / 250.0;
+    let mag = Math.sqrt(Math.pow(xx, 2) + Math.pow(yy, 2))
     if (drag) {
       elmnt.style = "display:none";
     }
     drag = false;
     // }
+    if (mag > 1) {
+      console.log("This is the mag");
+      console.log(mag);
+      document.getElementById('remove').checked = true;
+      console.log(document.getElementById('remove').checked);
+      // delet_element(elmnt);
+      elmnt.onclick;
+      // darg_flag = true;
+    }
     document.onmouseup = null;
     document.onmousemove = null;
   }
 }
-
-//  console.log(0);
-// document.getElementById("Signal").addEventListener("click", function () {
-//   //get value of checked radiobutton
-//   let radiobtn = document.querySelector('input[name="Signal-choice"]:checked').value;
-
-//   console.log(radiobtn);
-// });
 
 function signal_choice() {
   // console.log(document.querySelector('input[name="Signal-choice"]:checked').value);
@@ -664,18 +549,17 @@ function upload_filter() {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data) 
-    {
+    success: function (data) {
       dict_data = JSON.parse(response);
 
-      zeros_real  = dict_data.zeros_real;
-      zeros_img   = dict_data.zeros_img;
-      poles_real  = dict_data.poles_real;
-      poles_img   = dict_data.poles_img;
-      for (var i = 0; i<zeros_real.length;i++){
+      zeros_real = dict_data.zeros_real;
+      zeros_img = dict_data.zeros_img;
+      poles_real = dict_data.poles_real;
+      poles_img = dict_data.poles_img;
+      for (var i = 0; i < zeros_real.length; i++) {
         zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
       }
-      for (var i = 0; i<poles_real.length;i++){
+      for (var i = 0; i < poles_real.length; i++) {
         poles_uploaded.push([poles_real[i], poles_img[i]]);
       }
     },
@@ -742,19 +626,6 @@ function upload_signal() {
       );
     },
   });
-    
-
-  // ev.preventDefault();
-  // const upload_btn = document.getElementById("uploaded_filter");
-  // const curFiles2 = upload_btn.files;
-  // // file_name2 = curFiles2[0].name;
-  // // console.log(curFiles2[0].name);
-  // $.ajax({
-  //   url: "/importFilter",
-  //   type: "POST",
-  //   contentType: "application/json",
-  //   data: JSON.stringify(curFiles2[0].name),
-  // }); 
 }
 const filter_upload_btn = document.getElementById("custom_btn");
 const uploaded_filter_btn = document.getElementById("uploaded_filter");
@@ -769,10 +640,7 @@ upload_signal_btn.addEventListener('click', function () {
   track_pad_avilable = 0;
 });
 
-let phase_btn = document.getElementById("phase");
-let first_contaner = document.getElementById("first_contaner");
-let allpass_contaner = document.getElementById("allpass_contaner");
-let return_btn = document.getElementById("home");
+
 phase_btn.addEventListener('click', function () {
   first_contaner.style.display = "none"
   allpass_contaner.style.display = "flex"
@@ -781,3 +649,164 @@ return_btn.addEventListener('click', function () {
   first_contaner.style.display = "flex"
   allpass_contaner.style.display = "none"
 });
+
+
+/******************************************************* */
+/**********************LIST***************************** */
+/******************************************************* */
+
+$(document).ready(function () {
+  var iCnt = 0;
+  // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
+  var container = $(document.createElement("div")).css({
+    padding: "5px",
+    width: "98%",
+    margin: "auto",
+    "background-color": "transparent",
+    "margin-left": "20px",
+    "margin-top": "90px",
+    "border-radius": ".5rem",
+    "gap": "20px",
+    "row-gap": "10px",
+    "display": "flex",
+    "flex-wrap": "wrap",
+    "z-index": "10"
+  });
+
+  function addValue() {
+    // console.log(inputval);
+    if (iCnt <= 11) {
+      iCnt = iCnt + 1;
+
+      // ADD TEXTBOX.
+      if (inputval == "") {
+        $(container).append(
+          '<input type=text class="input" id=tb' +
+          iCnt +
+          " " +
+          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+        );
+      }
+      else {
+        $(container).append(
+          '<input type=text class="input" id=tb' +
+          iCnt +
+          " " +
+          "value=" +
+          inputval +
+          ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+        );
+      }
+      ids.push("tb" + iCnt);
+      // ADD SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
+      if (iCnt == 1) {
+        var divSubmit = $(document.createElement("div"));
+        $(divSubmit).append(
+          '<input type=button class="bt" ' +
+          'onclick="GetTextValue()"' +
+          "id=btSubmit value=Submit style='display:none;' />"
+        );
+      }
+
+      $("#main").after(container, divSubmit);
+      GetTextValue();
+    }
+    else {
+      alert('Max number of filters is 8.')
+      $("#btAdd").attr("disabled", "disabled");
+    }
+  }
+  inputval = "";
+  $("#btAdd").click(addValue);
+
+  // REMOVE ONE ELEMENT PER CLICK.
+  $("#btRemove").click(function () {
+    if (iCnt != 0) {
+      $("#" + selectedid).remove();
+      iCnt = iCnt - 1;
+      $("#btAdd").removeAttr("disabled").attr("class", "bt");
+      GetTextValue();
+    }
+
+    if (iCnt == 0) {
+      $(container).empty().remove();
+      $("#btAdd").removeAttr("disabled").attr("class", "bt");
+      GetTextValue();
+    }
+  });
+
+  // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
+  $("#btRemoveAll").click(function () {
+    $(container).empty().remove();
+
+    $("#btSubmit").remove();
+    iCnt = 0;
+
+    $("#btAdd").removeAttr("disabled").attr("class", "bt");
+
+    filters = [];
+    GetTextValue();
+  });
+});
+
+
+function GetTextValue() {
+  filters = [];
+  $(divValue).empty().remove();
+
+  values = "";
+
+  $(".input").each(function () {
+    filters.push(this.value);
+  });
+  $.ajax({
+    url: "/allpass",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(filters),
+    success: function (response) {
+      dict_data = JSON.parse(response);
+      dict_data["frequency"];
+      makePlotly_trackpad(dict_data["frequency"], dict_data["phase"], null, null, "allpass", "Allpass");
+      makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
+    },
+  });
+}
+
+//IMAGE SLIDESHOW
+function image_choice(x) {
+  inputval = x;
+  $("#btAdd").click();
+  inputval = '';
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  new Splide(".splide", {
+    type: "loop",
+    perPage: 3,
+  }).mount();
+});
+
+
+for (let i = 0; i < image_count; i++) {
+  console.log(i);
+  document
+    .querySelector("#new-all-pass-coef" + i)
+    .addEventListener("click", function () {
+      image_choice(document.querySelector("#new-all-pass-coef" + i).value);
+    });
+}
+
+
+function myFunction() {
+  selectedid = document.activeElement.id;
+}
+
+
+/******************************************************* */
+/**********************Graph**************************** */
+/******************************************************* */
+
+
+GetTextValue();
+makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "output");
