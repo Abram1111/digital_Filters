@@ -764,3 +764,16 @@ upload_signal_btn.addEventListener('click', function () {
   uploader_signal_btn.click();
   track_pad_avilable = 0;
 });
+
+let phase_btn = document.getElementById("phase");
+let first_contaner = document.getElementById("first_contaner");
+let allpass_contaner = document.getElementById("allpass_contaner");
+let return_btn = document.getElementById("home");
+phase_btn.addEventListener('click', function () {
+  first_contaner.style.display = "none"
+  allpass_contaner.style.display = "flex"
+});
+return_btn.addEventListener('click', function () {
+  first_contaner.style.display = "flex"
+  allpass_contaner.style.display = "none"
+});
