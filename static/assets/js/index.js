@@ -657,8 +657,9 @@ $(document).ready(function () {
     padding: "5px",
     width: "98%",
     margin: "auto",
-    "background-color": "#080a49f1",
-    "margin-top": "-40px",
+    "background-color": "transparent",
+    "margin-left": "20px",
+    "margin-top": "90px",
     "border-radius": ".5rem",
     "gap": "20px",
     "row-gap": "10px",
@@ -669,7 +670,7 @@ $(document).ready(function () {
 
   function addValue() {
     // console.log(inputval);
-    if (iCnt <= 7) {
+    if (iCnt <= 11) {
       iCnt = iCnt + 1;
 
       // ADD TEXTBOX.
