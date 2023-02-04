@@ -11,14 +11,10 @@
   <title>All-Pass</title>
   <style>
     * {
-      box-sizing: border-box;
+      /*  */
       font-family: "Inter", sans-serif;
     }
 
-    body {
-      margin: 0;
-      /* max-width: 1300px; */
-    }
 
     .splide {
       width: 100%;
@@ -74,17 +70,22 @@
       background: #0b72e7;
     }
 
-    .button {
-      background-color: #4caf50;
-      /* Green */
+    .return {
+      font-family: sans-serif;
+      outline: none;
       border: none;
+      border-radius: 5px;
       color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      width: min-content;
+      padding: 8px;
+      background-color: #080a49f1;
+      cursor: pointer;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+      width: 245px;
+      margin-left: -24px;
+      height: 40px;
+      grid-column: 2/4;
     }
 
     .allpass_contaner {
@@ -99,11 +100,12 @@
       max-width: 1500px;
       flex-wrap: wrap;
       gap: 20px;
+      box-sizing: border-box;
     }
 
     .allpass_first_col {
       width: 40%;
-      height: 550px;
+      height: 515px;
       display: flex;
       flex-wrap: wrap;
       background-color: #9b9b9b76;
@@ -112,11 +114,12 @@
       padding-bottom: 0px;
       margin-right: 20px;
       min-width: 400px;
+      position: relative;
     }
 
     .allpass_second_col {
       width: 800px;
-      height: 550px;
+      height: 515px;
       display: flex;
       flex-direction: column;
       min-width: 700px;
@@ -124,7 +127,7 @@
 
     #allpass,
     #total-phase {
-      height: 300px;
+      height: 290px;
     }
 
     .bt {
@@ -141,10 +144,34 @@
       font-size: 1rem;
       width: 150px;
       margin-left: 22px;
+      grid-row: 2/3;
     }
 
     #main {
       height: 100px;
+      /* margin-top: 100px; */
+      display: grid;
+    }
+
+    .back_5 {
+      position: absolute;
+      width: 94%;
+      top: 225px;
+      left: 13px;
+      background-color: #080a49f1;
+      height: 50%;
+      z-index: 1;
+      border-radius: 0.5rem;
+
+    }
+
+    img {
+      width: 335px;
+      height: 170px;
+    }
+
+    .slider {
+      margin-top: -65px;
     }
   </style>
 </head>
@@ -152,11 +179,14 @@
 <body>
   <div class="allpass_contaner">
     <div class="allpass_first_col">
+      <!-- <div></div> -->
       <div id="main">
+        <button class="return">Return home</button>
         <input type="button" id="btAdd" value="Add Element" class="bt" />
         <input type="button" id="btRemove" value="Remove Element" class="bt" />
         <input type="button" id="btRemoveAll" value="Remove All" class="bt" />
       </div>
+      <div class="back_5"></div>
     </div>
     <div class="allpass_second_col">
       <div id="allpass"></div>
@@ -169,12 +199,8 @@
           <li class="splide__slide">
             <div class="splide__slide__container">
               <div class="slide__content">
-                <button id="new-all-pass-coef1" value="1">
-                  <!-- <img
-                      src="images/imgbin-blood-transfusion.jpg"
-                      alt="buttonpng"
-                      border="0"
-                    /> -->
+                <button id="new-all-pass-coef0" value="-0.75+0.75j" class="slider">
+                  <img src="../static/assets/images/-0.75+0.75j.png" alt="buttonpng" border="0" />
                 </button>
               </div>
             </div>
@@ -182,12 +208,8 @@
           <li class="splide__slide">
             <div class="splide__slide__container">
               <div class="slide__content">
-                <button id="new-all-pass-coef2" value="2">
-                  <!-- <img
-                      src="images/infusion-pump-line.jpg"
-                      alt="buttonpng"
-                      border="0"
-                    /> -->
+                <button id="new-all-pass-coef1" value="-0.75j" class="slider">
+                  <img src="../static/assets/images/-0.75j.png" alt="buttonpng" border="0" />
                 </button>
               </div>
             </div>
@@ -195,12 +217,8 @@
           <li class="splide__slide">
             <div class="splide__slide__container">
               <div class="slide__content">
-                <button id="new-all-pass-coef3" value="3">
-                  <!-- <img
-                      src="images/Screenshot (18).png"
-                      alt="buttonpng"
-                      border="0"
-                    /> -->
+                <button id="new-all-pass-coef2" value="-0.92-0.65j" class="slider">
+                  <img src="../static/assets/images/-0.92-0.65j.png" alt="buttonpng" border="0" />
                 </button>
               </div>
             </div>
@@ -208,12 +226,8 @@
           <li class="splide__slide">
             <div class="splide__slide__container">
               <div class="slide__content">
-                <button id="new-all-pass-coef4" value="4">
-                  <!-- <img
-                      src="images/Screenshot (17).png"
-                      alt="buttonpng"
-                      border="0"
-                    /> -->
+                <button id="new-all-pass-coef3" value="-1+0.05j" class="slider">
+                  <img src="../static/assets/images/-1+0.05j.png" alt="buttonpng" border="0" />
                 </button>
               </div>
             </div>
@@ -221,8 +235,62 @@
           <li class="splide__slide">
             <div class="splide__slide__container">
               <div class="slide__content">
-                <button id="new-all-pass-coef5" value="5">
-                  <!-- <img src="images/Picture2.jpg" alt="buttonpng" border="0" /> -->
+                <button id="new-all-pass-coef4" value="-1+1j" class="slider">
+                  <img src="../static/assets/images/-1+1j.png" alt="buttonpng" border="0" />
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="splide__slide__container">
+              <div class="slide__content">
+                <button id="new-all-pass-coef5" value="-1-1j" class="slider">
+                  <img src="../static/assets/images/-1-1j.png" alt="buttonpng" border="0" />
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="splide__slide__container">
+              <div class="slide__content">
+                <button id="new-all-pass-coef6" value="0.5-0.94j" class="slider">
+                  <img src="../static/assets/images/0.5-0.94j.png" alt="buttonpng" border="0" />
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="splide__slide__container">
+              <div class="slide__content">
+                <button id="new-all-pass-coef7" value="0.94j" class="slider">
+                  <img src="../static/assets/images/0.94j.png" alt="buttonpng" border="0" />
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="splide__slide__container">
+              <div class="slide__content">
+                <button id="new-all-pass-coef8" value="1+0.5j" class="slider">
+                  <img src="../static/assets/images/1+0.5j.png" alt="buttonpng" border="0" />
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="splide__slide__container">
+              <div class="slide__content">
+                <button id="new-all-pass-coef9" value="1-0.05j" class="slider">
+                  <img src="../static/assets/images/1-0.05j.png" alt="buttonpng" border="0" />
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="splide__slide">
+            <div class="splide__slide__container">
+              <div class="slide__content">
+                <button id="new-all-pass-coef10" value="1" class="slider">
+                  <img src="../static/assets/images/1.png" alt="buttonpng" border="0" />
                 </button>
               </div>
             </div>

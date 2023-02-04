@@ -72,10 +72,7 @@
 
 }
 
-#plot2 {
-    /* margin-top: -10px; */
-    margin-left: -50px;
-}
+
 
 #plot1 {
     margin-top: 30px;
@@ -85,9 +82,8 @@
 .controls {
     /* position: relative; */
     margin-top: -15px;
-    margin-left: 15px;
     background-color: #d3d3d3;
-    width: 250px;
+    width: 240px;
     border-radius: 1.5rem;
     padding: 20px;
     height: 270px;
@@ -166,7 +162,7 @@
     background-color: transparent;
     position: absolute;
     border-radius: 1.5rem;
-    left: 40px;
+    left: 350px;
     top: 420px;
     border: 10px solid #d3d3d3;
 }
@@ -211,7 +207,7 @@
     display: none;
 }
 
-button {
+.control_btn {
     font-family: sans-serif;
     outline: none;
     border: none;
@@ -224,7 +220,7 @@ button {
     margin-bottom: 10px;
     font-size: 1rem;
     width: 211px;
-    margin-left: 22px;
+    margin-left: 18px;
 }
 
 #uploaded_filter {
@@ -555,4 +551,163 @@ input[type="radio"] {
 #ip_signal:checked:checked~.option-1 span,
 #import_signal:checked:checked~.option-2 span {
     color: #fff;
+}
+
+
+.splide {
+    width: 100%;
+}
+
+.splide__slide {
+    padding: 0.5%;
+    display: flex;
+    /* justify-content: left; */
+    justify-content: end;
+    background: #ecf0f1;
+}
+
+.splide__slide__container {
+    width: 600px;
+    text-align: center;
+}
+
+.slide__content {
+    margin: 1rem 0;
+    font-size: 1.3rem;
+    width: 100px;
+    height: 75px;
+}
+
+.slide-img__wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.slide-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.slide-img__caption {
+    margin-left: 1rem;
+}
+
+.slide-img__caption span {
+    color: #2e86c1;
+    font-weight: 500;
+}
+
+/* Adding custom styling to the pagination */
+.splide__pagination__page.is-active {
+    /* here I have changed the scale from 1.4 to 1.5 */
+    transform: scale(1.5);
+    /* changed from default bg-color to blue */
+    background: #0b72e7;
+}
+
+.return {
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 8px;
+    background-color: #080a49f1;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    width: 245px;
+    margin-left: -24px;
+    height: 40px;
+    grid-column: 2/4;
+}
+
+.allpass_contaner {
+    display: flex;
+    background-color: #d3d3d3;
+    border-radius: 1.5rem;
+    padding: 10px;
+    width: 100%;
+    margin: auto;
+    margin-top: 10px;
+    padding-top: 10px;
+    max-width: 1500px;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.allpass_first_col {
+    width: 40%;
+    height: 515px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #9b9b9b76;
+    border-radius: 1.5rem;
+    padding: 20px;
+    padding-bottom: 0px;
+    margin-right: 20px;
+    min-width: 400px;
+    position: relative;
+}
+
+.allpass_second_col {
+    width: 800px;
+    height: 515px;
+    display: flex;
+    flex-direction: column;
+    min-width: 700px;
+}
+
+#allpass,
+#total-phase {
+    height: 290px;
+}
+
+.bt {
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 8px;
+    background-color: #080a49f1;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    width: 150px;
+    margin-left: 22px;
+    grid-row: 2/3;
+}
+
+#main {
+    height: 100px;
+    /* margin-top: 100px; */
+    display: grid;
+}
+
+.back_5 {
+    position: absolute;
+    width: 94%;
+    top: 225px;
+    left: 13px;
+    background-color: #080a49f1;
+    height: 50%;
+    z-index: 1;
+    border-radius: 0.5rem;
+
+}
+
+img {
+    width: 335px;
+    height: 170px;
+}
+
+.slider {
+    margin-top: -65px;
 }
