@@ -270,6 +270,8 @@ makePlotly_trackpad(
   "output"
 );
 
+let darg_flag = false;
+
 function delet_element(div) {
   // console.log(div.id)
   if (document.getElementById('remove').checked) {
@@ -300,6 +302,10 @@ function delet_element(div) {
         p = {};
       }
     }
+  }
+  if(darg_flag){
+  document.getElementById('remove').checked = false;
+  darg_flag = false
   }
 }
 // zeros_real = 0.344;
@@ -467,7 +473,6 @@ function NormalizeAndSend(poles, zeros) {
 function dragElement(elmnt) {
 
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
   elmnt.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
@@ -480,6 +485,7 @@ function dragElement(elmnt) {
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
     drag = true;
+    // elmnt.style.opacity = 0.1;
   }
 
   function elementDrag(e) {
@@ -493,15 +499,40 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.color = 'red';
+    let rec = unit_circle.getBoundingClientRect();
+    let elmntrec = elmnt.getBoundingClientRect();
+    let xx = 2 * (e.clientX - rec.left - (250.0 / 2.0)) / 250.0;
+    let yy = 2 * (rec.top + (250.0 / 2.0) - e.clientY) / 250.0;
+    let mag = Math.sqrt(Math.pow(xx,2)+Math.pow(yy,2))
+    if(mag>1){
+    elmnt.style.opacity = 0.01;
+    }
+    else{
+    elmnt.style.opacity = 1;
+    }
   }
 
   function closeDragElement() {
     // stop moving when mouse button is released:
+    let rec = unit_circle.getBoundingClientRect();
+    let xx = 2 * (window.event.clientX - rec.left - (250.0 / 2.0)) / 250.0;
+    let yy = 2 * (rec.top + (250.0 / 2.0) - window.event.clientY) / 250.0;
+    let mag = Math.sqrt(Math.pow(xx,2)+Math.pow(yy,2))
     if (drag) {
       elmnt.style = "display:none";
     }
     drag = false;
     // }
+    if(mag>1){
+      console.log("This is the mag");
+      console.log(mag);
+      document.getElementById('remove').checked = true;
+      console.log(document.getElementById('remove').checked);
+      // delet_element(elmnt);
+      elmnt.onclick;
+      // darg_flag = true;
+    }
     document.onmouseup = null;
     document.onmousemove = null;
   }
