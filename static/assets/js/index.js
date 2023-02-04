@@ -4,7 +4,7 @@ ip_signal.checked = true;
 chosen_sig = 0;
 let track_pad_avilable = 1;
 
-var zeros_real, zeros_img, poles_real, poles_img;
+var zeros_uploaded, poles_uploaded;
 let uploaded = false;
 
 var remove = 0;
@@ -424,12 +424,13 @@ function delet_element(div) {
 // zeros_real = 0.344;
 // zeros_img = 0.44;
 let rect = unit_circle.getBoundingClientRect();
-window.onload= function(){
+window.onload = function(){
   console.log("IM IN")
   if(uploaded){
-    if(typeof zeros_real != 'undefined'){
-      let x = zeros_real * (250/2) + rect.left + (250/2);
-      let y = rect.top + (250/2) - zeros_img * (250/2);
+    if(!(JSON.stringify(zeros_uploaded) === '{}')){
+      for(zeros_item in zeros_uploaded){
+      let x = zeros_item[0] * (250/2) + rect.left + (250/2);
+      let y = rect.top + (250/2) - zeros_item[1] * (250/2);
       let zero = document.createElement('div');
       zero.setAttribute("class", "zero");
       zero.setAttribute('onclick', 'delet_element(this)');
@@ -441,10 +442,12 @@ window.onload= function(){
       zflag = true;
       z = {X:x, Y:y, id:zero.id,  conjugate:false};
       zeros.push(z);
+      }
     }
-    else if(typeof poles_real != 'undefined'){
-      let x = poles_real * (250/2) + rect.left + (250/2);
-      let y = rect.top + (250/2) - poles_img * (250/2);
+    else if(!(JSON.stringify(poles_uploaded) === '{}')){
+      for(poles_item in poles_uploaded){
+      let x = poles_item[0] * (250/2) + rect.left + (250/2);
+      let y = rect.top + (250/2) - poles_item[1] * (250/2);
       let pole = document.createElement('div');
       pole.setAttribute("class", "zero");
       pole.setAttribute('onclick', 'delet_element(this)');
@@ -457,6 +460,7 @@ window.onload= function(){
       p = {X:x, Y:y, id:pole.id,  conjugate:false};
       poles.push(p);
     }
+  }
     NormalizeAndSend(poles, zeros);
   }
 }
@@ -668,15 +672,16 @@ function upload_filter() {
       zeros_img   = dict_data.zeros_img;
       poles_real  = dict_data.poles_real;
       poles_img   = dict_data.poles_img;
-      console.log('zeros_real');
-      console.log(zeros_real);
-      console.log('zeros_img');
-      console.log(zeros_img);
+      for (var i = 0; i<zeros_real.length;i++){
+        zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
+      }
+      for (var i = 0; i<poles_real.length;i++){
+        poles_uploaded.push([poles_real[i], poles_img[i]]);
+      }
     },
   });
   uploaded = true;
 }
-
 function upload_signal() {
 
   var sig_form = document.forms.namedItem("signal_upload");
@@ -687,18 +692,20 @@ function upload_signal() {
     console.log(p); // <- logs image in oData correctly
   }
   $.ajax({
-    url: "/importSignal",
-    type: "POST",
-    method: "POST",
-    data: sig_data,
-    enctype: "multipart/form-data",
-    cache: false,
-    // contentType: "application/json",
+
+    // type: "POST",
+    method: 'post',
     processData: false,
+    contentType: false,
+    cache: false,
+    data: sig_data,
+    enctype: 'multipart/form-data',
+    url: "/importSignal",
     success: function (response)
     {
+      console.log(response)
       dict_data = JSON.parse(response);
-
+      console.log('importingggggggggggggggggggggggggggggggggggg')
       frequency     = dict_data.frequency;
       mag           = dict_data.mag;
       phase         = dict_data.phase;
@@ -719,6 +726,8 @@ function upload_signal() {
         "plot",
         "input"
       );
+      console.log("new");
+
       makePlotly_trackpad(
         x_axis,
         output_signal,
