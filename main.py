@@ -97,7 +97,8 @@ def import_Signal():
         os.remove(filename)
     else:
         print('doesnt exist')
-        isthisFile.save(isthisFile.filename)
+
+    isthisFile.save(isthisFile.filename)
 
     obj1.upload_signal(isthisFile.filename)
     obj1.input_output_signals(obj1.input_signal)
@@ -106,9 +107,9 @@ def import_Signal():
         'frequency'    : list(obj1.frequencies),
         'mag'          : list(obj1.magnitud_response),
         'phase'        : list(obj1.phase_response),
-        'output_signal':list(obj1.output_signal),
-        'input_signal' :list(obj1.uploaded_signal_y) ,
-        'x_axis'       :list(obj1.uploaded_signal_x) 
+        'output_signal': list(obj1.output_signal),
+        'input_signal' : list(obj1.input_signal) ,
+        'x_axis'       : list(obj1.uploaded_signal_x) 
     
         })
 

@@ -703,18 +703,22 @@ function upload_signal() {
     url: "/importSignal",
     success: function (response)
     {
-      console.log(response)
       dict_data = JSON.parse(response);
-      console.log('importingggggggggggggggggggggggggggggggggggg')
+      console.log('importingggggggggggggggggggggggggggggggggggg');
       frequency     = dict_data.frequency;
       mag           = dict_data.mag;
       phase         = dict_data.phase;
       output_signal = dict_data.output_signal;
-      input_signal  = dict_data.uploaded_signal_y,
-      x_axis        = dict_data.uploaded_signal_x
+      input_signal  = dict_data.input_signal;
+      x_axis        = dict_data.uploaded_signal_x;
   
+      console.log(frequency);
+      console.log(input_signal);
+      console.log('testinggggg');
+      console.log(output_signal);
 
       console.log("new");
+      
       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
 

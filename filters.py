@@ -74,17 +74,16 @@ class Filters:
         temp=pd.concat([export_data1, export_data2], axis=1)
         df = pd.DataFrame(temp)
         df.to_csv("static/assets/data/inputOutput.csv")   
-        print( self.output_signal)
             
     def upload_signal(self,filename):
         data = pd.read_csv(filename, delimiter= ',')
         self.uploaded_signal_x=data['time'].tolist()
         self.uploaded_signal_y=data['amp'].tolist()
+        self.input_signal=self.uploaded_signal_y
 
     def input_output_signals(self,input):
         self.input_signal=list(np.float_(input))
         self.applying_filter()
-        print( self.input_signal)
 
 
 # Filter Functions
