@@ -38,25 +38,25 @@ let ids = [];
 let selectedid = 0;
 let filters = [];
 let inputval = "";
-var phase=0;
-var phase_frequency=0;
+var phase = 0;
+var phase_frequency = 0;
 
 let phase_btn = document.getElementById("phase");
 let first_contaner = document.getElementById("first_contaner");
+let allpass_contaner = document.getElementById("allpass_contaner");
 phase_btn.addEventListener("click", function () {
   first_contaner.style.display = "none";
   makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
-  // allpass_contaner.style.display = "inline";
+  allpass_contaner.style.display = "block";
+  allpass_contaner.style.top = 0;
 });
 
 
-let allpass_contaner = document.getElementById("allpass_contaner");
 let return_btn = document.getElementById("home");
 return_btn.addEventListener("click", function () {
   allpass_contaner.style.display = "none";
-  // first_contaner.style.display = "inline";
+  first_contaner.style.display = "flex";
 });
-return_btn.click();
 
 function drawTrackPad() {
   // var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': y_value };
@@ -286,49 +286,49 @@ function delet_element(div) {
       }
     }
   }
-  if(darg_flag){
-  document.getElementById('remove').checked = false;
-  darg_flag = false
+  if (darg_flag) {
+    document.getElementById('remove').checked = false;
+    darg_flag = false
   }
 }
 let rect = unit_circle.getBoundingClientRect();
-window.onload = function(){
+window.onload = function () {
   console.log("IM IN")
-  if(uploaded){
-    if(!(JSON.stringify(zeros_uploaded) === '{}')){
-      for(zeros_item in zeros_uploaded){
-      let x = zeros_item[0] * (250/2) + rect.left + (250/2);
-      let y = rect.top + (250/2) - zeros_item[1] * (250/2);
-      let zero = document.createElement('div');
-      zero.setAttribute("class", "zero");
-      zero.setAttribute('onclick', 'delet_element(this)');
-      zero.setAttribute("id", 'zero' + id_conter);
-      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
-      dragElement(zero);
-      unit_circle.appendChild(zero);
-      id_conter++;
-      zflag = true;
-      z = {X:x, Y:y, id:zero.id,  conjugate:false};
-      zeros.push(z);
+  if (uploaded) {
+    if (!(JSON.stringify(zeros_uploaded) === '{}')) {
+      for (zeros_item in zeros_uploaded) {
+        let x = zeros_item[0] * (250 / 2) + rect.left + (250 / 2);
+        let y = rect.top + (250 / 2) - zeros_item[1] * (250 / 2);
+        let zero = document.createElement('div');
+        zero.setAttribute("class", "zero");
+        zero.setAttribute('onclick', 'delet_element(this)');
+        zero.setAttribute("id", 'zero' + id_conter);
+        zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
+        dragElement(zero);
+        unit_circle.appendChild(zero);
+        id_conter++;
+        zflag = true;
+        z = { X: x, Y: y, id: zero.id, conjugate: false };
+        zeros.push(z);
       }
     }
-    else if(!(JSON.stringify(poles_uploaded) === '{}')){
-      for(poles_item in poles_uploaded){
-      let x = poles_item[0] * (250/2) + rect.left + (250/2);
-      let y = rect.top + (250/2) - poles_item[1] * (250/2);
-      let pole = document.createElement('div');
-      pole.setAttribute("class", "zero");
-      pole.setAttribute('onclick', 'delet_element(this)');
-      pole.setAttribute("id", 'zero' + polecounter);
-      pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
-      dragElement(pole);
-      unit_circle.appendChild(pole);
-      id_conter++;
-      pflag = true;
-      p = {X:x, Y:y, id:pole.id,  conjugate:false};
-      poles.push(p);
+    else if (!(JSON.stringify(poles_uploaded) === '{}')) {
+      for (poles_item in poles_uploaded) {
+        let x = poles_item[0] * (250 / 2) + rect.left + (250 / 2);
+        let y = rect.top + (250 / 2) - poles_item[1] * (250 / 2);
+        let pole = document.createElement('div');
+        pole.setAttribute("class", "zero");
+        pole.setAttribute('onclick', 'delet_element(this)');
+        pole.setAttribute("id", 'zero' + polecounter);
+        pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
+        dragElement(pole);
+        unit_circle.appendChild(pole);
+        id_conter++;
+        pflag = true;
+        p = { X: x, Y: y, id: pole.id, conjugate: false };
+        poles.push(p);
+      }
     }
-  }
     NormalizeAndSend(poles, zeros);
   }
 }
@@ -485,12 +485,12 @@ function dragElement(elmnt) {
     let elmntrec = elmnt.getBoundingClientRect();
     let xx = 2 * (e.clientX - rec.left - (250.0 / 2.0)) / 250.0;
     let yy = 2 * (rec.top + (250.0 / 2.0) - e.clientY) / 250.0;
-    let mag = Math.sqrt(Math.pow(xx,2)+Math.pow(yy,2))
-    if(mag>1){
-    elmnt.style.opacity = 0.01;
+    let mag = Math.sqrt(Math.pow(xx, 2) + Math.pow(yy, 2))
+    if (mag > 1) {
+      elmnt.style.opacity = 0.01;
     }
-    else{
-    elmnt.style.opacity = 1;
+    else {
+      elmnt.style.opacity = 1;
     }
   }
 
@@ -499,13 +499,13 @@ function dragElement(elmnt) {
     let rec = unit_circle.getBoundingClientRect();
     let xx = 2 * (window.event.clientX - rec.left - (250.0 / 2.0)) / 250.0;
     let yy = 2 * (rec.top + (250.0 / 2.0) - window.event.clientY) / 250.0;
-    let mag = Math.sqrt(Math.pow(xx,2)+Math.pow(yy,2))
+    let mag = Math.sqrt(Math.pow(xx, 2) + Math.pow(yy, 2))
     if (drag) {
       elmnt.style = "display:none";
     }
     drag = false;
     // }
-    if(mag>1){
+    if (mag > 1) {
       console.log("This is the mag");
       console.log(mag);
       document.getElementById('remove').checked = true;
@@ -549,18 +549,17 @@ function upload_filter() {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data) 
-    {
+    success: function (data) {
       dict_data = JSON.parse(response);
 
-      zeros_real  = dict_data.zeros_real;
-      zeros_img   = dict_data.zeros_img;
-      poles_real  = dict_data.poles_real;
-      poles_img   = dict_data.poles_img;
-      for (var i = 0; i<zeros_real.length;i++){
+      zeros_real = dict_data.zeros_real;
+      zeros_img = dict_data.zeros_img;
+      poles_real = dict_data.poles_real;
+      poles_img = dict_data.poles_img;
+      for (var i = 0; i < zeros_real.length; i++) {
         zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
       }
-      for (var i = 0; i<poles_real.length;i++){
+      for (var i = 0; i < poles_real.length; i++) {
         poles_uploaded.push([poles_real[i], poles_img[i]]);
       }
     },
@@ -586,18 +585,17 @@ function upload_signal() {
     data: sig_data,
     enctype: 'multipart/form-data',
     url: "/importSignal",
-    success: function (response)
-    {
+    success: function (response) {
       console.log(response)
       dict_data = JSON.parse(response);
       console.log('importingggggggggggggggggggggggggggggggggggg')
-      frequency     = dict_data.frequency;
-      mag           = dict_data.mag;
-      phase         = dict_data.phase;
+      frequency = dict_data.frequency;
+      mag = dict_data.mag;
+      phase = dict_data.phase;
       output_signal = dict_data.output_signal;
-      input_signal  = dict_data.uploaded_signal_y,
-      x_axis        = dict_data.uploaded_signal_x
-  
+      input_signal = dict_data.uploaded_signal_y,
+        x_axis = dict_data.uploaded_signal_x
+
 
       console.log("new");
       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
@@ -622,7 +620,7 @@ function upload_signal() {
         "output"
       );
     },
-  }); 
+  });
 }
 const filter_upload_btn = document.getElementById("custom_btn");
 const uploaded_filter_btn = document.getElementById("uploaded_filter");

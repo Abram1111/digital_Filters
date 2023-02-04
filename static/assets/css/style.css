@@ -711,3 +711,8 @@ img {
 .slider {
     margin-top: -65px;
 }
+
+#allpass_contaner {
+    position: absolute;
+    top: -1000px;
+}
