@@ -16,7 +16,7 @@
 
 <body>
     <!--Unit circle with zero, pole, remove and conjugate features-->
-    <div class="contaner">
+    <div class="contaner" id="first_contaner">
         <div class="first_col">
             <div class="back3"></div>
             <div style="
@@ -102,7 +102,7 @@
                         </form>
                     </div>
                 </div>
-                <button class="control_btn">phase correct</button>
+                <button class="control_btn" id="phase">phase correct</button>
                 <div class="filter">
                     <form method="POST" enctype="multipart/form-data" id="filter_upload">
                         <input type="file" name="uploaded_filter" id="uploaded_filter" onchange="upload_filter()" />
@@ -135,11 +135,11 @@
             <div class="back2"></div>
         </div>
     </div>
-    <div class="allpass_contaner">
+    <div class="allpass_contaner" id="allpass_contaner">
         <div class="allpass_first_col">
             <!-- <div></div> -->
             <div id="main">
-                <button class="return">Return home</button>
+                <button class="return" id="home">Return home</button>
                 <input type="button" id="btAdd" value="Add Element" class="bt" />
                 <input type="button" id="btRemove" value="Remove Element" class="bt" />
                 <input type="button" id="btRemoveAll" value="Remove All" class="bt" />
