@@ -4,6 +4,9 @@ ip_signal.checked = true;
 chosen_sig = 0;
 let track_pad_avilable = 1;
 
+var zeros_real, zeros_img, poles_real, poles_img;
+let uploaded = false;
+
 var remove = 0;
 var polecounter = 0;
 let zeros = [];
@@ -418,6 +421,45 @@ function delet_element(div) {
     }
   }
 }
+zeros_real = 0.344;
+zeros_img = 0.44;
+let rect = unit_circle.getBoundingClientRect();
+window.onload= function(){
+  console.log("IM IN")
+  if(uploaded){
+    if(typeof zeros_real != 'undefined'){
+      let x = zeros_real * (250/2) + rect.left + (250/2);
+      let y = rect.top + (250/2) - zeros_img * (250/2);
+      let zero = document.createElement('div');
+      zero.setAttribute("class", "zero");
+      zero.setAttribute('onclick', 'delet_element(this)');
+      zero.setAttribute("id", 'zero' + id_conter);
+      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
+      dragElement(zero);
+      unit_circle.appendChild(zero);
+      id_conter++;
+      zflag = true;
+      z = {X:x, Y:y, id:zero.id,  conjugate:false};
+      zeros.push(z);
+    }
+    else if(typeof poles_real != 'undefined'){
+      let x = poles_real * (250/2) + rect.left + (250/2);
+      let y = rect.top + (250/2) - poles_img * (250/2);
+      let pole = document.createElement('div');
+      pole.setAttribute("class", "zero");
+      pole.setAttribute('onclick', 'delet_element(this)');
+      pole.setAttribute("id", 'zero' + polecounter);
+      pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`
+      dragElement(pole);
+      unit_circle.appendChild(pole);
+      id_conter++;
+      pflag = true;
+      p = {X:x, Y:y, id:pole.id,  conjugate:false};
+      poles.push(p);
+    }
+    NormalizeAndSend(poles, zeros);
+  }
+}
 unit_circle.addEventListener('click', function (e) {
   if (document.getElementById('remove').checked) {
     // delet_element
@@ -431,7 +473,7 @@ unit_circle.addEventListener('click', function (e) {
       zero.setAttribute("id", 'zero' + id_conter);
       // zero.setAttribute("ondrag", 'dragElement(this)');
       let zid = 'zero' + id_conter;
-      zero.style = ` overflow:hidden;background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100;`
+      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${e.clientY}px;left:${e.clientX}px; border-radius: 50%;z-index:100;`
       dragElement(zero);
       unit_circle.appendChild(zero);
       id_conter++;
@@ -496,6 +538,8 @@ unit_circle.addEventListener('click', function (e) {
   // console.log(poles);
   NormalizeAndSend(poles, zeros);
 });
+
+
 
 
 //{X:e.clientX, Y:e.clientY, id:'pole' + polecounter, conjugate:false};
@@ -564,10 +608,6 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    let rec = unit_circle.getBoundingClientRect();
-    if (elmnt.style.top > rec.top || elmnt.style.left > rec.left) {
-      elmnt.hidden = true;
-    }
   }
 
   function closeDragElement() {
@@ -628,10 +668,13 @@ function upload_filter() {
       zeros_img   = dict_data.zeros_img;
       poles_real  = dict_data.poles_real;
       poles_img   = dict_data.poles_img;
-
+      console.log('zeros_real');
+      console.log(zeros_real);
+      console.log('zeros_img');
+      console.log(zeros_img);
     },
   });
-
+  uploaded = true;
 }
 
 function upload_signal() {
