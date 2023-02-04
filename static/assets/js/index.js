@@ -541,21 +541,28 @@ function upload_filter() {
     console.log(p); // <- logs image in oData correctly
   }
   $.ajax({
-    url: "/importFilter",
-    type: "POST",
-    method: "POST",
-    data: filter_data,
-    enctype: "multipart/form-data",
-    cache: false,
-    contentType: false,
+
+    method: 'post',
     processData: false,
-    success: function (data) {
+    contentType: false,
+    cache: false,
+    data: filter_data,
+    enctype: 'multipart/form-data',
+    url: "/importFilter",
+
+
+    success: function (response) {
       dict_data = JSON.parse(response);
 
       zeros_real = dict_data.zeros_real;
       zeros_img = dict_data.zeros_img;
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
+      console.log(zeros_real);
+      console.log(zeros_img);
+      console.log(poles_real);
+      console.log(poles_img);
+
       for (var i = 0; i < zeros_real.length; i++) {
         zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
       }

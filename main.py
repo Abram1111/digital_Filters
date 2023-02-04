@@ -78,10 +78,10 @@ def import_filter():
         zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
 
         response_data = {
-        'zeros_real'       : zeros_real,
-        'zeros_img'        : zeros_img,
-        'poles_real'       : poles_real,
-        'poles_img'        : poles_img
+        'zeros_real'       : list(zeros_real),
+        'zeros_img'        : list(zeros_img ),
+        'poles_real'       : list(poles_real),
+        'poles_img'        : list(poles_img)
 
             }
         return jsonify(response_data)
