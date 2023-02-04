@@ -2,6 +2,8 @@ from flask import Flask, render_template, send_file, request, redirect,jsonify,j
 
 from werkzeug.utils import secure_filename
 from filters import Filters
+from pathlib import Path
+import os
 
 app = Flask(__name__)
 
@@ -59,11 +61,16 @@ def allpass():
 
 @app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
-    if request.method == 'POST':
-        print('*********************')
 
         isthisFile = request.files.get('filter')
-        isthisFile.save(isthisFile.filename)
+        filename=isthisFile.filename
+        file_path=Path(filename)
+        if file_path.is_file():
+            print('exist')
+            os.remove(filename)
+        else:
+         print('doesnt exist')
+         isthisFile.save(isthisFile.filename)
 
         zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
 
@@ -78,16 +85,16 @@ def import_filter():
  
 @app.route("/importSignal", methods=["GET", "POST"])
 def import_Signal():
-
-    print('*********************')
-    isthisFile  = request.files.get('signal')
-    isthisFile.save(isthisFile.filename)
-
-    zerosAndPoles   = json.loads(request.data)
-
-    zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
-    poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
-    obj1.update_zerosAndPoles(zeros,poles)
+    # downloading file
+    isthisFile = request.files.get('signal')
+    filename=isthisFile.filename
+    file_path=Path(filename)
+    if file_path.is_file():
+        print('exist')
+        os.remove(filename)
+    else:
+        print('doesnt exist')
+        isthisFile.save(isthisFile.filename)
 
     obj1.upload_signal(isthisFile.filename)
     obj1.input_output_signals(obj1.input_signal)

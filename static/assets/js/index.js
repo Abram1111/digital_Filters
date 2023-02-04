@@ -614,7 +614,7 @@ function signal_choice() {
   }
   else {
     //IMPORTED SIGNAL
-    drawUploaded();
+    // drawUploaded();
   }
 }
 
@@ -635,8 +635,15 @@ function upload_filter() {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data) {
-      signal_choice();
+    success: function (data) 
+    {
+      dict_data = JSON.parse(response);
+
+      zeros_real  = dict_data.zeros_real;
+      zeros_img   = dict_data.zeros_img;
+      poles_real  = dict_data.poles_real;
+      poles_img   = dict_data.poles_img;
+
     },
   });
 
@@ -658,12 +665,44 @@ function upload_signal() {
     data: sig_data,
     enctype: "multipart/form-data",
     cache: false,
-    contentType: false,
+    // contentType: "application/json",
     processData: false,
-    success: function (data) {
-      signal_choice();
+    success: function (response)
+    {
+      dict_data = JSON.parse(response);
+
+      frequency     = dict_data.frequency;
+      mag           = dict_data.mag;
+      phase         = dict_data.phase;
+      output_signal = dict_data.output_signal;
+      input_signal  = dict_data.uploaded_signal_y,
+      x_axis        = dict_data.uploaded_signal_x
+  
+
+      console.log("new");
+      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+      makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
+
+      makePlotly_trackpad(
+        x_axis,
+        input_signal,
+        null,
+        null,
+        "plot",
+        "input"
+      );
+      makePlotly_trackpad(
+        x_axis,
+        output_signal,
+        null,
+        null,
+        "out_plot",
+        "output"
+      );
     },
   });
+    
+
   // ev.preventDefault();
   // const upload_btn = document.getElementById("uploaded_filter");
   // const curFiles2 = upload_btn.files;
