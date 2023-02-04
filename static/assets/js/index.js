@@ -38,12 +38,15 @@ let ids = [];
 let selectedid = 0;
 let filters = [];
 let inputval = "";
-
+var phase=0;
+var phase_frequency=0;
 
 let phase_btn = document.getElementById("phase");
 let first_contaner = document.getElementById("first_contaner");
 phase_btn.addEventListener("click", function () {
   first_contaner.style.display = "none";
+  makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
+  // allpass_contaner.style.display = "inline";
 });
 
 
@@ -51,6 +54,7 @@ let allpass_contaner = document.getElementById("allpass_contaner");
 let return_btn = document.getElementById("home");
 return_btn.addEventListener("click", function () {
   allpass_contaner.style.display = "none";
+  // first_contaner.style.display = "inline";
 });
 return_btn.click();
 
@@ -144,13 +148,8 @@ function uploadedFilter() {
     data: JSON.stringify(null),
     success: function (response) {
       dict_data = JSON.parse(response);
-
       zeros = dict_data.zeros;
       poles = dict_data.poles;
-
-      // console.log("new_filter");
-      // console.log(zeros,poles);
-
     },
   });
 }
@@ -204,22 +203,6 @@ pad.addEventListener("mousemove", function (e) {
     if (i > 300) {
       x_length = i - 300;
     }
-    // makePlotly_trackpad(
-    //   x_value,
-    //   y_value,
-    //   [x_length, x_length + 300],
-    //   [0, 200],
-    //   "plot",
-    //   "input"
-    // );
-    // makePlotly_trackpad(
-    //   x_value,
-    //   y_value,
-    //   [x_length, x_length + 300],
-    //   [0, 200],
-    //   "out_plot",
-    //   "output"
-    // );
     drawTrackPad();
   }
 
@@ -302,8 +285,6 @@ function delet_element(div) {
     }
   }
 }
-// zeros_real = 0.344;
-// zeros_img = 0.44;
 let rect = unit_circle.getBoundingClientRect();
 window.onload = function(){
   console.log("IM IN")
@@ -750,7 +731,9 @@ function GetTextValue() {
     data: JSON.stringify(filters),
     success: function (response) {
       dict_data = JSON.parse(response);
+      dict_data["frequency"];
       makePlotly_trackpad(dict_data["frequency"], dict_data["phase"], null, null, "allpass", "Allpass");
+      makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
     },
   });
 }
@@ -791,4 +774,4 @@ function myFunction() {
 
 
 GetTextValue();
-makePlotly_trackpad([0, 1, 2, 3, 4, 4], [0, 1, 2, 3, 4, 4], null, null, "total-phase", "output");
+makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "output");
