@@ -421,8 +421,8 @@ function delet_element(div) {
     }
   }
 }
-zeros_real = 0.344;
-zeros_img = 0.44;
+// zeros_real = 0.344;
+// zeros_img = 0.44;
 let rect = unit_circle.getBoundingClientRect();
 window.onload= function(){
   console.log("IM IN")
