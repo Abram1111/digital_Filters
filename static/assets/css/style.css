@@ -1,95 +1,10 @@
-.importFilter {
-    background: rgb(35, 73, 73);
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    height: 40px;
-    width: 130px;
+* {
+    user-select: none;
 }
 
-.button {
-    background: rgb(35, 73, 73);
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    height: 40px;
-    width: 130px;
-}
-
-/*Lines(Axes) styling*/
-#horizontal {
-    width: 250px;
-    height: 125px;
-    border-bottom: 3px solid rgb(11, 11, 11);
-    position: absolute;
-}
-
-#vertical {
-    border-left: 3px solid rgb(3, 3, 3);
-    height: 250px;
-    margin-left: 125px;
-    position: absolute;
-    /* margin-top: 212px;
-    left: 105px; */
-    /* margin-left: -3px; */
-    /* top: 0; */
-}
-
-#track_pad {
-    width: 95%;
-    height: 200px;
-    background-color: #080a49f1;
-    margin-left: auto;
-    margin-right: auto;
-    /* position: relative; */
-    margin-bottom: 30px;
-    border-radius: 1.5rem;
-
-
-}
-
-#plot,
-#out_plot {
-    width: 100%;
-    height: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-left: -30px;
-    margin-bottom: 50px;
-    /* border-radius: 1.5rem; */
-    z-index: 3;
-}
-
-#plot1,
-#plot2 {
-    width: 620px;
-    height: 270px;
-    margin-left: -40px;
-
-}
-
-
-
-#plot1 {
-    margin-top: 30px;
-    height: 320px;
-}
-
-.controls {
-    /* position: relative; */
-    margin-top: -15px;
-    background-color: #d3d3d3;
-    width: 240px;
-    border-radius: 1.5rem;
-    padding: 20px;
-    height: 270px;
-
-}
-
+/***********************************************************************************************
+********************************  Out Line Styling  ********************************************
+************************************************************************************************/
 .contaner {
     display: flex;
     background-color: #d3d3d3;
@@ -97,7 +12,6 @@
     padding: 10px;
     width: 98%;
     margin: auto;
-    /* padding-top: 10px; */
 }
 
 .first_col {
@@ -117,63 +31,21 @@
     display: inline;
     width: 35%;
     height: 700px;
-    /* overflow: hidden; */
     background-color: #9b9b9b76;
     border-radius: 1.5rem;
     padding: 10px;
 }
 
-.back,
-.back2 {
-    width: 465px;
-    height: 200px;
-    z-index: 1;
-    background-color: transparent;
-    position: absolute;
-    border-radius: 1.5rem;
-    left: 1018px;
-    top: 250px;
-    border: 10px solid #d3d3d3;
-}
-
-.back2 {
-    top: 500px;
-}
+/***********************************************************************************************
+********************************  End Of Out Line Styling  *************************************
+************************************************************************************************/
 
 
-.back3 {
-    width: 570px;
-    height: 350px;
-    z-index: 3;
-    background-color: transparent;
-    position: absolute;
-    border-radius: 1.5rem;
-    left: 350px;
-    top: 40px;
-    border: 10px solid #d3d3d3;
 
 
-}
-
-.back4 {
-    width: 570px;
-    height: 290px;
-    z-index: 3;
-    background-color: transparent;
-    position: absolute;
-    border-radius: 1.5rem;
-    left: 350px;
-    top: 420px;
-    border: 10px solid #d3d3d3;
-}
-
-.radio-inline {
-    font-family: sans-serif;
-    outline: none;
-    border: none;
-    font-size: 1rem;
-    width: 150px;
-}
+/***********************************************************************************************
+********************************  Unit Cricle Styling  *****************************************
+************************************************************************************************/
 
 #circle {
     background-color: #080a49f1;
@@ -184,61 +56,40 @@
     z-index: 10;
 }
 
-.remove_label {
-    display: inline;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Roboto', sans-serif;
-    margin-top: 5px;
+/*Lines(Axes) styling*/
+#horizontal {
+    width: 250px;
+    height: 125px;
+    border-bottom: 3px solid rgb(11, 11, 11);
+    position: absolute;
 }
 
-.signal_type {
-    /* background-color: red; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    margin-top: -25px;
-    margin-left: -15px;
+#vertical {
+    border-left: 3px solid rgb(3, 3, 3);
+    height: 250px;
+    margin-left: 125px;
+    position: absolute;
 }
 
-#signal_upload {
-    display: none;
-}
-
-.control_btn {
-    font-family: sans-serif;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    padding: 8px;
-    background-color: #080a49f1;
-    cursor: pointer;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    width: 211px;
-    margin-left: 18px;
-}
-
-#uploaded_filter {
-    display: none;
-}
+/***********************************************************************************************
+********************************  End Of Unit Circle Styling  **********************************
+************************************************************************************************/
 
 
+
+
+
+/***********************************************************************************************
+********************************  Zero Pole Switching Styling  *********************************
+************************************************************************************************/
 .smile-rating-container {
     position: relative;
     height: 6%;
     min-width: 100px;
     max-width: 180px;
-    /* margin: auto; */
     font-family: 'Roboto', sans-serif;
-    /* top: 5%; */
     left: 30px;
     border-radius: 1.5rem;
-    /* background-color: white; */
     padding: 5px;
     padding-bottom: 0;
     margin-bottom: 20px;
@@ -248,14 +99,12 @@
 .submit-rating {
     display: flex;
     align-items: center;
-    /* justify-content: center; */
 }
 
 .rating-label {
     position: relative;
     font-size: 1.3em;
     text-align: center;
-    /* flex: 0.34; */
     z-index: 3;
     font-weight: bold;
     cursor: pointer;
@@ -274,7 +123,6 @@
 }
 
 .rating-label-meh {
-    /* left: 58px; */
     text-align: left;
     color: #222;
 }
@@ -325,6 +173,23 @@ Toggle Changes
     left: 105px;
 }
 
+/***********************************************************************************************
+****************************  End Of Zero Pole Switching Styling  ******************************
+************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************************************************
+********************************  Remove & Draw Conjugate Styling  *****************************
+************************************************************************************************/
 
 .checkbox-wrapper-55 input[type="checkbox"] {
     visibility: hidden;
@@ -340,14 +205,6 @@ Toggle Changes
 .checkbox-wrapper-55 .rocker {
     display: inline-block;
     position: relative;
-    /*
-SIZE OF SWITCH
-==============
-All sizes are in em - therefore
-changing the font-size here
-will change the size of the switch.
-See .rocker-small below as example.
-*/
     font-size: 1.5em;
     font-weight: bold;
     text-align: center;
@@ -356,7 +213,6 @@ See .rocker-small below as example.
     width: 5.5em;
     height: 2.5em;
     overflow: hidden;
-    /* border-bottom: 0.5em solid #eee; */
 }
 
 .checkbox-wrapper-55 .rocker-small {
@@ -461,25 +317,128 @@ See .rocker-small below as example.
     color: #333;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,500,600,700&display=swap');
+/***********************************************************************************************
+***************************  End Of Remove & Draw Conjugate Styling  ***************************
+************************************************************************************************/
 
-html,
-body {
 
-    /*   background: #0069d9; */
-    font-family: 'Lato', sans-serif;
+
+
+
+/***********************************************************************************************
+********************************  Mag & Phase Ploting Styling  *********************************
+************************************************************************************************/
+
+#plot1,
+#plot2 {
+    width: 620px;
+    height: 270px;
+    margin-left: -40px;
+
 }
+
+#plot1 {
+    margin-top: 30px;
+    height: 320px;
+}
+
+.back3 {
+    width: 570px;
+    height: 350px;
+    z-index: 3;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 1.5rem;
+    left: 350px;
+    top: 40px;
+    border: 10px solid #d3d3d3;
+
+
+}
+
+.back4 {
+    width: 570px;
+    height: 290px;
+    z-index: 3;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 1.5rem;
+    left: 350px;
+    top: 420px;
+    border: 10px solid #d3d3d3;
+}
+
+/***********************************************************************************************
+********************************  End Of Mag & Phase Ploting Styling  **************************
+************************************************************************************************/
+
+
+
+
+
+/***********************************************************************************************
+*************************************  Controls Styling  ***************************************
+************************************************************************************************/
+.radio-inline {
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    width: 150px;
+}
+
+.remove_label {
+    display: inline;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 5px;
+}
+
+.signal_type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-top: -25px;
+    margin-left: -15px;
+}
+
+#signal_upload {
+    display: none;
+}
+
+#uploaded_filter {
+    display: none;
+}
+
+.control_btn {
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 8px;
+    background-color: #080a49f1;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    width: 211px;
+    margin-left: 18px;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Lato:400,500,600,700&display=swap');
 
 .wrapper {
     display: inline-flex;
-    /*   background: #fff; */
     height: 70px;
     width: 200px;
     align-items: center;
     justify-content: space-evenly;
     border-radius: 5px;
     padding: 20px 15px;
-    /*   box-shadow: 5px 5px 30px rgba(0,0,0,0.2); */
     box-sizing: border-box;
     font-family: 'Lato', sans-serif;
     margin-top: -25px;
@@ -553,6 +512,73 @@ input[type="radio"] {
     color: #fff;
 }
 
+/***********************************************************************************************
+********************************  End Of Controls Styling  *************************************
+************************************************************************************************/
+
+/***********************************************************************************************
+*************************************  Second Col Styling  *************************************
+************************************************************************************************/
+#track_pad {
+    width: 95%;
+    height: 200px;
+    background-color: #080a49f1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    border-radius: 1.5rem;
+}
+
+#plot,
+#out_plot {
+    width: 100%;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-left: -30px;
+    margin-bottom: 50px;
+    z-index: 3;
+}
+
+
+.controls {
+    margin-top: -15px;
+    background-color: #d3d3d3;
+    width: 240px;
+    border-radius: 1.5rem;
+    padding: 20px;
+    height: 270px;
+
+}
+
+.back,
+.back2 {
+    width: 465px;
+    height: 200px;
+    z-index: 1;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 1.5rem;
+    left: 1018px;
+    top: 250px;
+    border: 10px solid #d3d3d3;
+}
+
+.back2 {
+    top: 500px;
+}
+
+/***********************************************************************************************
+******************************  End OF Second Col Styling  *************************************
+************************************************************************************************/
+
+
+
+/****************************************************************************************************************************************
+*****************************************************************************************************************************************
+******************************************************  ALL PASS SECTION  ***************************************************************
+*****************************************************************************************************************************************
+****************************************************************************************************************************************/
 
 .splide {
     width: 100%;
@@ -561,7 +587,6 @@ input[type="radio"] {
 .splide__slide {
     padding: 0.5%;
     display: flex;
-    /* justify-content: left; */
     justify-content: end;
     background: #ecf0f1;
 }
@@ -687,7 +712,6 @@ input[type="radio"] {
 
 #main {
     height: 100px;
-    /* margin-top: 100px; */
     display: grid;
 }
 
