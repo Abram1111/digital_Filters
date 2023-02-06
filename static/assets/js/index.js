@@ -47,6 +47,7 @@ let allpass_contaner = document.getElementById("allpass_contaner");
 phase_btn.addEventListener("click", function () {
   first_contaner.style.display = "none";
   // makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
+  GetTextValue();
   allpass_contaner.style.display = "block";
   allpass_contaner.style.top = 0;
 });
@@ -632,7 +633,9 @@ function upload_signal() {
         "out_plot",
         "output"
       );
+      $("#uploaded_sig")[0].value = "";
     },
+    
   });
 }
 const filter_upload_btn = document.getElementById("custom_btn");
