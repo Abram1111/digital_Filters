@@ -24,8 +24,7 @@ var button = document.getElementById('remove').checked;
 
 let pad = document.getElementById("track_pad");
 // let id_conter = 0;
-const x_value = [];
-const y_value = [];
+let x_value = [];
 let i = 0;
 let x_length = 0;
 const CSV = "../static/assets/data/magAndPhase.csv";
@@ -44,6 +43,9 @@ var phase_frequency = 0;
 let phase_btn = document.getElementById("phase");
 let first_contaner = document.getElementById("first_contaner");
 let allpass_contaner = document.getElementById("allpass_contaner");
+
+let input_signal=[]
+
 phase_btn.addEventListener("click", function () {
   first_contaner.style.display = "none";
   // makePlotly_trackpad(phase_frequency, phase, null, null, "total-phase", "Phase Responce");
@@ -60,9 +62,9 @@ return_btn.addEventListener("click", function () {
   first_contaner.style.display = "flex";
 });
 
-function drawTrackPad() {
-  // var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': y_value };
-  var zerospoles = { 'zeros': zerosUpdated, 'poles': polesUpdated, 'input': y_value };
+function unitcircle()
+{
+  var zerospoles = { 'zeros': zerosUpdated, 'poles': polesUpdated, 'input': input_signal };
   console.log(JSON.stringify(zerospoles));
   $.ajax({
     url: "/unitcircle",
@@ -77,84 +79,114 @@ function drawTrackPad() {
       phase = dict_data.phase;
       output_signal = dict_data.output_signal;
 
-      console.log("new");
-      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
-      makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-
-      makePlotly_trackpad(
-        x_value,
-        y_value,
-        [x_length, x_length + 300],
-        null,
-        "plot",
-        "input"
-      );
-      makePlotly_trackpad(
-        x_value,
-        output_signal,
-        [x_length, x_length + 300],
-        null,
-        "out_plot",
-        "output"
-      );
-    },
-  });
-}
-
-function drawUploaded() {
-  // var zerosandpoles = { 'zeros': zeros , 'poles': poles };
-  var zerosandpoles = { 'zeros': zerosUpdated, 'poles': polesUpdated };
-  console.log(JSON.stringify(zerosandpoles));
-  $.ajax({
-    url: "/importSignal",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(zerosandpoles),
-    success: function (response) {
-      dict_data = JSON.parse(response);
-
-      frequency = dict_data.frequency;
-      mag = dict_data.mag;
-      phase = dict_data.phase;
-      output_signal = dict_data.output_signal;
 
       console.log("new");
-      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+      makePlotly_trackpad(frequency, mag  , [0, 3.15], null, "plot1", "Magntuide");
       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
 
-      makePlotly_trackpad(
-        x_value,
-        y_value,
-        [x_length, x_length + 300],
-        null,
-        "plot",
-        "input"
-      );
-      makePlotly_trackpad(
-        x_value,
-        output_signal,
-        [x_length, x_length + 300],
-        null,
-        "out_plot",
-        "output"
-      );
+      makePlotly_trackpad( x_value,input_signal ,[x_length, x_length + 300], null, "plot"   , "input");
+      makePlotly_trackpad( x_value,output_signal,[x_length, x_length + 300], null,"out_plot","output");
     },
   });
 }
-function uploadedFilter() {
-  console.log(JSON.stringify(zerosandpoles));
-  $.ajax({
-    url: "/importFilter",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(null),
-    success: function (response) {
-      dict_data = JSON.parse(response);
-      zeros = dict_data.zeros;
-      poles = dict_data.poles;
-    },
-  });
-}
+// function drawTrackPad() {
+//   // var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': input_signal };
+//   var zerospoles = { 'zeros': zerosUpdated, 'poles': polesUpdated, 'input': input_signal };
+//   console.log(JSON.stringify(zerospoles));
+//   $.ajax({
+//     url: "/unitcircle",
+//     type: "POST",
+//     contentType: "application/json",
+//     data: JSON.stringify(zerospoles),
+//     success: function (response) {
+//       dict_data = JSON.parse(response);
+
+//       frequency = dict_data.frequency;
+//       mag = dict_data.mag;
+//       phase = dict_data.phase;
+//       output_signal = dict_data.output_signal;
+
+//       console.log("new");
+//       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+//       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
+
+//       makePlotly_trackpad(
+//         x_value,
+//         input_signal,
+//         [x_length, x_length + 300],
+//         null,
+//         "plot",
+//         "input"
+//       );
+//       makePlotly_trackpad(
+//         x_value,
+//         output_signal,
+//         [x_length, x_length + 300],
+//         null,
+//         "out_plot",
+//         "output"
+//       );
+//     },
+//   });
+// }
+
+// function drawUploaded() {
+//   // var zerosandpoles = { 'zeros': zeros , 'poles': poles };
+//   var zerosandpoles = { 'zeros': zerosUpdated, 'poles': polesUpdated };
+//   console.log(JSON.stringify(zerosandpoles));
+//   $.ajax({
+//     url: "/importSignal",
+//     type: "POST",
+//     contentType: "application/json",
+//     data: JSON.stringify(zerosandpoles),
+//     success: function (response) {
+//       dict_data = JSON.parse(response);
+
+//       frequency = dict_data.frequency;
+//       mag = dict_data.mag;
+//       phase = dict_data.phase;
+//       output_signal = dict_data.output_signal;
+
+//       console.log("new");
+//       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+//       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
+
+//       makePlotly_trackpad(
+//         x_value,
+//         input_signal,
+//         [x_length, x_length + 300],
+//         null,
+//         "plot",
+//         "input"
+//       );
+//       makePlotly_trackpad(
+//         x_value,
+//         output_signal,
+//         [x_length, x_length + 300],
+//         null,
+//         "out_plot",
+//         "output"
+//       );
+//     },
+//   });
+
+// }
+
+// function uploadedFilter() {
+//   console.log(JSON.stringify(zerosandpoles));
+//   $.ajax({
+//     url: "/importFilter",
+//     type: "POST",
+//     contentType: "application/json",
+//     data: JSON.stringify(null),
+//     success: function (response) {
+//       dict_data = JSON.parse(response);
+//       zeros = dict_data.zeros;
+//       poles = dict_data.poles;
+//     },
+//   });
+// }
+
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
     {
@@ -201,59 +233,60 @@ pad.addEventListener("mousemove", function (e) {
   if (track_pad_avilable) {
     i++;
     x_value.push(i);
-    y_value.push(100 - (e.y - 30) + 100);
+    input_signal.push(100 - (e.y - 30) + 100);
     if (i > 300) {
       x_length = i - 300;
     }
-    drawTrackPad();
+
+  unitcircle();
   }
 
 });
 
 
 
-function plotFromCSV() {
-  Plotly.d3.csv(CSV, function (err, rows) {
-    processData(rows);
-  });
-}
+// function plotFromCSV() {
+//   Plotly.d3.csv(CSV, function (err, rows) {
+//     processData(rows);
+//   });
+// }
 
-function processData(allRows) {
-  let x = [];
-  let y1 = [];
-  let y2 = [];
-  let row;
+// function processData(allRows) {
+//   let x = [];
+//   let y1 = [];
+//   let y2 = [];
+//   let row;
 
-  let i = 0;
-  while (i < allRows.length) {
-    row = allRows[i];
-    x.push(row["frequency"]);
-    y1.push(row["mag"]);
-    y2.push(row["phase"]);
-    i += 1;
-  }
+//   let i = 0;
+//   while (i < allRows.length) {
+//     row = allRows[i];
+//     x.push(row["frequency"]);
+//     y1.push(row["mag"]);
+//     y2.push(row["phase"]);
+//     i += 1;
+//   }
 
-  makePlotly_trackpad(x, y1, [0, 3.15], null, "plot1", "Magnitude response");
-  makePlotly_trackpad(x, y2, [0, 3.15], null, "plot2", "Phase response");
-}
+//   makePlotly_trackpad(x, y1, [0, 3.15], null, "plot1", "Magnitude response");
+//   makePlotly_trackpad(x, y2, [0, 3.15], null, "plot2", "Phase response");
+// }
 
 
-makePlotly_trackpad(
-  x_value,
-  y_value,
-  [x_length, x_length + 300],
-  [0, 200],
-  "plot",
-  "input"
-);
-makePlotly_trackpad(
-  x_value,
-  y_value,
-  [x_length, x_length + 300],
-  [0, 200],
-  "out_plot",
-  "output"
-);
+// makePlotly_trackpad(
+//   x_value,
+//   input_signal,
+//   [x_length, x_length + 300],
+//   [0, 200],
+//   "plot",
+//   "input"
+// );
+// makePlotly_trackpad(
+//   x_value,
+//   input_signal,
+//   [x_length, x_length + 300],
+//   [0, 200],
+//   "out_plot",
+//   "output"
+// );
 
 let darg_flag = false;
 
@@ -446,7 +479,7 @@ function NormalizeAndSend(poles, zeros) {
   }
   zeros = [[5], [3]]
   poles = [[2], [2]]
-  drawTrackPad();
+  unitcircle();
 }
 
 // console.log(id_conter+"Repeat");
@@ -526,11 +559,11 @@ function signal_choice() {
   chosen_sig = document.querySelector('input[name="Signal-choice"]:checked').value;
   if (chosen_sig == 0) {
     //TRACK PAD
-    drawTrackPad();
+    unitcircle();
   }
   else {
     //IMPORTED SIGNAL
-    // drawUploaded();
+    unitcircle();
   }
 }
 
@@ -601,38 +634,24 @@ function upload_signal() {
       frequency     = dict_data.frequency;
       mag           = dict_data.mag;
       phase         = dict_data.phase;
-      output_signal = dict_data.output_signal;
-      input_signal  = dict_data.input_signal;
-      x_axis        = dict_data.uploaded_signal_x;
-  
-      console.log(frequency);
-      console.log(input_signal);
-      console.log('testinggggg');
-      console.log(output_signal);
+      output_signal    = dict_data.output_signal;
+      uploaded_signal  = dict_data.uploaded_signal;
+      x_axis           = dict_data.x_axis;
 
-      console.log("new");
-      
-      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
-      makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
+      let new_signal=Object.values(uploaded_signal)
+      let new_x     =Object.values(x_axis)
+      last=x_value.pop()
 
-      makePlotly_trackpad(
-        x_axis,
-        input_signal,
-        null,
-        null,
-        "plot",
-        "input"
-      );
-      console.log("new");
+      for (var i = 0; i < new_x.length; i++) {
+        new_x[i]= last+new_x[i];
+      }
+      console.log(new_x);
+      console.log(typeof(x_axis));
 
-      makePlotly_trackpad(
-        x_axis,
-        output_signal,
-        null,
-        null,
-        "out_plot",
-        "output"
-      );
+      input_signal = input_signal.concat(new_signal);
+      x_value      = x_value.concat(new_x);
+
+      unitcircle();
       $("#uploaded_sig")[0].value = "";
     },
     

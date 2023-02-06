@@ -79,6 +79,8 @@ class Filters:
     def upload_signal(self,filename):
         data = pd.read_csv(filename, delimiter= ',')
         self.uploaded_signal_x=data['time'].tolist()
+        self.uploaded_signal_x=list(np.float_(self.uploaded_signal_x))
+       
         self.uploaded_signal_y=data['amp'].tolist()
         self.input_signal=self.uploaded_signal_y
 

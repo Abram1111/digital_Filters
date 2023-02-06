@@ -134,12 +134,13 @@ def import_Signal():
         obj1.input_output_signals(obj1.input_signal)
 
     response_data = json.dumps({
-        'frequency'    : list(obj1.frequencies),
-        'mag'          : list(obj1.magnitud_response),
-        'phase'        : list(obj1.total_phase_response),
-        'output_signal': list(obj1.output_signal),
-        'input_signal' : list(obj1.input_signal) ,
-        'x_axis'       : list(obj1.uploaded_signal_x) 
+
+        'uploaded_signal' : list(obj1.input_signal) ,
+        'x_axis'          : list(obj1.uploaded_signal_x),
+        'frequency'       : list(obj1.frequencies),
+        'mag'             : list(obj1.magnitud_response),
+        'phase'           : list(obj1.total_phase_response),
+        'output_signal'   : list(obj1.output_signal),
     
         })
 
