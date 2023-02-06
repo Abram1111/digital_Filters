@@ -25,7 +25,7 @@ var button = document.getElementById('remove').checked;
 let pad = document.getElementById("track_pad");
 // let id_conter = 0;
 let x_value = [];
-let i = 0;
+let itrator = 0;
 let x_length = 0;
 const CSV = "../static/assets/data/magAndPhase.csv";
 
@@ -44,7 +44,7 @@ let phase_btn = document.getElementById("phase");
 let first_contaner = document.getElementById("first_contaner");
 let allpass_contaner = document.getElementById("allpass_contaner");
 
-let input_signal=[]
+let input_signal = []
 
 phase_btn.addEventListener("click", function () {
   first_contaner.style.display = "none";
@@ -62,10 +62,9 @@ return_btn.addEventListener("click", function () {
   first_contaner.style.display = "flex";
 });
 
-function unitcircle()
-{
+function unitcircle() {
   var zerospoles = { 'zeros': zerosUpdated, 'poles': polesUpdated, 'input': input_signal };
-  console.log(JSON.stringify(zerospoles));
+  // console.log(JSON.stringify(zerospoles));
   $.ajax({
     url: "/unitcircle",
     type: "POST",
@@ -80,112 +79,16 @@ function unitcircle()
       output_signal = dict_data.output_signal;
 
 
-      console.log("new");
-      makePlotly_trackpad(frequency, mag  , [0, 3.15], null, "plot1", "Magntuide");
+      // console.log("new");
+      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
 
-      makePlotly_trackpad( x_value,input_signal ,[x_length, x_length + 300], null, "plot"   , "input");
-      makePlotly_trackpad( x_value,output_signal,[x_length, x_length + 300], null,"out_plot","output");
+      makePlotly_trackpad(x_value, input_signal, [x_length, x_length + 300], null, "plot", "input");
+      makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], null, "out_plot", "output");
     },
   });
 }
-// function drawTrackPad() {
-//   // var zerospoles = { 'zeros': zeros , 'poles': poles , 'input': input_signal };
-//   var zerospoles = { 'zeros': zerosUpdated, 'poles': polesUpdated, 'input': input_signal };
-//   console.log(JSON.stringify(zerospoles));
-//   $.ajax({
-//     url: "/unitcircle",
-//     type: "POST",
-//     contentType: "application/json",
-//     data: JSON.stringify(zerospoles),
-//     success: function (response) {
-//       dict_data = JSON.parse(response);
 
-//       frequency = dict_data.frequency;
-//       mag = dict_data.mag;
-//       phase = dict_data.phase;
-//       output_signal = dict_data.output_signal;
-
-//       console.log("new");
-//       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
-//       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-
-//       makePlotly_trackpad(
-//         x_value,
-//         input_signal,
-//         [x_length, x_length + 300],
-//         null,
-//         "plot",
-//         "input"
-//       );
-//       makePlotly_trackpad(
-//         x_value,
-//         output_signal,
-//         [x_length, x_length + 300],
-//         null,
-//         "out_plot",
-//         "output"
-//       );
-//     },
-//   });
-// }
-
-// function drawUploaded() {
-//   // var zerosandpoles = { 'zeros': zeros , 'poles': poles };
-//   var zerosandpoles = { 'zeros': zerosUpdated, 'poles': polesUpdated };
-//   console.log(JSON.stringify(zerosandpoles));
-//   $.ajax({
-//     url: "/importSignal",
-//     type: "POST",
-//     contentType: "application/json",
-//     data: JSON.stringify(zerosandpoles),
-//     success: function (response) {
-//       dict_data = JSON.parse(response);
-
-//       frequency = dict_data.frequency;
-//       mag = dict_data.mag;
-//       phase = dict_data.phase;
-//       output_signal = dict_data.output_signal;
-
-//       console.log("new");
-//       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
-//       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-
-//       makePlotly_trackpad(
-//         x_value,
-//         input_signal,
-//         [x_length, x_length + 300],
-//         null,
-//         "plot",
-//         "input"
-//       );
-//       makePlotly_trackpad(
-//         x_value,
-//         output_signal,
-//         [x_length, x_length + 300],
-//         null,
-//         "out_plot",
-//         "output"
-//       );
-//     },
-//   });
-
-// }
-
-// function uploadedFilter() {
-//   console.log(JSON.stringify(zerosandpoles));
-//   $.ajax({
-//     url: "/importFilter",
-//     type: "POST",
-//     contentType: "application/json",
-//     data: JSON.stringify(null),
-//     success: function (response) {
-//       dict_data = JSON.parse(response);
-//       zeros = dict_data.zeros;
-//       poles = dict_data.poles;
-//     },
-//   });
-// }
 
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
@@ -231,62 +134,22 @@ function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
 
 pad.addEventListener("mousemove", function (e) {
   if (track_pad_avilable) {
-    i++;
-    x_value.push(i);
+    itrator++;
+    x_value.push(itrator);
     input_signal.push(100 - (e.y - 30) + 100);
-    if (i > 300) {
-      x_length = i - 300;
+    if (itrator > 300) {
+      console.log("track")
+      console.log(itrator)
+      x_length = itrator - 300;
     }
 
-  unitcircle();
+    unitcircle();
   }
 
 });
 
 
 
-// function plotFromCSV() {
-//   Plotly.d3.csv(CSV, function (err, rows) {
-//     processData(rows);
-//   });
-// }
-
-// function processData(allRows) {
-//   let x = [];
-//   let y1 = [];
-//   let y2 = [];
-//   let row;
-
-//   let i = 0;
-//   while (i < allRows.length) {
-//     row = allRows[i];
-//     x.push(row["frequency"]);
-//     y1.push(row["mag"]);
-//     y2.push(row["phase"]);
-//     i += 1;
-//   }
-
-//   makePlotly_trackpad(x, y1, [0, 3.15], null, "plot1", "Magnitude response");
-//   makePlotly_trackpad(x, y2, [0, 3.15], null, "plot2", "Phase response");
-// }
-
-
-// makePlotly_trackpad(
-//   x_value,
-//   input_signal,
-//   [x_length, x_length + 300],
-//   [0, 200],
-//   "plot",
-//   "input"
-// );
-// makePlotly_trackpad(
-//   x_value,
-//   input_signal,
-//   [x_length, x_length + 300],
-//   [0, 200],
-//   "out_plot",
-//   "output"
-// );
 
 let darg_flag = false;
 
@@ -302,14 +165,14 @@ function delet_element(div) {
   for (var i = 0; i < Math.max(zeros.length, poles.length); i++) {
     // console.log(i);
     if (i < zeros.length) {
-      console.log("in");
-      console.log(div.id);
+      // console.log("in");
+      // console.log(div.id);
       if (zeros[i].id == ID) {
-        console.log("before");
+        // console.log("before");
         zeros.splice(i, 1);
-        console.log(zerosUpdated);
+        // console.log(zerosUpdated);
         zerosUpdated.splice(i, 1);
-        console.log(zerosUpdated);
+        // console.log(zerosUpdated);
         z = {};
       }
     }
@@ -328,7 +191,7 @@ function delet_element(div) {
 }
 let rect = unit_circle.getBoundingClientRect();
 window.onload = function () {
-  console.log("IM IN")
+  // console.log("IM IN")
   if (uploaded) {
     if (!(JSON.stringify(zeros_uploaded) === '{}')) {
       for (zeros_item in zeros_uploaded) {
@@ -441,7 +304,7 @@ unit_circle.addEventListener('click', function (e) {
     }
   }
 
-  console.log(zeros);
+  // console.log(zeros);
   // console.log(poles);
   NormalizeAndSend(poles, zeros);
 });
@@ -462,7 +325,7 @@ function NormalizeAndSend(poles, zeros) {
       // console.log(zeros);
       zerosUpdated.push({ X: x, Y: y, id: zeros[i].id, conjugate: zeros[i].conjugate });
       // }
-      console.log(zerosUpdated)
+      // console.log(zerosUpdated)
     }
     zflag = false;
   }
@@ -473,7 +336,7 @@ function NormalizeAndSend(poles, zeros) {
       let y = 2 * (rect.top + (250.0 / 2.0) - poles[i].Y) / 250.0;
       // console.log(poles)
       polesUpdated.push({ X: x, Y: y, id: poles[i].id, conjugate: poles[i].conjugate });
-      console.log(polesUpdated);
+      // console.log(polesUpdated);
     }
     pflag = false;
   }
@@ -541,10 +404,10 @@ function dragElement(elmnt) {
     drag = false;
     // }
     if (mag > 1) {
-      console.log("This is the mag");
-      console.log(mag);
-      document.getElementById('remove').checked = true;
-      console.log(document.getElementById('remove').checked);
+      // console.log("This is the mag");
+      // console.log(mag);
+      // document.getElementById('remove').checked = true;
+      // console.log(document.getElementById('remove').checked);
       // delet_element(elmnt);
       elmnt.onclick;
       // darg_flag = true;
@@ -572,8 +435,8 @@ function upload_filter() {
   var filter_data = new FormData(fiter_form);
   filter_data.append("filter", $("#uploaded_filter")[0].files[0]);
   for (var p of filter_data) {
-    console.log(1)
-    console.log(p); // <- logs image in oData correctly
+    // console.log(1)
+    // console.log(p); // <- logs image in oData correctly
   }
   $.ajax({
 
@@ -593,10 +456,10 @@ function upload_filter() {
       zeros_img = dict_data.zeros_img;
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
-      console.log(zeros_real);
-      console.log(zeros_img);
-      console.log(poles_real);
-      console.log(poles_img);
+      // console.log(zeros_real);
+      // console.log(zeros_img);
+      // console.log(poles_real);
+      // console.log(poles_img);
 
       // for (var i = 0; i < zeros_real.length; i++) {
       //   zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
@@ -614,8 +477,8 @@ function upload_signal() {
   var sig_data = new FormData(sig_form);
   sig_data.append("signal", $("#uploaded_sig")[0].files[0]);
   for (var p of sig_data) {
-    console.log(1)
-    console.log(p); // <- logs image in oData correctly
+    // console.log(1)
+    // console.log(p); // <- logs image in oData correctly
   }
   $.ajax({
 
@@ -627,34 +490,36 @@ function upload_signal() {
     data: sig_data,
     enctype: 'multipart/form-data',
     url: "/importSignal",
-    success: function (response)
-    {
+    success: function (response) {
       dict_data = JSON.parse(response);
-      console.log('importingggggggggggggggggggggggggggggggggggg');
-      frequency     = dict_data.frequency;
-      mag           = dict_data.mag;
-      phase         = dict_data.phase;
-      output_signal    = dict_data.output_signal;
-      uploaded_signal  = dict_data.uploaded_signal;
-      x_axis           = dict_data.x_axis;
+      // console.log('importingggggggggggggggggggggggggggggggggggg');
+      frequency = dict_data.frequency;
+      mag = dict_data.mag;
+      phase = dict_data.phase;
+      output_signal = dict_data.output_signal;
+      uploaded_signal = dict_data.uploaded_signal;
+      x_axis = dict_data.x_axis;
 
-      let new_signal=Object.values(uploaded_signal)
-      let new_x     =Object.values(x_axis)
-      last=x_value.pop()
+      let new_signal = Object.values(uploaded_signal)
+      let new_x = Object.values(x_axis)
+      last = x_value.pop()
 
       for (var i = 0; i < new_x.length; i++) {
-        new_x[i]= last+new_x[i];
+        new_x[i] = last + new_x[i];
       }
-      console.log(new_x);
-      console.log(typeof(x_axis));
+      // console.log(new_x);
+      // console.log(typeof (x_axis));
 
       input_signal = input_signal.concat(new_signal);
-      x_value      = x_value.concat(new_x);
+      x_value = x_value.concat(new_x);
+
+      itrator += x_value.pop();
+      x_length = itrator - 300;
 
       unitcircle();
       $("#uploaded_sig")[0].value = "";
     },
-    
+
   });
 }
 const filter_upload_btn = document.getElementById("custom_btn");
@@ -802,7 +667,7 @@ function GetTextValue() {
       phase_frequency = dict_data["frequency"];
       makePlotly_trackpad(dict_data["frequency"], dict_data["total phase"], null, null, "total-phase", "Phase Responce");
       makePlotly_trackpad(dict_data["frequency"], dict_data["total phase"], null, null, "plot2", "Phase");
-      
+
     },
   });
 }
@@ -823,7 +688,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 for (let i = 0; i < image_count; i++) {
-  console.log(i);
+  // console.log(i);
   document
     .querySelector("#new-all-pass-coef" + i)
     .addEventListener("click", function () {
