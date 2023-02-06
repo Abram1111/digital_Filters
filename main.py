@@ -86,43 +86,52 @@ def allpass():
 @app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
 
+        response_data = json.dumps({
+            'zeros_real'       : [0,0,0],
+            'zeros_img'        : [0,0,0],
+            'poles_real'       : [0,0,0],
+            'poles_img'        : [0,0,0]
+
+                })
         isthisFile = request.files.get('filter')
-        filename=isthisFile.filename
-        file_path=Path(filename)
-        if file_path.is_file():
-            print('exist')
-            os.remove(filename)
-        else:
-         print('doesnt exist')
-         isthisFile.save(isthisFile.filename)
+        if isthisFile:
+            filename=isthisFile.filename
+            file_path=Path(filename)
+            if file_path.is_file():
+                print('exist')
+                os.remove(filename)
+            else:
+                print('doesnt exist')
+            isthisFile.save(isthisFile.filename)
 
-        zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
+            zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
+            response_data = json.dumps({
+            'zeros_real'       : list(zeros_real),
+            'zeros_img'        : list(zeros_img ),
+            'poles_real'       : list(poles_real),
+            'poles_img'        : list(poles_img)
 
-        response_data = {
-        'zeros_real'       : list(zeros_real),
-        'zeros_img'        : list(zeros_img ),
-        'poles_real'       : list(poles_real),
-        'poles_img'        : list(poles_img)
-
-            }
+                            })
         return jsonify(response_data)
  
 @app.route("/importSignal", methods=["GET", "POST"])
 def import_Signal():
     # downloading file
     isthisFile = request.files.get('signal')
-    filename=isthisFile.filename
-    file_path=Path(filename)
-    if file_path.is_file():
-        print('exist')
-        os.remove(filename)
-    else:
-        print('doesnt exist')
+    print(isthisFile)
+    if isthisFile: 
+        filename=isthisFile.filename
+        file_path=Path(filename)
+        if file_path.is_file():
+            print('exist')
+            os.remove(filename)
+        else:
+            print('doesnt exist')
 
-    isthisFile.save(isthisFile.filename)
+        isthisFile.save(isthisFile.filename)
 
-    obj1.upload_signal(isthisFile.filename)
-    obj1.input_output_signals(obj1.input_signal)
+        obj1.upload_signal(isthisFile.filename)
+        obj1.input_output_signals(obj1.input_signal)
 
     response_data = json.dumps({
         'frequency'    : list(obj1.frequencies),

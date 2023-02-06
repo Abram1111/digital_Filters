@@ -564,12 +564,12 @@ function upload_filter() {
       console.log(poles_real);
       console.log(poles_img);
 
-      for (var i = 0; i < zeros_real.length; i++) {
-        zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
-      }
-      for (var i = 0; i < poles_real.length; i++) {
-        poles_uploaded.push([poles_real[i], poles_img[i]]);
-      }
+      // for (var i = 0; i < zeros_real.length; i++) {
+      //   zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
+      // }
+      // for (var i = 0; i < poles_real.length; i++) {
+      //   poles_uploaded.push([poles_real[i], poles_img[i]]);
+      // }
     },
   });
   uploaded = true;
