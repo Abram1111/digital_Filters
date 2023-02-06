@@ -138,8 +138,8 @@ pad.addEventListener("mousemove", function (e) {
     x_value.push(itrator);
     input_signal.push(100 - (e.y - 30) + 100);
     if (itrator > 300) {
-      console.log("track")
-      console.log(itrator)
+      // console.log("track")
+      // console.log(itrator)
       x_length = itrator - 300;
     }
 
@@ -507,14 +507,23 @@ function upload_signal() {
       for (var i = 0; i < new_x.length; i++) {
         new_x[i] = last + new_x[i];
       }
-      // console.log(new_x);
-      // console.log(typeof (x_axis));
+
 
       input_signal = input_signal.concat(new_signal);
       x_value = x_value.concat(new_x);
-
-      itrator += x_value.pop();
+      var index = itrator;
+      itrator = x_value.pop();
+      x_value.push(itrator);
+      let stop_var = setInterval(function () {
+        makePlotly_trackpad(x_value, input_signal, [index, index + 300], null, "plot", "input");
+        index += 10;
+        if (index >= (itrator - 300)) {
+          clearInterval(stop_var)
+        }
+      }, 200);
+      // console.log("stop")
       x_length = itrator - 300;
+      // makePlotly_trackpad(x_value, new_signal, [index, index + 300], null, "plot", "input");
 
       unitcircle();
       $("#uploaded_sig")[0].value = "";
