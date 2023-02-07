@@ -141,10 +141,8 @@ function upload_filter() {
   var fiter_form = document.forms.namedItem("filter_upload");
   var filter_data = new FormData(fiter_form);
   filter_data.append("filter", $("#uploaded_filter")[0].files[0]);
-  for (var p of filter_data) {
-  }
   $.ajax({
-    method: "post",
+    type: "POST",
     processData: false,
     contentType: false,
     cache: false,
@@ -153,12 +151,14 @@ function upload_filter() {
     url: "/importFilter",
 
     success: function (response) {
+      console.log("sucess");
       dict_data = JSON.parse(response);
 
       zeros_real = dict_data.zeros_real;
       zeros_img = dict_data.zeros_img;
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
+      $("#uploaded_filter")[0].value = "";
     },
   });
   uploaded = true;
@@ -207,21 +207,25 @@ function upload_signal() {
     },
   });
 }
-const filter_upload_btn = document.getElementById("custom_btn");
-const uploaded_filter_btn = document.getElementById("uploaded_filter");
+
 const upload_signal_btn = document.getElementById("import_sig_label");
 const uploader_signal_btn = document.getElementById("uploaded_sig");
 const track_pad_check = document.getElementById("track_pad_check");
 
-filter_upload_btn.addEventListener("click", function () {
-  uploaded_filter_btn.click();
-});
+
+const uploaded_filter_btn = document.getElementById("custom_btn");
+uploaded_filter_btn.addEventListener('click', function () {upload_btn.click();})
+const upload_btn = document.getElementById("uploaded_filter");
+upload_btn.addEventListener("change", upload_filter);
+
+
 track_pad_check.addEventListener("click", function () {
   track_pad_avilable = 1;
 });
 upload_signal_btn.addEventListener("click", function () {
   uploader_signal_btn.click();
   track_pad_avilable = 0;
+
 });
 
 phase_btn.addEventListener("click", function () {
