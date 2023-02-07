@@ -232,17 +232,18 @@ function addDialogClosedListener(input, callback) {
   // addDialogClosedListener(uploading_filter, function () {
 function draw_uploaded(){
   if (uploaded) {
-    if (!(JSON.stringify(zeros_uploaded) === "{}")) {
-    console.log("IM in")
-    console.log(zeros_uploaded)
-      for (zeros_item in zeros_uploaded) {
-        let x = zeros_item[0] * (250 / 2) + rect.left + 250 / 2;
-        let y = rect.top + 250 / 2 - zeros_item[1] * (250 / 2);
+    if (!(JSON.stringify(zeros_real) === "{}")) {
+      for (var i = 0 ;i<zeros_real.length;i++) {
+        let x = zeros_real[i] * (250 / 2) + rect.left + 250 / 2;
+        let y = rect.top + 250 / 2 - zeros_img[i] * (250 / 2);
         let zero = document.createElement("div");
         zero.setAttribute("class", "zero");
         zero.setAttribute("onclick", "delet_element(this)");
         zero.setAttribute("id", "zero" + id_conter);
         zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
+        console.log(rect.left + " Right " + rect.right);
+        console.log(zeros_uploaded);
+        console.log(y);
         dragElement(zero);
         unit_circle.appendChild(zero);
         id_conter++;
