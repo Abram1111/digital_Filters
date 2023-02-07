@@ -10,8 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/splide.min.css" />
-    <title>Filters</title>
-    <style></style>
+    <title>Digital Filter</title>
 </head>
 
 <body>
@@ -31,10 +30,10 @@
                         <form class="submit-rating">
                             <input id="zero" name="satisfaction" type="radio" checked />
                             <input id="pole" name="satisfaction" type="radio" />
-                            <label for="zero" class="rating-label rating-label-meh">zero</label>
+                            <label for="zero" class="rating-label rating-label-meh">Zero</label>
                             <div class="smile-rating-toggle"></div>
                             <div class="toggle-rating-pill"></div>
-                            <label for="pole" class="rating-label rating-label-fun">pole</label>
+                            <label for="pole" class="rating-label rating-label-fun">Pole</label>
                         </form>
                     </div>
                 </div>
@@ -82,7 +81,7 @@
             <div id="plot1"></div>
             <div class="controls">
                 <div class="signal_type">
-                    <p style="    font-size: 1.2rem;"> Signal type</p>
+                    <p style="    font-size: 1.2rem;"> Signal Type</p>
                     <div class="wrapper" style="margin-left: 20px;">
                         <input type="radio" name="Signal-choice" value="0" id="ip_signal" onclick="signal_choice();"
                             checked>
@@ -94,7 +93,7 @@
                         </label>
                         <label for="import_signal" class="option option-2" id="import_sig_label">
                             <div class="dot"></div>
-                            <span>Importe </span>
+                            <span>Import</span>
                         </label>
                         <form method="POST" enctype="multipart/form-data" id="signal_upload">
                             <input type="file" name="uploaded_signal" id="uploaded_sig" onchange="upload_signal()" />
@@ -102,11 +101,11 @@
                         </form>
                     </div>
                 </div>
-                <button class="control_btn" id="phase">phase correct</button>
+                <button class="control_btn" id="phase">Phase Correct</button>
                 <div class="filter">
                     <form method="POST" enctype="multipart/form-data" id="filter_upload">
                         <input type="file" name="uploaded_filter" id="uploaded_filter" hidden="hidden" />
-                        <button type=button class="control_btn" id="custom_btn">upload filter</button>
+                        <button type=button class="control_btn" id="custom_btn">Upload Filter</button>
                         <!-- <input type="submit" /> -->
                     </form>
 
@@ -140,7 +139,7 @@
             <div class="allpass_first_col">
                 <!-- <div></div> -->
                 <div id="main">
-                    <button class="return" id="home">Return home</button>
+                    <button class="return" id="home">Return Home</button>
                     <input type="button" id="btAdd" value="Add Element" class="bt" />
                     <input type="button" id="btRemove" value="Remove Element" class="bt" />
                     <input type="button" id="btRemoveAll" value="Remove All" class="bt" />

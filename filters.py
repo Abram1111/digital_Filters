@@ -152,18 +152,14 @@ class Filters:
         return zeros_real,zeros_img,poles_real,poles_img
 
     def allpass_filter(self,coefficents):
-        # print('func')
         filter_angles = np.zeros(512)
-        # print('fun')
         if not coefficents:
             coefficents=[complex(1)]
         for coeffient in coefficents:
-            # print('loop')
             w, h =signal.freqz([-np.conj(coeffient), 1.0], [1.0, -coeffient])
             # print('z')
             angles = np.zeros(512) if coeffient==1 else np.unwrap(np.angle(h))
             filter_angles = np.add(filter_angles, angles)
-            # print('filter')
             self.frequencies=w/max(w)
             self.allpass_response=filter_angles
             self.get_total_phase()

@@ -136,8 +136,8 @@ function unitcircle() {
 
       if (chosen_sig == 1) {
         let stop_var = setInterval(function () {
-          makePlotly_trackpad(x_value, input_signal, [index, index + 300], null, "plot", "input");
-          makePlotly_trackpad(x_value, output_signal, [index, index + 300], null, "out_plot", "output");
+          makePlotly_trackpad(x_value, input_signal, [index, index + 300], null, "plot", "Input");
+          makePlotly_trackpad(x_value, output_signal, [index, index + 300], null, "out_plot", "Output");
 
           index += 10;
           if (index >= itrator - 300 || track_pad_avilable) {
@@ -149,8 +149,8 @@ function unitcircle() {
 
       makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-      makePlotly_trackpad(x_value, input_signal, [x_length, x_length + 300], null, "plot", "input");
-      makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], null, "out_plot", "output");
+      makePlotly_trackpad(x_value, input_signal, [x_length, x_length + 300], null, "plot", "Input");
+      makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], null, "out_plot", "Output");
     },
   });
 }
@@ -227,9 +227,6 @@ function addDialogClosedListener(input, callback) {
   };
 }
 
-// window.onload = function () {
-  // let uploading_filter = document.querySelector("#uploaded_filter");
-  // addDialogClosedListener(uploading_filter, function () {
 function draw_uploaded(){
   if (uploaded) {
     if (!(JSON.stringify(zeros_real) === "{}")) {
@@ -241,9 +238,6 @@ function draw_uploaded(){
         zero.setAttribute("onclick", "delet_element(this)");
         zero.setAttribute("id", "zero" + id_conter);
         zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
-        console.log(rect.left + " Right " + rect.right);
-        console.log(zeros_uploaded);
-        console.log(y);
         dragElement(zero);
         unit_circle.appendChild(zero);
         id_conter++;
@@ -252,7 +246,6 @@ function draw_uploaded(){
         zeros.push(z);
       }
     } else if (!(JSON.stringify(poles_uploaded) === "{}")) {
-    // console.log("IM in")
 
       for (poles_item in poles_uploaded) {
         let x = poles_item[0] * (250 / 2) + rect.left + 250 / 2;
@@ -378,13 +371,9 @@ function dragElement(elmnt) {
       elmnt.style = "display:none";
     }
     drag = false;
-    // }
     if (mag > 1) {
       document.getElementById("remove").checked = true;
-      // darg_flag = true;
       elmnt.onclick;
-      // document.getElementById("remove").checked  = false;
-      // darg_flag = false;
     }
     document.onmouseup = null;
     document.onmousemove = null;

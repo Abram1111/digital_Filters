@@ -151,26 +151,12 @@ function upload_filter() {
     url: "/importFilter",
 
     success: function (response) {
-      console.log("sucess");
       dict_data = JSON.parse(response);
 
       zeros_real = dict_data.zeros_real;
       zeros_img = dict_data.zeros_img;
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
-      // console.log("zeros_real");
-      // let znew_real = Object.values(zeros_real);
-      // let znew_img = Object.values(zeros_img);
-      // let pnew_real = Object.values(poles_real);
-      // let pnew_img = Object.values(poles_img);
-      // for(var i = 0 ; i<zeros_real.length ; i++ ){
-      //   // zeros_uploaded.push([znew_real[i], znew_img[i]]);
-      //   zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
-      // }
-      // for(var i = 0 ; i<pnew_real.length ; i++ ){
-      //   poles_uploaded.push([pnew_real[i], pnew_img[i]]);
-      // }
-      // console.log(zeros_uploaded);
       $("#uploaded_filter")[0].value = "";
       draw_uploaded();
       unitcircle();
@@ -275,7 +261,6 @@ $(document).ready(function () {
   });
 
   function addValue() {
-    // console.log(inputval);
     if (iCnt <= 11) {
       iCnt = iCnt + 1;
 
@@ -410,7 +395,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 for (let i = 0; i < image_count; i++) {
-  // console.log(i);
   document
     .querySelector("#new-all-pass-coef" + i)
     .addEventListener("click", function () {
@@ -426,7 +410,7 @@ function myFunction() {
 /**********************Graph**************************** */
 /******************************************************* */
 
-GetTextValue();
+
 makePlotly_trackpad(
   phase_frequency,
   phase,
@@ -435,3 +419,8 @@ makePlotly_trackpad(
   "total-phase",
   "phase_responce"
 );
+
+makePlotly_trackpad([0], [0], [0, 3.15], null, "plot1", "Magntuide");
+makePlotly_trackpad([0], [0], [0, 3.15], null, "plot2", "Phase");
+makePlotly_trackpad([0], [0], [x_length, x_length + 300], null, "plot", "Input");
+makePlotly_trackpad([0], [0], [x_length, x_length + 300], null, "out_plot", "Output");
