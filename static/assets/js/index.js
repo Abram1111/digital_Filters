@@ -67,9 +67,8 @@ unit_circle.addEventListener("click", function (e) {
       zero.setAttribute("class", "zero");
       zero.setAttribute("onclick", "delet_element(this)");
       zero.setAttribute("id", "zero" + id_conter + "Conj");
-      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${
-        e.clientY + 302
-      }px;left:${e.clientX}px; border-radius: 50%;z-index:100`;
+      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${e.clientY + 302
+        }px;left:${e.clientX}px; border-radius: 50%;z-index:100`;
       dragElement(zero);
       unit_circle.appendChild(zero);
       id_conter++;
@@ -81,9 +80,8 @@ unit_circle.addEventListener("click", function (e) {
       pole.setAttribute("id", "pole" + polecounter + "Conj");
       pole.setAttribute("onclick", "delet_element(this)");
       pole.innerHTML = "✖";
-      pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${
-        e.clientY + 302
-      }px;left:${e.clientX}px;`;
+      pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${e.clientY + 302
+        }px;left:${e.clientX}px;`;
       dragElement(pole);
       unit_circle.appendChild(pole);
       polecounter++;
@@ -199,16 +197,12 @@ function upload_signal() {
 
       input_signal = input_signal.concat(new_signal);
       x_value = x_value.concat(new_x);
-      var index = itrator;
+      index = itrator;
       itrator = x_value.pop();
       x_value.push(itrator);
-      let stop_var = setInterval(function () {
-        makePlotly_trackpad( x_value, input_signal, [index, index + 300], null, "plot", "input");
-        index += 10;
-        if (index >= itrator - 300) {
-          clearInterval(stop_var);} }, 200);
-      x_length = itrator - 300;
+
       unitcircle();
+      x_length = itrator - 300;
       $("#uploaded_sig")[0].value = "";
     },
   });
@@ -270,18 +264,18 @@ $(document).ready(function () {
       if (inputval == "") {
         $(container).append(
           '<input type=text class="input" id=tb' +
-            iCnt +
-            " " +
-            'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+          iCnt +
+          " " +
+          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       } else {
         $(container).append(
           '<input type=text class="input" id=tb' +
-            iCnt +
-            " " +
-            "value=" +
-            inputval +
-            ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+          iCnt +
+          " " +
+          "value=" +
+          inputval +
+          ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       }
       ids.push("tb" + iCnt);
@@ -290,8 +284,8 @@ $(document).ready(function () {
         var divSubmit = $(document.createElement("div"));
         $(divSubmit).append(
           '<input type=button class="bt" ' +
-            'onclick="GetTextValue()"' +
-            "id=btSubmit value=Submit style='display:none;' />"
+          'onclick="GetTextValue()"' +
+          "id=btSubmit value=Submit style='display:none;' />"
         );
       }
 

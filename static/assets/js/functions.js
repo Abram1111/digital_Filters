@@ -3,7 +3,7 @@ const import_signal = document.getElementById("import_signal");
 ip_signal.checked = true;
 chosen_sig = 0;
 let track_pad_avilable = 1;
-
+let index = 0;
 var zeros_uploaded, poles_uploaded;
 let uploaded = false;
 
@@ -95,10 +95,10 @@ function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
 **************************************  Moving Between Pages  **********************************
 ************************************************************************************************/
 function phase_btn_action() {
-    first_contaner.style.display = "none";
-    GetTextValue();
-    allpass_contaner.style.display = "block";
-    allpass_contaner.style.top = 0;
+  first_contaner.style.display = "none";
+  GetTextValue();
+  allpass_contaner.style.display = "block";
+  allpass_contaner.style.top = 0;
 }
 
 
@@ -117,9 +117,10 @@ function unitcircle() {
   var zerospoles = {
     zeros: zerosUpdated,
     poles: polesUpdated,
-    input: input_signal,};
+    input: input_signal,
+  };
 
-    
+
   $.ajax({
     url: "/unitcircle",
     type: "POST",
@@ -133,10 +134,23 @@ function unitcircle() {
       phase = dict_data.phase;
       output_signal = dict_data.output_signal;
 
-      makePlotly_trackpad( frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+      if (chosen_sig == 1) {
+        let stop_var = setInterval(function () {
+          makePlotly_trackpad(x_value, input_signal, [index, index + 300], null, "plot", "input");
+          makePlotly_trackpad(x_value, output_signal, [index, index + 300], null, "out_plot", "output");
+
+          index += 10;
+          if (index >= itrator - 300 || track_pad_avilable) {
+            clearInterval(stop_var);
+          }
+        }, 200);
+      }
+
+
+      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-      makePlotly_trackpad( x_value, input_signal, [x_length, x_length + 300], null, "plot", "input");
-      makePlotly_trackpad( x_value, output_signal, [x_length, x_length + 300], null, "out_plot", "output");
+      makePlotly_trackpad(x_value, input_signal, [x_length, x_length + 300], null, "plot", "input");
+      makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], null, "out_plot", "output");
     },
   });
 }
