@@ -4,7 +4,7 @@ ip_signal.checked = true;
 chosen_sig = 0;
 let track_pad_avilable = 1;
 let index = 0;
-var zeros_uploaded, poles_uploaded;
+var zeros_uploaded = [], poles_uploaded = [];
 let uploaded = false;
 
 var remove = 0;
@@ -183,11 +183,58 @@ function delet_element(div) {
     darg_flag = false;
   }
 }
+ 
 
+function addDialogClosedListener(input, callback) {
+  var id = null;
+  var active = false;
+  var wrapper = function() {
+      if (active) {
+          active = false;
+          callback();
+      }
+  };
+  var cleanup = function() {
+      clearTimeout(id);
+  };
+  var shedule = function(delay) {
+      id = setTimeout(wrapper, delay);
+  };
+  var onFocus = function() {
+      cleanup();
+      shedule(1000); // change the value to bigger if needed
+  };
+  var onBlur = function() {
+      cleanup();
+  };
+  var onClick = function() {
+      cleanup();
+      active = true;
+  };
+  var onChange = function() {
+      cleanup();
+      shedule(0);
+  };
+  input.addEventListener('click', onClick);
+  input.addEventListener('change', onChange);
+  window.addEventListener('focus', onFocus);
+  window.addEventListener('blur', onBlur);
+  return function() {
+      input.removeEventListener('click', onClick);
+      input.removeEventListener('change', onChange);
+      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('blur', onBlur);
+  };
+}
 
-window.onload = function () {
+// window.onload = function () {
+  // let uploading_filter = document.querySelector("#uploaded_filter");
+  // addDialogClosedListener(uploading_filter, function () {
+function draw_uploaded(){
   if (uploaded) {
     if (!(JSON.stringify(zeros_uploaded) === "{}")) {
+    console.log("IM in")
+    console.log(zeros_uploaded)
       for (zeros_item in zeros_uploaded) {
         let x = zeros_item[0] * (250 / 2) + rect.left + 250 / 2;
         let y = rect.top + 250 / 2 - zeros_item[1] * (250 / 2);
@@ -204,6 +251,8 @@ window.onload = function () {
         zeros.push(z);
       }
     } else if (!(JSON.stringify(poles_uploaded) === "{}")) {
+    // console.log("IM in")
+
       for (poles_item in poles_uploaded) {
         let x = poles_item[0] * (250 / 2) + rect.left + 250 / 2;
         let y = rect.top + 250 / 2 - poles_item[1] * (250 / 2);
@@ -222,7 +271,8 @@ window.onload = function () {
     }
     NormalizeAndSend(poles, zeros);
   }
-};
+}
+  // );
 
 
 function NormalizeAndSend(poles, zeros) {
@@ -266,19 +316,33 @@ function dragElement(elmnt) {
     pos3 = 0,
     pos4 = 0;
   elmnt.onmousedown = dragMouseDown;
-
   function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
+    if((document.getElementById("zero").checked && 'zero' == elmnt.className) || (document.getElementById("pole").checked && 'pole' == elmnt.className)){
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
+    }
+    else{
+      if('zero' == elmnt.className){
+        document.getElementById("zero").checked = true;
+        document.getElementById("pole").checked = false;
+      }
+      else{
+        document.getElementById("pole").checked = true;
+        document.getElementById("zero").checked = false;
+      }
+      document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
     drag = true;
   }
-
+  
   function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
@@ -302,7 +366,7 @@ function dragElement(elmnt) {
       elmnt.style.opacity = 1;
     }
   }
-
+  
   function closeDragElement() {
     // stop moving when mouse button is released:
     let rec = unit_circle.getBoundingClientRect();
@@ -315,11 +379,16 @@ function dragElement(elmnt) {
     drag = false;
     // }
     if (mag > 1) {
+      document.getElementById("remove").checked = true;
+      // darg_flag = true;
       elmnt.onclick;
+      // document.getElementById("remove").checked  = false;
+      // darg_flag = false;
     }
     document.onmouseup = null;
     document.onmousemove = null;
   }
+
 }
 
 /***********************************************************************************************

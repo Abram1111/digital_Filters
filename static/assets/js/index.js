@@ -158,10 +158,25 @@ function upload_filter() {
       zeros_img = dict_data.zeros_img;
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
+      console.log("zeros_real");
+      let znew_real = Object.values(zeros_real);
+      let znew_img = Object.values(zeros_img);
+      let pnew_real = Object.values(poles_real);
+      let pnew_img = Object.values(poles_img);
+      for(var i = 0 ; i<znew_real.length ; i++ ){
+        // zeros_uploaded.push([znew_real[i], znew_img[i]]);
+        zeros_uploaded.push([zeros_real[i], zeros_img[i]]);
+      }
+      for(var i = 0 ; i<pnew_real.length ; i++ ){
+        poles_uploaded.push([pnew_real[i], pnew_img[i]]);
+      }
+      // console.log(zeros_uploaded);
       $("#uploaded_filter")[0].value = "";
     },
   });
   uploaded = true;
+  draw_uploaded();
+
 }
 function upload_signal() {
   var sig_form = document.forms.namedItem("signal_upload");
