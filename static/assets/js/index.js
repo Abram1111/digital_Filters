@@ -158,6 +158,7 @@ function upload_filter() {
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
       $("#uploaded_filter")[0].value = "";
+      console.log("IM ");
       draw_uploaded();
       unitcircle();
     },

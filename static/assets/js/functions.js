@@ -183,53 +183,12 @@ function delet_element(div) {
     darg_flag = false;
   }
 }
- 
 
-function addDialogClosedListener(input, callback) {
-  var id = null;
-  var active = false;
-  var wrapper = function() {
-      if (active) {
-          active = false;
-          callback();
-      }
-  };
-  var cleanup = function() {
-      clearTimeout(id);
-  };
-  var shedule = function(delay) {
-      id = setTimeout(wrapper, delay);
-  };
-  var onFocus = function() {
-      cleanup();
-      shedule(1000); // change the value to bigger if needed
-  };
-  var onBlur = function() {
-      cleanup();
-  };
-  var onClick = function() {
-      cleanup();
-      active = true;
-  };
-  var onChange = function() {
-      cleanup();
-      shedule(0);
-  };
-  input.addEventListener('click', onClick);
-  input.addEventListener('change', onChange);
-  window.addEventListener('focus', onFocus);
-  window.addEventListener('blur', onBlur);
-  return function() {
-      input.removeEventListener('click', onClick);
-      input.removeEventListener('change', onChange);
-      window.removeEventListener('focus', onFocus);
-      window.removeEventListener('blur', onBlur);
-  };
-}
 
 function draw_uploaded(){
   if (uploaded) {
     if (!(JSON.stringify(zeros_real) === "{}")) {
+      console.log("IM IN zero");
       for (var i = 0 ;i<zeros_real.length;i++) {
         let x = zeros_real[i] * (250 / 2) + rect.left + 250 / 2;
         let y = rect.top + 250 / 2 - zeros_img[i] * (250 / 2);
@@ -245,19 +204,20 @@ function draw_uploaded(){
         z = { X: x, Y: y, id: zero.id, conjugate: false };
         zeros.push(z);
       }
-    } else if (!(JSON.stringify(poles_uploaded) === "{}")) {
-
-      for (poles_item in poles_uploaded) {
-        let x = poles_item[0] * (250 / 2) + rect.left + 250 / 2;
-        let y = rect.top + 250 / 2 - poles_item[1] * (250 / 2);
+    } else if (!(JSON.stringify(poles_real) === "{}")) {
+      console.log("IM IN");
+      for (var i = 0 ; i<poles_real.length; i++) {
+        let x = poles_real[i] * (250 / 2) + rect.left + 250 / 2;
+        let y = rect.top + 250 / 2 - poles_img[i] * (250 / 2);
         let pole = document.createElement("div");
-        pole.setAttribute("class", "zero");
+        pole.setAttribute("class", "pole");
         pole.setAttribute("onclick", "delet_element(this)");
-        pole.setAttribute("id", "zero" + polecounter);
-        pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
+        pole.setAttribute("id", "pole" + polecounter);
+        pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px;z-index:100;`;
+        
         dragElement(pole);
         unit_circle.appendChild(pole);
-        id_conter++;
+        polecounter++;
         pflag = true;
         p = { X: x, Y: y, id: pole.id, conjugate: false };
         poles.push(p);
