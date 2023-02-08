@@ -16,7 +16,7 @@ unit_circle.addEventListener("click", function (e) {
   if (document.getElementById("remove").checked) {
     // delet_element
   } else {
-    if (document.getElementById("zero").checked || zRemove ) {
+    if (document.getElementById("zero").checked) {
       z = {
         X: e.clientX,
         Y: e.clientY,
@@ -34,7 +34,7 @@ unit_circle.addEventListener("click", function (e) {
       unit_circle.appendChild(zero);
       id_conter++;
       zflag = true;
-    } else if (document.getElementById("pole").checked || pRemove) {
+    } else if (document.getElementById("pole").checked) {
       p = {
         X: e.clientX,
         Y: e.clientY,
@@ -324,3 +324,12 @@ makePlotly_trackpad(
   "out_plot",
   "Output"
 );
+let pole_ball=document.getElementById("pole");
+let zero_ball=document.getElementById("zero");
+let ball =document.getElementById("ball");
+pole_ball.addEventListener("click",function(){
+  ball.style.left= "105px"
+});
+zero_ball.addEventListener("click",function(){
+  ball.style.left= "55px"
+});

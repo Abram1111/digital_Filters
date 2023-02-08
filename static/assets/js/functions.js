@@ -373,25 +373,29 @@ function dragElement(elmnt) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // if (
-    //   (document.getElementById("zero").checked && "zero" == elmnt.className) ||
-    //   (document.getElementById("pole").checked && "pole" == elmnt.className)
-    // )
     if (
-      (zRemove && "zero" == elmnt.className) ||
-      (pRemove && "pole" == elmnt.className)
-    ) 
+      (document.getElementById("zero").checked && "zero" == elmnt.className) ||
+      (document.getElementById("pole").checked && "pole" == elmnt.className)
+    )
+    // if (
+    //   (zRemove && "zero" == elmnt.className) ||
+    //   (pRemove && "pole" == elmnt.className)
+    // ) 
     {
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
     } else {
       if ("zero" == elmnt.className) {
-        zRemove = true;
-        pRemove = false;
+        document.getElementById("zero").checked = true;
+        document.getElementById("pole").checked = false;
+        // zRemove = true;
+        // pRemove = false;
       } else {
-        pRemove = true;
-        zRemove = false;
+        // pRemove = true;
+        // zRemove = false;
+        document.getElementById("pole").checked = true;
+        document.getElementById("zero").checked = false;
       }
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
