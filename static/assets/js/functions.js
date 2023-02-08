@@ -46,6 +46,7 @@ let first_contaner = document.getElementById("first_contaner");
 let allpass_contaner = document.getElementById("allpass_contaner");
 
 let input_signal = [];
+let update_flag = true;
 
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
@@ -109,15 +110,26 @@ function return_btn_action() {
  ************************************************************************************************/
 
 function unitcircle() {
-  var zerospoles = {
-    zeros: zerosUpdated,
-    poles: polesUpdated,
-    input: input_signal.slice(-11, -1),
-  };
+  if (input_signal.length %10==0 )
+  {
+    var zerospoles = {
+      zeros: zerosUpdated,
+      poles: polesUpdated,
+      input: input_signal.slice(-11, -1),
+    };
+  }else
+  {
+    var zerospoles = {
+      zeros: zerosUpdated,
+      poles: polesUpdated,
+      input: [],
+    };
+  }
+
+
   console.log( input_signal.slice(-11, -1))
   console.log(input_signal.length)
   console.log(input_signal.length %10==0)
-  if (input_signal.length %10==0)
   {
     $.ajax({
       url: "/unitcircle",
@@ -343,6 +355,7 @@ function NormalizeAndSend(poles, zeros) {
   }
   zeros = [[5], [3]];
   poles = [[2], [2]];
+  update_flag=true;
   unitcircle();
 }
 
@@ -433,9 +446,11 @@ function signal_choice() {
   ).value;
   if (chosen_sig == 0) {
     //TRACK PAD
+    update_flag=false;
     unitcircle();
   } else {
     //IMPORTED SIGNAL
+    update_flag=true;
     unitcircle();
   }
 }
@@ -466,6 +481,7 @@ function upload_filter() {
       poles_img = dict_data.poles_img;
       $("#uploaded_filter")[0].value = "";
       draw_uploaded();
+      update_flag=true;
       unitcircle();
     },
   });
@@ -513,7 +529,7 @@ function upload_signal() {
       index = itrator;
       itrator = x_value.pop();
       x_value.push(itrator);
-
+      update_flag=true;
       unitcircle();
       x_length = itrator - 300;
       $("#uploaded_sig")[0].value = "";
