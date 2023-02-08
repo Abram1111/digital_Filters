@@ -204,8 +204,9 @@ function draw_uploaded(){
         z = { X: x, Y: y, id: zero.id, conjugate: false };
         zeros.push(z);
       }
-    } else if (!(JSON.stringify(poles_real) === "{}")) {
-      console.log("IM IN");
+    } 
+    if (!(JSON.stringify(poles_real) === "{}")) {
+      console.log("IM IN pole");
       for (var i = 0 ; i<poles_real.length; i++) {
         let x = poles_real[i] * (250 / 2) + rect.left + 250 / 2;
         let y = rect.top + 250 / 2 - poles_img[i] * (250 / 2);
@@ -214,12 +215,13 @@ function draw_uploaded(){
         pole.setAttribute("onclick", "delet_element(this)");
         pole.setAttribute("id", "pole" + polecounter);
         pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px;z-index:100;`;
-        
+        pole.innerHTML = "✖";
         dragElement(pole);
         unit_circle.appendChild(pole);
         polecounter++;
         pflag = true;
         p = { X: x, Y: y, id: pole.id, conjugate: false };
+        
         poles.push(p);
       }
     }

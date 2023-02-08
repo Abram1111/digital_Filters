@@ -157,10 +157,17 @@ function upload_filter() {
       zeros_img = dict_data.zeros_img;
       poles_real = dict_data.poles_real;
       poles_img = dict_data.poles_img;
-      $("#uploaded_filter")[0].value = "";
+
+      console.log(zeros_real)
+      console.log(zeros_img)
+      console.log(poles_real)
+      console.log(poles_img)
       console.log("IM ");
+      
       draw_uploaded();
       unitcircle();
+      $("#uploaded_filter")[0].value = "";
+
     },
   });
   uploaded = true;

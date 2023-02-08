@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from filters import Filters
 from pathlib import Path
 import os
-
+import json
 app = Flask(__name__)
 
 def create_app():
@@ -85,13 +85,15 @@ def import_filter():
             isthisFile.save(isthisFile.filename)
 
             zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
-            response_data = json.dumps({
+            data={   
             'zeros_real'       : list(zeros_real),
             'zeros_img'        : list(zeros_img ),
             'poles_real'       : list(poles_real),
-            'poles_img'        : list(poles_img)
+            'poles_img'        : list(poles_img)}
+            response_data = json.dumps(
+                data
+            ,allow_nan=False)
 
-                            })
         return jsonify(response_data)
  
 @app.route("/importSignal", methods=["GET", "POST"])

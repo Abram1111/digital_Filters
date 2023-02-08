@@ -147,6 +147,8 @@ class Filters:
 
         self.zeros=self.zeros+zeros
         self.poles=self.zeros+poles
+        print (zeros)
+        print(poles)
         self.update_graph()
 
         return zeros_real,zeros_img,poles_real,poles_img
