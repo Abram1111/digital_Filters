@@ -70,6 +70,7 @@ unit_circle.addEventListener("click", function (e) {
     }
   }
   NormalizeAndSend(poles, zeros);
+  update_flag=true;
   unitcircle();
 });
 
@@ -84,7 +85,7 @@ pad.addEventListener("mousemove", function (e) {
     if (itrator > 300) {
       x_length = itrator - 300;
     }
-
+    update_flag=false;
     unitcircle();
   }
 });

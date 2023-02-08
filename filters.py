@@ -86,9 +86,14 @@ class Filters:
        
         self.uploaded_signal_y=data['amp'].tolist()
         self.input_signal=self.uploaded_signal_y
+        self.input_output_signals(self.input_signal)
 
     def input_output_signals(self,input):
-        self.input_signal=list(np.float_(input))
+        new_part=list(np.float_(input))
+        print('new_part',new_part);
+
+        self.input_signal=self.input_signal+new_part
+        print('self.input_signal',self.input_signal)
         self.applying_filter()
 
 # /******************************************************** */
@@ -176,6 +181,19 @@ class Filters:
     def get_total_phase(self):
         self.total_phase_response=np.add(self.allpass_response,self.phase_response)
 
-
-            
+    def initialize(self):
+        self.zeros=[]
+        self.poles=[]
+        self.uploaded_zeros=[]
+        self.uploaded_poles=[]
+        self.uploaded_signal_x=[]
+        self.uploaded_signal_y=[]
+        self.input_signal=[]
+        self.output_signal=[]
+        self.frequencies=[]
+        self.magnitud_response=[]
+        self.phase_response=np.zeros(512)
+        self.allpass_response=np.zeros(512)
+        self.total_phase_response=[]
+                
 
