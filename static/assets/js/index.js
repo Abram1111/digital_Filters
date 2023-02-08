@@ -16,7 +16,7 @@ unit_circle.addEventListener("click", function (e) {
   if (document.getElementById("remove").checked) {
     // delet_element
   } else {
-    if (document.getElementById("zero").checked) {
+    if (document.getElementById("zero").checked || zRemove ) {
       z = {
         X: e.clientX,
         Y: e.clientY,
@@ -34,7 +34,7 @@ unit_circle.addEventListener("click", function (e) {
       unit_circle.appendChild(zero);
       id_conter++;
       zflag = true;
-    } else if (document.getElementById("pole").checked) {
+    } else if (document.getElementById("pole").checked || pRemove) {
       p = {
         X: e.clientX,
         Y: e.clientY,

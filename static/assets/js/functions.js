@@ -8,6 +8,8 @@ var zeros_uploaded = [],
   poles_uploaded = [];
 let uploaded = false;
 
+var zRemove =  false;
+var pRemove =  false;
 var remove = 0;
 var polecounter = 0;
 let zeros = [];
@@ -352,20 +354,25 @@ function dragElement(elmnt) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
+    // if (
+    //   (document.getElementById("zero").checked && "zero" == elmnt.className) ||
+    //   (document.getElementById("pole").checked && "pole" == elmnt.className)
+    // )
     if (
-      (document.getElementById("zero").checked && "zero" == elmnt.className) ||
-      (document.getElementById("pole").checked && "pole" == elmnt.className)
-    ) {
+      (zRemove && "zero" == elmnt.className) ||
+      (pRemove && "pole" == elmnt.className)
+    ) 
+    {
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
     } else {
       if ("zero" == elmnt.className) {
-        document.getElementById("zero").checked = true;
-        document.getElementById("pole").checked = false;
+        zRemove = true;
+        pRemove = false;
       } else {
-        document.getElementById("pole").checked = true;
-        document.getElementById("zero").checked = false;
+        pRemove = true;
+        zRemove = false;
       }
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
