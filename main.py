@@ -11,11 +11,10 @@ def create_app():
     _app = Flask(__name__)
     return _app
 
-obj1 =Filters([(0+0j)],[(0+0j)])
+filter_object =Filters([(0+0j)],[(0+0j)])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    print('hello')
     return render_template('index.html')
 
 @app.route("/unitcircle", methods=["GET", "POST"])
@@ -26,17 +25,17 @@ def unitcircle():
     # if request.method == 'POST':
 
     zerosAndPoles   = json.loads(request.data)
-    zeros           = obj1.change_to_complex(number=zerosAndPoles['zeros'])
-    poles           = obj1.change_to_complex(number=zerosAndPoles['poles'])
+    zeros           = filter_object.change_to_complex(number=zerosAndPoles['zeros'])
+    poles           = filter_object.change_to_complex(number=zerosAndPoles['poles'])
 
-    obj1.update_zerosAndPoles(zeros,poles)
-    obj1.input_output_signals(zerosAndPoles['input'])
+    filter_object.update_zerosAndPoles(zeros,poles)
+    filter_object.input_output_signals(zerosAndPoles['input'])
 
     response_data = json.dumps({
-        'frequency' : list(obj1.frequencies),
-        'mag'       : list(obj1.magnitud_response),
-        'phase'     : list(obj1.total_phase_response),
-        'output_signal':list(obj1.output_signal)
+        'frequency' : list(filter_object.frequencies),
+        'mag'       : list(filter_object.magnitud_response),
+        'phase'     : list(filter_object.total_phase_response),
+        'output_signal':list(filter_object.output_signal)
     })
     return jsonify(response_data)
 
@@ -51,17 +50,17 @@ def allpass():
         coefficents.append(x)
     print(coefficents)
     # obj2 =Filters([(0+0j)],[(0+0j)])
-    obj1.allpass_filter(coefficents)
+    filter_object.allpass_filter(coefficents)
     # print(w,h)
     
     response_data = json.dumps({
-        'frequency' : list(obj1.frequencies),
-        'phase'     : list(obj1.allpass_response),
-        'total phase':list(obj1.total_phase_response)
+        'frequency' : list(filter_object.frequencies),
+        'phase'     : list(filter_object.allpass_response),
+        'total phase':list(filter_object.total_phase_response)
     })
         
     return jsonify(response_data)
-    # obj1.allpass(filters)
+    # filter_object.allpass(filters)
 
 @app.route("/importFilter", methods=["GET", "POST"])
 def import_filter():
@@ -84,7 +83,7 @@ def import_filter():
                 print('doesnt exist')
             isthisFile.save(isthisFile.filename)
 
-            zeros_real,zeros_img,poles_real,poles_img=obj1.upload_filter(isthisFile.filename)
+            zeros_real,zeros_img,poles_real,poles_img=filter_object.upload_filter(isthisFile.filename)
             response_data = json.dumps({
             'zeros_real'       : list(zeros_real),
             'zeros_img'        : list(zeros_img ),
@@ -110,17 +109,17 @@ def import_Signal():
 
         isthisFile.save(isthisFile.filename)
 
-        obj1.upload_signal(isthisFile.filename)
-        obj1.input_output_signals(obj1.input_signal)
+        filter_object.upload_signal(isthisFile.filename)
+        filter_object.input_output_signals(filter_object.input_signal)
 
     response_data = json.dumps({
 
-        'uploaded_signal' : list(obj1.input_signal) ,
-        'x_axis'          : list(obj1.uploaded_signal_x),
-        'frequency'       : list(obj1.frequencies),
-        'mag'             : list(obj1.magnitud_response),
-        'phase'           : list(obj1.total_phase_response),
-        'output_signal'   : list(obj1.output_signal),
+        'uploaded_signal' : list(filter_object.input_signal) ,
+        'x_axis'          : list(filter_object.uploaded_signal_x),
+        'frequency'       : list(filter_object.frequencies),
+        'mag'             : list(filter_object.magnitud_response),
+        'phase'           : list(filter_object.total_phase_response),
+        'output_signal'   : list(filter_object.output_signal),
     
         })
 

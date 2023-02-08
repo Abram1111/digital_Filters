@@ -1,262 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../static/assets/css/style.css" />
     <meta charset="UTF-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/splide.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/splide.min.css"
+    />
     <title>Digital Filter</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <!--Unit circle with zero, pole, remove and conjugate features-->
     <div class="contaner" id="first_contaner">
-        <div class="first_col">
-            <div class="back3"></div>
-            <div style="
+      <div class="first_col">
+        <div class="back3"></div>
+        <div
+          style="
             background-color: #d3d3d3;
             width: 260px;
             border-radius: 1.5rem;
             padding: 10px;
             height: 350px;
-          ">
-                <div class="smile-rating-container">
-                    <div class="smile-rating-toggle-container">
-                        <form class="submit-rating">
-                            <input id="zero" name="satisfaction" type="radio" checked />
-                            <input id="pole" name="satisfaction" type="radio" />
-                            <label for="zero" class="rating-label rating-label-meh">Zero</label>
-                            <div class="smile-rating-toggle"></div>
-                            <div class="toggle-rating-pill"></div>
-                            <label for="pole" class="rating-label rating-label-fun">Pole</label>
-                        </form>
-                    </div>
-                </div>
-                <div id="circle">
-                    <div class="line" id="vertical"></div>
-                    <div class="line" id="horizontal"></div>
-                </div>
-                <div style="
+          "
+        >
+          <div class="smile-rating-container">
+            <div class="smile-rating-toggle-container">
+              <form class="submit-rating">
+                <input id="zero" name="satisfaction" type="radio" checked />
+                <input id="pole" name="satisfaction" type="radio" />
+                <label for="zero" class="rating-label rating-label-meh"
+                  >Zero</label
+                >
+                <div class="smile-rating-toggle"></div>
+                <div class="toggle-rating-pill"></div>
+                <label for="pole" class="rating-label rating-label-fun"
+                  >Pole</label
+                >
+              </form>
+            </div>
+          </div>
+          <div id="circle">
+            <div class="line" id="vertical"></div>
+            <div class="line" id="horizontal"></div>
+          </div>
+          <div
+            style="
               display: flex;
               flex-wrap: nowrap;
               justify-content: center;
               align-items: center;
               margin-top: 10px;
-            ">
-                    <div class="checkbox-wrapper-55" style="display: inline">
-                        <label class="rocker rocker-small">
-                            <input type="checkbox" id="remove" />
-                            <span class="switch-left">Yes</span>
-                            <span class="switch-right">No</span>
-                        </label>
-                    </div>
-                    <div class="remove_label">
-                        <p style="display: inline">Remove</p>
-                    </div>
-                    <div style="
-                display: flex;
+            "
+          >
+            <div class="checkbox-wrapper-55" style="display: inline">
+              <label class="rocker rocker-small">
+                <input type="checkbox" id="remove" />
+                <span class="switch-left">Yes</span>
+                <span class="switch-right">No</span>
+              </label>
+            </div>
+            <div class="remove_label">
+              <p style="display: inline">Remove</p>
+            </div>
+            <div
+              style="
+                display: none;
                 flex-wrap: nowrap;
                 justify-content: center;
                 align-items: center;
-              ">
-                        <div class="checkbox-wrapper-55" style="display: inline">
-                            <label class="rocker rocker-small">
-                                <input type="checkbox" id="conj" />
-                                <span class="switch-left">Yes</span>
-                                <span class="switch-right">No</span>
-                            </label>
-                        </div>
-                        <div class="remove_label">
-                            <p style="display: inline">Conjugate</p>
-                        </div>
-                    </div>
-                </div>
+              "
+            >
+              <div class="checkbox-wrapper-55" style="display: inline">
+                <label class="rocker rocker-small">
+                  <input type="checkbox" id="conj" />
+                  <span class="switch-left">Yes</span>
+                  <span class="switch-right">No</span>
+                </label>
+              </div>
+              <div class="remove_label">
+                <p style="display: inline">Conjugate</p>
+              </div>
             </div>
-
-            <div id="plot1"></div>
-            <div class="controls">
-                <div class="signal_type">
-                    <p style="    font-size: 1.2rem;"> Signal Type</p>
-                    <div class="wrapper" style="margin-left: 20px;">
-                        <input type="radio" name="Signal-choice" value="0" id="ip_signal" onclick="signal_choice();"
-                            checked>
-                        <input type="radio" name="Signal-choice" value="1" id="import_signal"
-                            onclick="signal_choice();">
-                        <label for="ip_signal" class="option option-1" id="track_pad_check">
-                            <div class="dot"></div>
-                            <span>TrackPad</span>
-                        </label>
-                        <label for="import_signal" class="option option-2" id="import_sig_label">
-                            <div class="dot"></div>
-                            <span>Import</span>
-                        </label>
-                        <form method="POST" enctype="multipart/form-data" id="signal_upload">
-                            <input type="file" name="uploaded_signal" id="uploaded_sig" onchange="upload_signal()" />
-                            <!-- <input type="submit" /> -->
-                        </form>
-                    </div>
-                </div>
-                <button class="control_btn" id="phase">Phase Correct</button>
-                <div class="filter">
-                    <form method="POST" enctype="multipart/form-data" id="filter_upload">
-                        <input type="file" name="uploaded_filter" id="uploaded_filter" hidden="hidden" />
-                        <button type=button class="control_btn" id="custom_btn">Upload Filter</button>
-                        <!-- <input type="submit" /> -->
-                    </form>
-
-                    <button class="control_btn">
-                        <a style="text-decoration: none; color: white;" href="static/assets/data/Zeros_poles.csv"
-                            download>
-                            Export Filter</a>
-                    </button>
-                </div>
-
-            </div>
-            <div id="plot2"></div>
-            <div class="back4"></div>
-
-
+          </div>
         </div>
 
+        <div id="plot1"></div>
+        <div class="controls">
+          <div class="signal_type">
+            <p style="font-size: 1.2rem">Signal Type</p>
+            <div class="wrapper" style="margin-left: 20px">
+              <input
+                type="radio"
+                name="Signal-choice"
+                value="0"
+                id="ip_signal"
+                onclick="signal_choice();"
+                checked
+              />
+              <input
+                type="radio"
+                name="Signal-choice"
+                value="1"
+                id="import_signal"
+                onclick="signal_choice();"
+              />
+              <label
+                for="ip_signal"
+                class="option option-1"
+                id="track_pad_check"
+              >
+                <div class="dot"></div>
+                <span>TrackPad</span>
+              </label>
+              <label
+                for="import_signal"
+                class="option option-2"
+                id="import_sig_label"
+              >
+                <div class="dot"></div>
+                <span>Import</span>
+              </label>
+              <form
+                method="POST"
+                enctype="multipart/form-data"
+                id="signal_upload"
+              >
+                <input
+                  type="file"
+                  name="uploaded_signal"
+                  id="uploaded_sig"
+                  onchange="upload_signal()"
+                />
+                <!-- <input type="submit" /> -->
+              </form>
+            </div>
+          </div>
+          <button class="control_btn" id="phase">Phase Correct</button>
+          <div class="filter">
+            <form
+              method="POST"
+              enctype="multipart/form-data"
+              id="filter_upload"
+            >
+              <input
+                type="file"
+                name="uploaded_filter"
+                id="uploaded_filter"
+                hidden="hidden"
+              />
+              <button type="button" class="control_btn" id="custom_btn">
+                Upload Filter
+              </button>
+              <!-- <input type="submit" /> -->
+            </form>
 
-
-
-        <div class="second_col">
-            <div id="track_pad"></div>
-            <div id="plot"></div>
-            <div id="out_plot"></div>
-            <div class="back"></div>
-            <div class="back2"></div>
+            <button class="control_btn">
+              <a
+                style="text-decoration: none; color: white"
+                href="static/assets/data/Zeros_poles.csv"
+                download
+              >
+                Export Filter</a
+              >
+            </button>
+          </div>
         </div>
+        <div id="plot2"></div>
+        <div class="back4"></div>
+      </div>
+
+      <div class="second_col">
+        <div id="track_pad"></div>
+        <div id="plot"></div>
+        <div id="out_plot"></div>
+        <div class="back"></div>
+        <div class="back2"></div>
+      </div>
     </div>
     <div id="allpass_contaner">
-        <div class="allpass_contaner">
-            <div class="allpass_first_col">
-                <!-- <div></div> -->
-                <div id="main">
-                    <button class="return" id="home">Return Home</button>
-                    <input type="button" id="btAdd" value="Add Element" class="bt" />
-                    <input type="button" id="btRemove" value="Remove Element" class="bt" />
-                    <input type="button" id="btRemoveAll" value="Remove All" class="bt" />
-                </div>
-                <div class="back_5"></div>
-            </div>
-            <div class="allpass_second_col">
-                <div id="allpass"></div>
-                <div id="total-phase"></div>
-            </div>
-
-            <div class="splide">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef0" value="-0.75+0.75j" class="slider">
-                                        <img src="../static/assets/images/-0.75+0.75j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef1" value="-0.75j" class="slider">
-                                        <img src="../static/assets/images/-0.75j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef2" value="-0.92-0.65j" class="slider">
-                                        <img src="../static/assets/images/-0.92-0.65j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef3" value="-1+0.05j" class="slider">
-                                        <img src="../static/assets/images/-1+0.05j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef4" value="-1+1j" class="slider">
-                                        <img src="../static/assets/images/-1+1j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef5" value="-1-1j" class="slider">
-                                        <img src="../static/assets/images/-1-1j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef6" value="0.5-0.94j" class="slider">
-                                        <img src="../static/assets/images/0.5-0.94j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef7" value="0.94j" class="slider">
-                                        <img src="../static/assets/images/0.94j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef8" value="1+0.5j" class="slider">
-                                        <img src="../static/assets/images/1+0.5j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef9" value="1-0.05j" class="slider">
-                                        <img src="../static/assets/images/1-0.05j.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="splide__slide__container">
-                                <div class="slide__content">
-                                    <button id="new-all-pass-coef10" value="1" class="slider">
-                                        <img src="../static/assets/images/1.png" alt="buttonpng" border="0" />
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="allpass_contaner">
+        <div class="allpass_first_col">
+          <!-- <div></div> -->
+          <div id="main">
+            <button class="return" id="home">Return Home</button>
+            <input type="button" id="btAdd" value="Add Element" class="bt" />
+            <input
+              type="button"
+              id="btRemove"
+              value="Remove Element"
+              class="bt"
+            />
+            <input
+              type="button"
+              id="btRemoveAll"
+              value="Remove All"
+              class="bt"
+            />
+          </div>
+          <div class="back_5"></div>
         </div>
+        <div class="allpass_second_col">
+          <div id="allpass"></div>
+          <div id="total-phase"></div>
+        </div>
+
+        <div class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef0"
+                      value="-0.75+0.75j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/-0.75+0.75j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef1"
+                      value="-0.75j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/-0.75j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef2"
+                      value="-0.92-0.65j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/-0.92-0.65j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef3"
+                      value="-1+0.05j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/-1+0.05j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef4"
+                      value="-1+1j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/-1+1j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef5"
+                      value="-1-1j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/-1-1j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef6"
+                      value="0.5-0.94j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/0.5-0.94j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef7"
+                      value="0.94j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/0.94j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef8"
+                      value="1+0.5j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/1+0.5j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button
+                      id="new-all-pass-coef9"
+                      value="1-0.05j"
+                      class="slider"
+                    >
+                      <img
+                        src="../static/assets/images/1-0.05j.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="splide__slide__container">
+                  <div class="slide__content">
+                    <button id="new-all-pass-coef10" value="1" class="slider">
+                      <img
+                        src="../static/assets/images/1.png"
+                        alt="buttonpng"
+                        border="0"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="../static/assets/js/functions.js"></script>
@@ -267,8 +413,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- <script src="../static/assets/js/allpass.js"></script> -->
-
-</body>
-<!-- <script src="../static/assets/js/TEST.js"></script> -->
-
+  </body>
+  <!-- <script src="../static/assets/js/TEST.js"></script> -->
 </html>

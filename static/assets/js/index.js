@@ -4,11 +4,8 @@
 let return_btn = document.getElementById("home");
 let phase_btn = document.getElementById("phase");
 
-
 phase_btn.addEventListener("click", phase_btn_action);
 return_btn.addEventListener("click", return_btn_action);
-
-
 
 /***********************************************************************************************
  *****************************************  Unit Circle  ***************************************
@@ -56,37 +53,6 @@ unit_circle.addEventListener("click", function (e) {
       pflag = true;
     }
   }
-  if (
-    document.getElementById("conj").checked &&
-    !document.getElementById("remove").checked
-  ) {
-    if (document.getElementById("zero").checked) {
-      id_conter--;
-      z.conjugate = true;
-      let zero = document.createElement("div");
-      zero.setAttribute("class", "zero");
-      zero.setAttribute("onclick", "delet_element(this)");
-      zero.setAttribute("id", "zero" + id_conter + "Conj");
-      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${e.clientY + 302
-        }px;left:${e.clientX}px; border-radius: 50%;z-index:100`;
-      dragElement(zero);
-      unit_circle.appendChild(zero);
-      id_conter++;
-    } else if (document.getElementById("pole").checked) {
-      polecounter--;
-      p.conjugate = true;
-      let pole = document.createElement("div");
-      pole.setAttribute("class", "pole");
-      pole.setAttribute("id", "pole" + polecounter + "Conj");
-      pole.setAttribute("onclick", "delet_element(this)");
-      pole.innerHTML = "✖";
-      pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${e.clientY + 302
-        }px;left:${e.clientX}px;`;
-      dragElement(pole);
-      unit_circle.appendChild(pole);
-      polecounter++;
-    }
-  }
   if (zeros.length == 0 && !(JSON.stringify(z) === "{}")) {
     zeros.push(z);
   } else if (!(JSON.stringify(z) === "{}")) {
@@ -104,6 +70,7 @@ unit_circle.addEventListener("click", function (e) {
     }
   }
   NormalizeAndSend(poles, zeros);
+  unitcircle();
 });
 
 /***********************************************************************************************
@@ -122,111 +89,30 @@ pad.addEventListener("mousemove", function (e) {
   }
 });
 
-
-
-function signal_choice() {
-  chosen_sig = document.querySelector(
-    'input[name="Signal-choice"]:checked'
-  ).value;
-  if (chosen_sig == 0) {
-    //TRACK PAD
-    unitcircle();
-  } else {
-    //IMPORTED SIGNAL
-    unitcircle();
-  }
-}
-
-function upload_filter() {
-  var fiter_form = document.forms.namedItem("filter_upload");
-  var filter_data = new FormData(fiter_form);
-  filter_data.append("filter", $("#uploaded_filter")[0].files[0]);
-  $.ajax({
-    type: "POST",
-    processData: false,
-    contentType: false,
-    cache: false,
-    data: filter_data,
-    enctype: "multipart/form-data",
-    url: "/importFilter",
-
-    success: function (response) {
-      dict_data = JSON.parse(response);
-
-      zeros_real = dict_data.zeros_real;
-      zeros_img = dict_data.zeros_img;
-      poles_real = dict_data.poles_real;
-      poles_img = dict_data.poles_img;
-      $("#uploaded_filter")[0].value = "";
-      draw_uploaded();
-      unitcircle();
-    },
-  });
-  uploaded = true;
-}
-function upload_signal() {
-  var sig_form = document.forms.namedItem("signal_upload");
-  var sig_data = new FormData(sig_form);
-  sig_data.append("signal", $("#uploaded_sig")[0].files[0]);
-  for (var p of sig_data) {
-  }
-  $.ajax({
-    // type: "POST",
-    method: "post",
-    processData: false,
-    contentType: false,
-    cache: false,
-    data: sig_data,
-    enctype: "multipart/form-data",
-    url: "/importSignal",
-    success: function (response) {
-      dict_data = JSON.parse(response);
-      frequency = dict_data.frequency;
-      mag = dict_data.mag;
-      phase = dict_data.phase;
-      output_signal = dict_data.output_signal;
-      uploaded_signal = dict_data.uploaded_signal;
-      x_axis = dict_data.x_axis;
-
-      let new_signal = Object.values(uploaded_signal);
-      let new_x = Object.values(x_axis);
-      last = x_value.pop();
-
-      for (var i = 0; i < new_x.length; i++) {
-        new_x[i] = last + new_x[i];
-      }
-
-      input_signal = input_signal.concat(new_signal);
-      x_value = x_value.concat(new_x);
-      index = itrator;
-      itrator = x_value.pop();
-      x_value.push(itrator);
-
-      unitcircle();
-      x_length = itrator - 300;
-      $("#uploaded_sig")[0].value = "";
-    },
-  });
-}
+/******************************************************* */
+/**********************UPLOAD*************************** */
+/******************************************************* */
 
 const upload_signal_btn = document.getElementById("import_sig_label");
 const uploader_signal_btn = document.getElementById("uploaded_sig");
 const track_pad_check = document.getElementById("track_pad_check");
 
-
 const uploaded_filter_btn = document.getElementById("custom_btn");
-uploaded_filter_btn.addEventListener('click', function () {upload_btn.click();})
+uploaded_filter_btn.addEventListener("click", function () {
+  upload_btn.click();
+});
 const upload_btn = document.getElementById("uploaded_filter");
 upload_btn.addEventListener("change", upload_filter);
 
-
+/******************************************************* */
+/**********************UPLOAD*************************** */
+/******************************************************* */
 track_pad_check.addEventListener("click", function () {
   track_pad_avilable = 1;
 });
 upload_signal_btn.addEventListener("click", function () {
   uploader_signal_btn.click();
   track_pad_avilable = 0;
-
 });
 
 phase_btn.addEventListener("click", function () {
@@ -243,7 +129,7 @@ return_btn.addEventListener("click", function () {
 /******************************************************* */
 
 $(document).ready(function () {
-  var iCnt = 0;
+  var listCounter = 0;
   // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
   var container = $(document.createElement("div")).css({
     padding: "5px",
@@ -261,35 +147,35 @@ $(document).ready(function () {
   });
 
   function addValue() {
-    if (iCnt <= 11) {
-      iCnt = iCnt + 1;
+    if (listCounter <= 11) {
+      listCounter = listCounter + 1;
 
       // ADD TEXTBOX.
       if (inputval == "") {
         $(container).append(
           '<input type=text class="input" id=tb' +
-          iCnt +
-          " " +
-          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+            listCounter +
+            " " +
+            'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       } else {
         $(container).append(
           '<input type=text class="input" id=tb' +
-          iCnt +
-          " " +
-          "value=" +
-          inputval +
-          ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+            listCounter +
+            " " +
+            "value=" +
+            inputval +
+            ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       }
-      ids.push("tb" + iCnt);
+      ids.push("tb" + listCounter);
       // ADD SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
-      if (iCnt == 1) {
+      if (listCounter == 1) {
         var divSubmit = $(document.createElement("div"));
         $(divSubmit).append(
           '<input type=button class="bt" ' +
-          'onclick="GetTextValue()"' +
-          "id=btSubmit value=Submit style='display:none;' />"
+            'onclick="GetTextValue()"' +
+            "id=btSubmit value=Submit style='display:none;' />"
         );
       }
 
@@ -305,14 +191,14 @@ $(document).ready(function () {
 
   // REMOVE ONE ELEMENT PER CLICK.
   $("#btRemove").click(function () {
-    if (iCnt != 0) {
+    if (listCounter != 0) {
       $("#" + selectedid).remove();
-      iCnt = iCnt - 1;
+      listCounter = listCounter - 1;
       $("#btAdd").removeAttr("disabled").attr("class", "bt");
       GetTextValue();
     }
 
-    if (iCnt == 0) {
+    if (listCounter == 0) {
       $(container).empty().remove();
       $("#btAdd").removeAttr("disabled").attr("class", "bt");
       GetTextValue();
@@ -324,7 +210,7 @@ $(document).ready(function () {
     $(container).empty().remove();
 
     $("#btSubmit").remove();
-    iCnt = 0;
+    listCounter = 0;
 
     $("#btAdd").removeAttr("disabled").attr("class", "bt");
 
@@ -410,7 +296,6 @@ function myFunction() {
 /**********************Graph**************************** */
 /******************************************************* */
 
-
 makePlotly_trackpad(
   phase_frequency,
   phase,
@@ -422,5 +307,19 @@ makePlotly_trackpad(
 
 makePlotly_trackpad([0], [0], [0, 3.15], null, "plot1", "Magntuide");
 makePlotly_trackpad([0], [0], [0, 3.15], null, "plot2", "Phase");
-makePlotly_trackpad([0], [0], [x_length, x_length + 300], null, "plot", "Input");
-makePlotly_trackpad([0], [0], [x_length, x_length + 300], null, "out_plot", "Output");
+makePlotly_trackpad(
+  [0],
+  [0],
+  [x_length, x_length + 300],
+  null,
+  "plot",
+  "Input"
+);
+makePlotly_trackpad(
+  [0],
+  [0],
+  [x_length, x_length + 300],
+  null,
+  "out_plot",
+  "Output"
+);

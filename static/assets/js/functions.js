@@ -4,7 +4,8 @@ ip_signal.checked = true;
 chosen_sig = 0;
 let track_pad_avilable = 1;
 let index = 0;
-var zeros_uploaded = [], poles_uploaded = [];
+var zeros_uploaded = [],
+  poles_uploaded = [];
 let uploaded = false;
 
 var remove = 0;
@@ -32,7 +33,8 @@ const CSV = "../static/assets/data/magAndPhase.csv";
 
 /*********************************/
 image_count = 11;
-var divValue, values = "";
+var divValue,
+  values = "";
 let ids = [];
 let selectedid = 0;
 let filters = [];
@@ -40,14 +42,10 @@ let inputval = "";
 var phase = 0;
 var phase_frequency = 0;
 
-
 let first_contaner = document.getElementById("first_contaner");
 let allpass_contaner = document.getElementById("allpass_contaner");
 
 let input_signal = [];
-
-
-
 
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
@@ -90,10 +88,9 @@ function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   Plotly.newPlot(place, traces, layout, config);
 }
 
-
 /***********************************************************************************************
-**************************************  Moving Between Pages  **********************************
-************************************************************************************************/
+ **************************************  Moving Between Pages  **********************************
+ ************************************************************************************************/
 function phase_btn_action() {
   first_contaner.style.display = "none";
   GetTextValue();
@@ -101,13 +98,11 @@ function phase_btn_action() {
   allpass_contaner.style.top = 0;
 }
 
-
 function return_btn_action() {
   makePlotly_trackpad(phase_frequency, phase, null, "plot2", "Phase");
   allpass_contaner.style.display = "none";
   first_contaner.style.display = "flex";
 }
-
 
 /***********************************************************************************************
  *****************************************  Unit Circle  ***************************************
@@ -119,7 +114,6 @@ function unitcircle() {
     poles: polesUpdated,
     input: input_signal,
   };
-
 
   $.ajax({
     url: "/unitcircle",
@@ -136,8 +130,22 @@ function unitcircle() {
 
       if (chosen_sig == 1) {
         let stop_var = setInterval(function () {
-          makePlotly_trackpad(x_value, input_signal, [index, index + 300], null, "plot", "Input");
-          makePlotly_trackpad(x_value, output_signal, [index, index + 300], null, "out_plot", "Output");
+          makePlotly_trackpad(
+            x_value,
+            input_signal,
+            [index, index + 300],
+            null,
+            "plot",
+            "Input"
+          );
+          makePlotly_trackpad(
+            x_value,
+            output_signal,
+            [index, index + 300],
+            null,
+            "out_plot",
+            "Output"
+          );
 
           index += 10;
           if (index >= itrator - 300 || track_pad_avilable) {
@@ -146,15 +154,34 @@ function unitcircle() {
         }, 200);
       }
 
-
-      makePlotly_trackpad(frequency, mag, [0, 3.15], null, "plot1", "Magntuide");
+      makePlotly_trackpad(
+        frequency,
+        mag,
+        [0, 3.15],
+        null,
+        "plot1",
+        "Magntuide"
+      );
       makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-      makePlotly_trackpad(x_value, input_signal, [x_length, x_length + 300], null, "plot", "Input");
-      makePlotly_trackpad(x_value, output_signal, [x_length, x_length + 300], null, "out_plot", "Output");
+      makePlotly_trackpad(
+        x_value,
+        input_signal,
+        [x_length, x_length + 300],
+        null,
+        "plot",
+        "Input"
+      );
+      makePlotly_trackpad(
+        x_value,
+        output_signal,
+        [x_length, x_length + 300],
+        null,
+        "out_plot",
+        "Output"
+      );
     },
   });
 }
-
 
 function delet_element(div) {
   if (document.getElementById("remove").checked) {
@@ -183,56 +210,60 @@ function delet_element(div) {
     darg_flag = false;
   }
 }
- 
 
-function addDialogClosedListener(input, callback) {
-  var id = null;
-  var active = false;
-  var wrapper = function() {
-      if (active) {
-          active = false;
-          callback();
-      }
-  };
-  var cleanup = function() {
-      clearTimeout(id);
-  };
-  var shedule = function(delay) {
-      id = setTimeout(wrapper, delay);
-  };
-  var onFocus = function() {
-      cleanup();
-      shedule(1000); // change the value to bigger if needed
-  };
-  var onBlur = function() {
-      cleanup();
-  };
-  var onClick = function() {
-      cleanup();
-      active = true;
-  };
-  var onChange = function() {
-      cleanup();
-      shedule(0);
-  };
-  input.addEventListener('click', onClick);
-  input.addEventListener('change', onChange);
-  window.addEventListener('focus', onFocus);
-  window.addEventListener('blur', onBlur);
-  return function() {
-      input.removeEventListener('click', onClick);
-      input.removeEventListener('change', onChange);
-      window.removeEventListener('focus', onFocus);
-      window.removeEventListener('blur', onBlur);
-  };
-}
+// function draw_uploaded(){
+//   if (uploaded) {
+//     if (!(JSON.stringify(zeros_real) === "{}")) {
+//       for (var i = 0 ;i<zeros_real.length;i++) {
+//         let x = zeros_real[i] * (250 / 2) + rect.left + 250 / 2;
+//         let y = rect.top + 250 / 2 - zeros_img[i] * (250 / 2);
+//         let zero = document.createElement("div");
+//         zero.setAttribute("class", "zero");
+//         zero.setAttribute("onclick", "delet_element(this)");
+//         zero.setAttribute("id", "zero" + id_conter);
+//         zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
+//         dragElement(zero);
+//         unit_circle.appendChild(zero);
+//         id_conter++;
+//         zflag = true;
+//         z = { X: x, Y: y, id: zero.id, conjugate: false };
+//         zeros.push(z);
+//       }
+//     }
+//     if (!(JSON.stringify(poles_real) === "{}")) {
 
-function draw_uploaded(){
+//       for (poles_item in poles_uploaded) {
+//         let x = poles_item[0] * (250 / 2) + rect.left + 250 / 2;
+//         let y = rect.top + 250 / 2 - poles_item[1] * (250 / 2);
+//         let pole = document.createElement("div");
+//         pole.setAttribute("class", "zero");
+//         pole.setAttribute("onclick", "delet_element(this)");
+//         pole.setAttribute("id", "zero" + polecounter);
+//         pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
+//         dragElement(pole);
+//         unit_circle.appendChild(pole);
+//         id_conter++;
+//         pflag = true;
+//         p = { X: x, Y: y, id: pole.id, conjugate: false };
+//         poles.push(p);
+//       }
+//     }
+//     NormalizeAndSend(poles, zeros);
+//   }
+// }
+// );
+
+function draw_uploaded() {
   if (uploaded) {
     if (!(JSON.stringify(zeros_real) === "{}")) {
-      for (var i = 0 ;i<zeros_real.length;i++) {
+      console.log("IM IN zero");
+      for (var i = 0; i < zeros_real.length; i++) {
         let x = zeros_real[i] * (250 / 2) + rect.left + 250 / 2;
         let y = rect.top + 250 / 2 - zeros_img[i] * (250 / 2);
+        console.log("real zero" + zeros_real[i]);
+        console.log("img zero" + zeros_img[i]);
+        console.log("x" + x);
+        console.log("y" + y);
         let zero = document.createElement("div");
         zero.setAttribute("class", "zero");
         zero.setAttribute("onclick", "delet_element(this)");
@@ -245,29 +276,34 @@ function draw_uploaded(){
         z = { X: x, Y: y, id: zero.id, conjugate: false };
         zeros.push(z);
       }
-    } else if (!(JSON.stringify(poles_uploaded) === "{}")) {
-
-      for (poles_item in poles_uploaded) {
-        let x = poles_item[0] * (250 / 2) + rect.left + 250 / 2;
-        let y = rect.top + 250 / 2 - poles_item[1] * (250 / 2);
+    }
+    if (!(JSON.stringify(poles_real) === "{}")) {
+      console.log("IM IN pole");
+      for (var i = 0; i < poles_real.length; i++) {
+        let x = poles_real[i] * (250 / 2) + rect.left + 250 / 2;
+        let y = rect.top + 250 / 2 - poles_img[i] * (250 / 2);
+        console.log("real pole" + poles_real[i]);
+        console.log("img pole" + poles_img[i]);
+        console.log("x" + x);
+        console.log("y" + y);
         let pole = document.createElement("div");
-        pole.setAttribute("class", "zero");
+        pole.setAttribute("class", "pole");
         pole.setAttribute("onclick", "delet_element(this)");
-        pole.setAttribute("id", "zero" + polecounter);
-        pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
+        pole.setAttribute("id", "pole" + polecounter);
+        pole.style = `color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px;z-index:100;`;
+        pole.innerHTML = "✖";
         dragElement(pole);
         unit_circle.appendChild(pole);
-        id_conter++;
+        polecounter++;
         pflag = true;
         p = { X: x, Y: y, id: pole.id, conjugate: false };
+
         poles.push(p);
       }
     }
     NormalizeAndSend(poles, zeros);
   }
 }
-  // );
-
 
 function NormalizeAndSend(poles, zeros) {
   let rect = unit_circle.getBoundingClientRect();
@@ -316,27 +352,28 @@ function dragElement(elmnt) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    if((document.getElementById("zero").checked && 'zero' == elmnt.className) || (document.getElementById("pole").checked && 'pole' == elmnt.className)){
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-    }
-    else{
-      if('zero' == elmnt.className){
+    if (
+      (document.getElementById("zero").checked && "zero" == elmnt.className) ||
+      (document.getElementById("pole").checked && "pole" == elmnt.className)
+    ) {
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    } else {
+      if ("zero" == elmnt.className) {
         document.getElementById("zero").checked = true;
         document.getElementById("pole").checked = false;
-      }
-      else{
+      } else {
         document.getElementById("pole").checked = true;
         document.getElementById("zero").checked = false;
       }
       document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
+      // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
     }
     drag = true;
   }
-  
+
   function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
@@ -360,7 +397,7 @@ function dragElement(elmnt) {
       elmnt.style.opacity = 1;
     }
   }
-  
+
   function closeDragElement() {
     // stop moving when mouse button is released:
     let rec = unit_circle.getBoundingClientRect();
@@ -378,9 +415,102 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
-
 }
 
 /***********************************************************************************************
- *****************************************  Track Pad  ***************************************
+ ********************************  Track Pad & Signal import  ***********************************
  ************************************************************************************************/
+
+function signal_choice() {
+  chosen_sig = document.querySelector(
+    'input[name="Signal-choice"]:checked'
+  ).value;
+  if (chosen_sig == 0) {
+    //TRACK PAD
+    unitcircle();
+  } else {
+    //IMPORTED SIGNAL
+    unitcircle();
+  }
+}
+
+/***********************************************************************************************
+ ***************************************  upload filter  ***************************************
+ ************************************************************************************************/
+
+function upload_filter() {
+  var fiter_form = document.forms.namedItem("filter_upload");
+  var filter_data = new FormData(fiter_form);
+  filter_data.append("filter", $("#uploaded_filter")[0].files[0]);
+  $.ajax({
+    type: "POST",
+    processData: false,
+    contentType: false,
+    cache: false,
+    data: filter_data,
+    enctype: "multipart/form-data",
+    url: "/importFilter",
+
+    success: function (response) {
+      dict_data = JSON.parse(response);
+
+      zeros_real = dict_data.zeros_real;
+      zeros_img = dict_data.zeros_img;
+      poles_real = dict_data.poles_real;
+      poles_img = dict_data.poles_img;
+      $("#uploaded_filter")[0].value = "";
+      draw_uploaded();
+      unitcircle();
+    },
+  });
+  uploaded = true;
+}
+
+/***********************************************************************************************
+ ***************************************  upload signal  ***************************************
+ ************************************************************************************************/
+
+function upload_signal() {
+  var sig_form = document.forms.namedItem("signal_upload");
+  var sig_data = new FormData(sig_form);
+  sig_data.append("signal", $("#uploaded_sig")[0].files[0]);
+  for (var p of sig_data) {
+  }
+  $.ajax({
+    // type: "POST",
+    method: "post",
+    processData: false,
+    contentType: false,
+    cache: false,
+    data: sig_data,
+    enctype: "multipart/form-data",
+    url: "/importSignal",
+    success: function (response) {
+      dict_data = JSON.parse(response);
+      frequency = dict_data.frequency;
+      mag = dict_data.mag;
+      phase = dict_data.phase;
+      output_signal = dict_data.output_signal;
+      uploaded_signal = dict_data.uploaded_signal;
+      x_axis = dict_data.x_axis;
+
+      let new_signal = Object.values(uploaded_signal);
+      let new_x = Object.values(x_axis);
+      last = x_value.pop();
+
+      for (var i = 0; i < new_x.length; i++) {
+        new_x[i] = last + new_x[i];
+      }
+
+      input_signal = input_signal.concat(new_signal);
+      x_value = x_value.concat(new_x);
+      index = itrator;
+      itrator = x_value.pop();
+      x_value.push(itrator);
+
+      unitcircle();
+      x_length = itrator - 300;
+      $("#uploaded_sig")[0].value = "";
+    },
+  });
+}

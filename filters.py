@@ -45,6 +45,9 @@ class Filters:
 
         return complexNumbers
 
+# /******************************************************** */
+# /**********************SIGNAL**************************** */
+# /******************************************************** */
     def applying_filter(self):
         # transfet function coefficients
         num_coeff,deno_coeff=scipy.signal.zpk2tf(self.zeros, self.poles, 1)
@@ -88,8 +91,10 @@ class Filters:
         self.input_signal=list(np.float_(input))
         self.applying_filter()
 
+# /******************************************************** */
+# /**********************FILTER**************************** */
+# /******************************************************** */
 
-# Filter Functions
     def update_zerosAndPoles(self,zeros,poles):
         self.zeros=zeros
         self.poles=poles
@@ -139,17 +144,21 @@ class Filters:
 
         for index in np.arange(0,len(poles)):
                 poles[index]=complex(poles[index])
-                poles_real[index]=np.real(zeros[index])
-                poles_img[index]=np.imag(zeros[index])
+                poles_real[index]=np.real(poles[index])
+                poles_img[index]=np.imag(poles[index])
 
         self.uploaded_zeros=zeros
         self.uploaded_poles=poles
 
-        self.zeros=self.zeros+zeros
-        self.poles=self.zeros+poles
+        # self.zeros=self.zeros+zeros
+        # self.poles=self.zeros+poles
         self.update_graph()
 
         return zeros_real,zeros_img,poles_real,poles_img
+
+# /********************************************************* */
+# /**********************ALLPASS**************************** */
+# /********************************************************* */
 
     def allpass_filter(self,coefficents):
         filter_angles = np.zeros(512)
@@ -167,8 +176,6 @@ class Filters:
     def get_total_phase(self):
         self.total_phase_response=np.add(self.allpass_response,self.phase_response)
 
-        # print('return')
-        
-            # return w/max(w),filter_angles
+
             
 

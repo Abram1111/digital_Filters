@@ -447,3 +447,42 @@ function NormalizeAndSend(poles, zeros){
 
 // //     dragzone.onmousedown = dragMouseDown;
 // // };
+
+
+
+
+
+  if (
+    document.getElementById("conj").checked &&
+    !document.getElementById("remove").checked &&
+    (2 * (rect.top + 250.0 / 2.0 - zeros[i].Y)) / 250.0 != 0
+  ) {
+    if (document.getElementById("zero").checked) {
+      id_conter--;
+      z.conjugate = true;
+      let zero = document.createElement("div");
+      zero.setAttribute("class", "zero");
+      zero.setAttribute("onclick", "delet_element(this)");
+      zero.setAttribute("id", "zero" + id_conter + "Conj");
+      zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;bottom:${
+        e.clientY + 302
+      }px;left:${e.clientX}px; border-radius: 50%;z-index:100`;
+      dragElement(zero);
+      unit_circle.appendChild(zero);
+      id_conter++;
+    } else if (document.getElementById("pole").checked) {
+      polecounter--;
+      p.conjugate = true;
+      let pole = document.createElement("div");
+      pole.setAttribute("class", "pole");
+      pole.setAttribute("id", "pole" + polecounter + "Conj");
+      pole.setAttribute("onclick", "delet_element(this)");
+      pole.innerHTML = "✖";
+      pole.style = `color:white; width: 20px; height: 20px;position: absolute;bottom:${
+        e.clientY + 302
+      }px;left:${e.clientX}px;`;
+      dragElement(pole);
+      unit_circle.appendChild(pole);
+      polecounter++;
+    }
+  }
