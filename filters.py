@@ -86,9 +86,12 @@ class Filters:
        
         self.uploaded_signal_y=data['amp'].tolist()
         self.input_signal=self.uploaded_signal_y
+        self.input_output_signals(self.input_signal)
 
     def input_output_signals(self,input):
-        self.input_signal=list(np.float_(input))
+        new_part=list(np.float_(input))
+        self.input_signal=self.input_signal+new_part
+        print(self.input_signal)
         self.applying_filter()
 
 # /******************************************************** */

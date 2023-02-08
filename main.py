@@ -110,7 +110,6 @@ def import_Signal():
         isthisFile.save(isthisFile.filename)
 
         filter_object.upload_signal(isthisFile.filename)
-        filter_object.input_output_signals(filter_object.input_signal)
 
     response_data = json.dumps({
 
