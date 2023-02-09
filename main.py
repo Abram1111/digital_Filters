@@ -1,5 +1,4 @@
 from flask import Flask, render_template, send_file, request, redirect,jsonify,json
-import numpy as np
 
 from werkzeug.utils import secure_filename
 from filters import Filters
@@ -16,7 +15,6 @@ filter_object =Filters([(0+0j)],[(0+0j)])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    filter_object.initialize();
     return render_template('index.html')
 
 @app.route("/unitcircle", methods=["GET", "POST"])
@@ -112,6 +110,7 @@ def import_Signal():
         isthisFile.save(isthisFile.filename)
 
         filter_object.upload_signal(isthisFile.filename)
+        filter_object.input_output_signals(filter_object.input_signal)
 
     response_data = json.dumps({
 

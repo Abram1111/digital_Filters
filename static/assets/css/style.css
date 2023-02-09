@@ -169,9 +169,9 @@ Toggle Changes
     color: #080a49f1;
 }
 
-/* #pole:checked~.smile-rating-toggle {
+#pole:checked~.smile-rating-toggle {
     left: 105px;
-} */
+}
 
 /***********************************************************************************************
 ****************************  End Of Zero Pole Switching Styling  ******************************

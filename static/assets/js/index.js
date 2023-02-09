@@ -70,7 +70,6 @@ unit_circle.addEventListener("click", function (e) {
     }
   }
   NormalizeAndSend(poles, zeros);
-  update_flag=true;
   unitcircle();
 });
 
@@ -85,7 +84,7 @@ pad.addEventListener("mousemove", function (e) {
     if (itrator > 300) {
       x_length = itrator - 300;
     }
-    update_flag=false;
+
     unitcircle();
   }
 });
@@ -324,12 +323,3 @@ makePlotly_trackpad(
   "out_plot",
   "Output"
 );
-let pole_ball=document.getElementById("pole");
-let zero_ball=document.getElementById("zero");
-let ball =document.getElementById("ball");
-pole_ball.addEventListener("click",function(){
-  ball.style.left= "105px"
-});
-zero_ball.addEventListener("click",function(){
-  ball.style.left= "55px"
-});

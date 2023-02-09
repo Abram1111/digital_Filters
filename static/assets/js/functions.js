@@ -8,8 +8,6 @@ var zeros_uploaded = [],
   poles_uploaded = [];
 let uploaded = false;
 
-var zRemove =  false;
-var pRemove =  false;
 var remove = 0;
 var polecounter = 0;
 let zeros = [];
@@ -48,7 +46,6 @@ let first_contaner = document.getElementById("first_contaner");
 let allpass_contaner = document.getElementById("allpass_contaner");
 
 let input_signal = [];
-let update_flag = true;
 
 function makePlotly_trackpad(x, y1, xrange, yrange, place, title) {
   let traces = [
@@ -112,95 +109,78 @@ function return_btn_action() {
  ************************************************************************************************/
 
 function unitcircle() {
-  if (input_signal.length %10==0 )
-  {
-    var zerospoles = {
-      zeros: zerosUpdated,
-      poles: polesUpdated,
-      input: input_signal.slice(-11, -1),
-    };
-  }else
-  {
-    var zerospoles = {
-      zeros: zerosUpdated,
-      poles: polesUpdated,
-      input: [],
-    };
-  }
+  var zerospoles = {
+    zeros: zerosUpdated,
+    poles: polesUpdated,
+    input: input_signal,
+  };
 
+  $.ajax({
+    url: "/unitcircle",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(zerospoles),
+    success: function (response) {
+      dict_data = JSON.parse(response);
 
-  console.log( input_signal.slice(-11, -1))
-  console.log(input_signal.length)
-  console.log(input_signal.length %10==0)
-  {
-    $.ajax({
-      url: "/unitcircle",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(zerospoles),
-      success: function (response) {
-        dict_data = JSON.parse(response);
-  
-        frequency = dict_data.frequency;
-        mag = dict_data.mag;
-        phase = dict_data.phase;
-        output_signal = dict_data.output_signal;
-  
-        if (chosen_sig == 1) {
-          let stop_var = setInterval(function () {
-            makePlotly_trackpad(
-              x_value,
-              input_signal,
-              [index, index + 300],
-              null,
-              "plot",
-              "Input"
-            );
-            makePlotly_trackpad(
-              x_value,
-              output_signal,
-              [index, index + 300],
-              null,
-              "out_plot",
-              "Output"
-            );
-  
-            index += 10;
-            if (index >= itrator - 300 || track_pad_avilable) {
-              clearInterval(stop_var);
-            }
-          }, 200);
-        }
-  
-        makePlotly_trackpad(
-          frequency,
-          mag,
-          [0, 3.15],
-          null,
-          "plot1",
-          "Magntuide"
-        );
-        makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
-        makePlotly_trackpad(
-          x_value,
-          input_signal,
-          [x_length, x_length + 300],
-          null,
-          "plot",
-          "Input"
-        );
-        makePlotly_trackpad(
-          x_value,
-          output_signal,
-          [x_length, x_length + 300],
-          null,
-          "out_plot",
-          "Output"
-        );
-      },
-    });
-  }
+      frequency = dict_data.frequency;
+      mag = dict_data.mag;
+      phase = dict_data.phase;
+      output_signal = dict_data.output_signal;
 
+      if (chosen_sig == 1) {
+        let stop_var = setInterval(function () {
+          makePlotly_trackpad(
+            x_value,
+            input_signal,
+            [index, index + 300],
+            null,
+            "plot",
+            "Input"
+          );
+          makePlotly_trackpad(
+            x_value,
+            output_signal,
+            [index, index + 300],
+            null,
+            "out_plot",
+            "Output"
+          );
+
+          index += 10;
+          if (index >= itrator - 300 || track_pad_avilable) {
+            clearInterval(stop_var);
+          }
+        }, 200);
+      }
+
+      makePlotly_trackpad(
+        frequency,
+        mag,
+        [0, 3.15],
+        null,
+        "plot1",
+        "Magntuide"
+      );
+      makePlotly_trackpad(frequency, phase, [0, 3.15], null, "plot2", "Phase");
+      makePlotly_trackpad(
+        x_value,
+        input_signal,
+        [x_length, x_length + 300],
+        null,
+        "plot",
+        "Input"
+      );
+      makePlotly_trackpad(
+        x_value,
+        output_signal,
+        [x_length, x_length + 300],
+        null,
+        "out_plot",
+        "Output"
+      );
+    },
+  });
 }
 
 function delet_element(div) {
@@ -357,7 +337,6 @@ function NormalizeAndSend(poles, zeros) {
   }
   zeros = [[5], [3]];
   poles = [[2], [2]];
-  update_flag=true;
   unitcircle();
 }
 
@@ -376,12 +355,7 @@ function dragElement(elmnt) {
     if (
       (document.getElementById("zero").checked && "zero" == elmnt.className) ||
       (document.getElementById("pole").checked && "pole" == elmnt.className)
-    )
-    // if (
-    //   (zRemove && "zero" == elmnt.className) ||
-    //   (pRemove && "pole" == elmnt.className)
-    // ) 
-    {
+    ) {
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
@@ -389,11 +363,7 @@ function dragElement(elmnt) {
       if ("zero" == elmnt.className) {
         document.getElementById("zero").checked = true;
         document.getElementById("pole").checked = false;
-        // zRemove = true;
-        // pRemove = false;
       } else {
-        // pRemove = true;
-        // zRemove = false;
         document.getElementById("pole").checked = true;
         document.getElementById("zero").checked = false;
       }
@@ -457,11 +427,9 @@ function signal_choice() {
   ).value;
   if (chosen_sig == 0) {
     //TRACK PAD
-    update_flag=false;
     unitcircle();
   } else {
     //IMPORTED SIGNAL
-    update_flag=true;
     unitcircle();
   }
 }
@@ -492,7 +460,6 @@ function upload_filter() {
       poles_img = dict_data.poles_img;
       $("#uploaded_filter")[0].value = "";
       draw_uploaded();
-      update_flag=true;
       unitcircle();
     },
   });
@@ -540,7 +507,7 @@ function upload_signal() {
       index = itrator;
       itrator = x_value.pop();
       x_value.push(itrator);
-      update_flag=true;
+
       unitcircle();
       x_length = itrator - 300;
       $("#uploaded_sig")[0].value = "";
