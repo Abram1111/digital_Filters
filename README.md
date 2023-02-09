@@ -13,7 +13,7 @@
 
 ## <img align="center"  height =50px src="https://user-images.githubusercontent.com/71986226/154076110-1233d7a8-92c2-4d79-82c1-30e278aa518a.gif"> Overview
 
-
+The main objective of this project is to apply a digital filter to a given signal. This signal can be obtained by either importing a signal from a csv file or from a trackpad that allows the user to create the signal they desire. The filter itself can also be applied by placing zeros and poles on the unit circle or by importing a previously exported filer.The created filter can also have it's phase corrected by applying allpass filter. The allpass coefficient can be written or choosen from library of already made allpass filters.
 
 
 
