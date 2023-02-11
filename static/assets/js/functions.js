@@ -210,49 +210,6 @@ function delet_element(div) {
     darg_flag = false;
   }
 }
-
-// function draw_uploaded(){
-//   if (uploaded) {
-//     if (!(JSON.stringify(zeros_real) === "{}")) {
-//       for (var i = 0 ;i<zeros_real.length;i++) {
-//         let x = zeros_real[i] * (250 / 2) + rect.left + 250 / 2;
-//         let y = rect.top + 250 / 2 - zeros_img[i] * (250 / 2);
-//         let zero = document.createElement("div");
-//         zero.setAttribute("class", "zero");
-//         zero.setAttribute("onclick", "delet_element(this)");
-//         zero.setAttribute("id", "zero" + id_conter);
-//         zero.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
-//         dragElement(zero);
-//         unit_circle.appendChild(zero);
-//         id_conter++;
-//         zflag = true;
-//         z = { X: x, Y: y, id: zero.id, conjugate: false };
-//         zeros.push(z);
-//       }
-//     }
-//     if (!(JSON.stringify(poles_real) === "{}")) {
-
-//       for (poles_item in poles_uploaded) {
-//         let x = poles_item[0] * (250 / 2) + rect.left + 250 / 2;
-//         let y = rect.top + 250 / 2 - poles_item[1] * (250 / 2);
-//         let pole = document.createElement("div");
-//         pole.setAttribute("class", "zero");
-//         pole.setAttribute("onclick", "delet_element(this)");
-//         pole.setAttribute("id", "zero" + polecounter);
-//         pole.style = `background-color: white; width: 10px; height: 10px;position: absolute;top:${y}px;left:${x}px; border-radius: 50%;z-index:100;`;
-//         dragElement(pole);
-//         unit_circle.appendChild(pole);
-//         id_conter++;
-//         pflag = true;
-//         p = { X: x, Y: y, id: pole.id, conjugate: false };
-//         poles.push(p);
-//       }
-//     }
-//     NormalizeAndSend(poles, zeros);
-//   }
-// }
-// );
-
 function draw_uploaded() {
   if (uploaded) {
     if (!(JSON.stringify(zeros_real) === "{}")) {
@@ -386,6 +343,7 @@ function dragElement(elmnt) {
     elmnt.style.top = elmnt.offsetTop - pos2 + "px";
     elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
     elmnt.style.color = "red";
+
     let rec = unit_circle.getBoundingClientRect();
     let elmntrec = elmnt.getBoundingClientRect();
     let xx = (2 * (e.clientX - rec.left - 250.0 / 2.0)) / 250.0;

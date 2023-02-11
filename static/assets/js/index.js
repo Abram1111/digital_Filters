@@ -46,7 +46,7 @@ unit_circle.addEventListener("click", function (e) {
       pole.setAttribute("id", "pole" + polecounter);
       pole.setAttribute("onclick", "delet_element(this)");
       pole.innerHTML = "✖";
-      pole.style = `color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY}px;left:${e.clientX}px;`;
+      pole.style = `cursor : move; color:white; width: 20px; height: 20px;position: absolute;top:${e.clientY - 5}px;left:${e.clientX - 5}px;`;
       dragElement(pole);
       unit_circle.appendChild(pole);
       polecounter++;
@@ -154,18 +154,18 @@ $(document).ready(function () {
       if (inputval == "") {
         $(container).append(
           '<input type=text class="input" id=tb' +
-            listCounter +
-            " " +
-            'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+          listCounter +
+          " " +
+          'value="0+0j" onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       } else {
         $(container).append(
           '<input type=text class="input" id=tb' +
-            listCounter +
-            " " +
-            "value=" +
-            inputval +
-            ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
+          listCounter +
+          " " +
+          "value=" +
+          inputval +
+          ' onfocus="myFunction()" onchange="GetTextValue()" style ="border-radius: 0.5rem;width: 250px;font-size: 1.2rem; font-weight: 900;    letter-spacing: 10px;"/>'
         );
       }
       ids.push("tb" + listCounter);
@@ -174,8 +174,8 @@ $(document).ready(function () {
         var divSubmit = $(document.createElement("div"));
         $(divSubmit).append(
           '<input type=button class="bt" ' +
-            'onclick="GetTextValue()"' +
-            "id=btSubmit value=Submit style='display:none;' />"
+          'onclick="GetTextValue()"' +
+          "id=btSubmit value=Submit style='display:none;' />"
         );
       }
 
